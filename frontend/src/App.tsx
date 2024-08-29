@@ -3,7 +3,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<p>Home Page :)</p>} />
+        <Route path="/" element={<p className="font-bold">Home Page :)</p>} />
       </Routes>
     </BrowserRouter>
   );
