@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import path from "path";
+import authRoutes from "./routes/auth";
 const app = express();
 app.use(express.json());
 
@@ -28,6 +29,7 @@ app.get("/test", (req: Request, res: Response) => {
   res.send("Hiiiii");
 });
 
+app.use("/api/auth", authRoutes);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.listen(2000, () => {
