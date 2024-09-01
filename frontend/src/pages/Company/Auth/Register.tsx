@@ -37,22 +37,21 @@ function CompanyRegister() {
 
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
-    // console.log(data);
   });
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <form className="space-y-4" onSubmit={onSubmit}>
-          <h2 className="text-3xl font-bold text-center text-teal-600">
+    <div className="flex items-center justify-center min-h-screen bg-blue-50">
+      <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full">
+        <form className="space-y-6" onSubmit={onSubmit}>
+          <h2 className="text-3xl font-bold text-center text-blue-600">
             Company Registration
           </h2>
 
           <label className="block">
-            <span className="text-slate-600">Company Name</span>
+            <span className="text-blue-700 font-medium">Company Name</span>
             <input
               type="text"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-blue-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               {...register("companyName", {
                 required: "This field is required",
               })}
@@ -65,10 +64,10 @@ function CompanyRegister() {
           </label>
 
           <label className="block">
-            <span className="text-slate-600">Company Email</span>
+            <span className="text-blue-700 font-medium">Company Email</span>
             <input
               type="email"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-blue-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               {...register("email", {
                 required: "This field is required",
               })}
@@ -81,10 +80,10 @@ function CompanyRegister() {
           </label>
 
           <label className="block">
-            <span className="text-slate-600">Industry Type</span>
+            <span className="text-blue-700 font-medium">Industry Type</span>
             <input
               type="text"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-blue-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               {...register("industryType", {
                 required: "This field is required",
               })}
@@ -97,10 +96,10 @@ function CompanyRegister() {
           </label>
 
           <label className="block">
-            <span className="text-slate-600">Contact Number</span>
+            <span className="text-blue-700 font-medium">Contact Number</span>
             <input
               type="text"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-blue-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               {...register("contactNumber", {
                 required: "This field is required",
               })}
@@ -113,10 +112,10 @@ function CompanyRegister() {
           </label>
 
           <label className="block">
-            <span className="text-slate-600">Password</span>
+            <span className="text-blue-700 font-medium">Password</span>
             <input
               type="password"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-blue-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               {...register("password", {
                 required: "This field is required",
                 minLength: {
@@ -133,10 +132,10 @@ function CompanyRegister() {
           </label>
 
           <label className="block">
-            <span className="text-slate-600">Confirm Password</span>
+            <span className="text-blue-700 font-medium">Confirm Password</span>
             <input
               type="password"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-blue-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               {...register("confirmPassword", {
                 validate: (value) => {
                   if (!value) return "This field is required";
@@ -155,10 +154,10 @@ function CompanyRegister() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-2 rounded-md ${
+            className={`w-full py-3 rounded-md font-semibold tracking-wide text-lg transition-all duration-300 ${
               isSubmitting
-                ? "bg-gray-400 text-white"
-                : "bg-teal-600 text-white shadow-md hover:bg-teal-700 transition-transform transform hover:scale-105"
+                ? "bg-blue-300 text-white"
+                : "bg-blue-600 text-white hover:bg-blue-700 transform hover:scale-105"
             }`}
           >
             {isSubmitting ? "Creating Account..." : "Create Account"}

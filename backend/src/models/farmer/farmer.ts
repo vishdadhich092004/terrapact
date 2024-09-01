@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { FarmerType } from "../shared/types";
+import { FarmerType } from "../../shared/farmer/types";
 import bcrypt from "bcrypt";
 
 const farmerSchema = new mongoose.Schema({

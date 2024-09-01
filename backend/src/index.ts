@@ -6,6 +6,7 @@ import path from "path";
 import authRoutes from "./routes/auth";
 import farmerRoutes from "./routes/farmers";
 import companyRoutes from "./routes/companies";
+import cropDemandRoutes from "./routes/company/cropDemands";
 import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
@@ -32,6 +33,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/farmer", farmerRoutes);
 app.use("/api/company", companyRoutes);
+app.use("/api/cropDemand", cropDemandRoutes);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.listen(2000, () => {
