@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import Farmer from "../models/farmer";
+import Farmer from "../models/farmer/farmer";
 import jwt from "jsonwebtoken";
-import Company from "../models/company";
+import Company from "../models/company/company";
 import bcrypt from "bcrypt";
 import { AuthRequest, verifyToken } from "../middleware/auth";
 const router = express.Router();
