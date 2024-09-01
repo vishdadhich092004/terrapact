@@ -9,6 +9,7 @@ const farmerSchema = new mongoose.Schema({
   farmSize: { type: Number, required: true }, // Farm size in acres/hectares
   contactNumber: { type: String, required: true }, // Contact number
   createdAt: { type: Date, default: Date.now },
+  role: { type: String, default: "farmer" },
 });
 
 // encoding the pass b4 pushing to db

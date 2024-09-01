@@ -8,6 +8,7 @@ const companySchema = new mongoose.Schema({
   industryType: { type: String, required: true }, // Industry type, e.g., Food Processing
   contactNumber: { type: String, required: true }, // Contact number
   createdAt: { type: Date, default: Date.now },
+  role: { type: String, default: "company" },
 });
 
 // encoding the pass b4 pushing to db

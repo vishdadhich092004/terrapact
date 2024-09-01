@@ -3,9 +3,10 @@ export type FarmerType = {
   email: string;
   password: string;
   name: string;
-  farmSize: number;
+  farmSize: string;
   contactNumber: string;
   createdAt: Date;
+  role: string;
 };
 
 export type CompanyType = {
@@ -16,4 +17,5 @@ export type CompanyType = {
   contactNumber: string;
   industryType: string;
   createdAt: string;
+  role: string;
 };

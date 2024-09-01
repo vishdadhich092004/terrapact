@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App.tsx";
 import "./index.css";
-
+import AppContextProvider from "./contexts/AppContext.tsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -15,7 +15,9 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AppContextProvider>
+        <App />
+      </AppContextProvider>
     </QueryClientProvider>
   </StrictMode>
 );
