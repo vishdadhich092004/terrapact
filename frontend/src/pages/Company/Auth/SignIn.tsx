@@ -26,7 +26,7 @@ function CompanySignIn() {
         type: "SUCCESS",
       });
       await queryClient.invalidateQueries("validate-token");
-      navigate("/");
+      navigate("/companies");
     },
     onError: (error: Error) => {
       showToast({

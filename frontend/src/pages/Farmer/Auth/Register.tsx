@@ -9,8 +9,8 @@ export type FarmerRegisterFormData = {
   email: string;
   password: string;
   confirmPassword: string;
-  contactNumber: string;
   farmSize: string;
+  contactNumber: string;
 };
 
 function FarmerRegister() {

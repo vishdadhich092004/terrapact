@@ -3,11 +3,11 @@ import { FarmerType } from "../shared/types";
 import bcrypt from "bcrypt";
 
 const farmerSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
   name: { type: String, required: true }, // Farmer's name
-  farmSize: { type: Number, required: true }, // Farm size in acres/hectares
+  email: { type: String, required: true, unique: true },
+  farmSize: { type: String, required: true }, // Farm size in acres/hectares
   contactNumber: { type: String, required: true }, // Contact number
+  password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   role: { type: String, default: "farmer" },
 });

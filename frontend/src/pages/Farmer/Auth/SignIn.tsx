@@ -26,7 +26,7 @@ function FarmerSignIn() {
         type: "SUCCESS",
       });
       await queryClient.invalidateQueries("validate-token");
-      navigate("/");
+      navigate("/farmers");
     },
     onError: (error: Error) => {
       showToast({

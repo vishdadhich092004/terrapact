@@ -1,10 +1,10 @@
 export type FarmerType = {
   _id: string;
-  email: string;
-  password: string;
   name: string;
+  email: string;
   farmSize: string;
   contactNumber: string;
+  password: string;
   createdAt: Date;
   role: string;
 };
