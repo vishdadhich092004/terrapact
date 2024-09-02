@@ -1,5 +1,6 @@
 import { CompanyRegisterFormData } from "./pages/Company/Auth/Register";
 import { CompanySignInFormData } from "./pages/Company/Auth/SignIn";
+import { CropDemandData } from "./pages/Company/CropDemand/NewCropDemand";
 import { FarmerRegisterFormData } from "./pages/Farmer/Auth/Register";
 import { FarmerSignInFormData } from "./pages/Farmer/Auth/SignIn";
 
@@ -81,4 +82,18 @@ export const signOut = async () => {
     method: "POST",
   });
   if (!response.ok) throw new Error("Error during Signout");
+};
+
+export const newCropDemand = async (formData: CropDemandData) => {
+  const response = await fetch(`${API_BASE_URL}/api/crop-demands/new`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+  const body = await response.json();
+  if (!response.ok) throw new Error(body.message);
+  return body;
 };

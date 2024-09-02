@@ -95,14 +95,9 @@ router.delete(
       //   res.send(cropDemandId);
       const cropDemand = await CropDemand.findById(cropDemandId);
       if (!cropDemand) return res.status(404).json({ message: "Not Found" });
-      res.status(200).json(cropDemand);
-      //   const deletedDemand = await CropDemand.findByIdAndDelete(cropDemandId);
+      await CropDemand.findByIdAndDelete(cropDemandId);
 
-      //   if (!deletedDemand) {
-      //     return res.status(404).json({ message: "Crop Demand not found" });
-      //   }
-
-      //   res.status(200).json({ message: "Crop Demand deleted successfully" });
+      res.status(200).json({ message: "Crop Demand deleted successfully" });
     } catch (e) {
       res.status(500).json({ message: "Something went wrong while deleting" });
     }

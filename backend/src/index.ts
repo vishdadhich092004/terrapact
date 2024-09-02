@@ -33,7 +33,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/farmer", farmerRoutes);
 app.use("/api/company", companyRoutes);
-app.use("/api/cropDemand", cropDemandRoutes);
+app.use("/api/crop-demands", cropDemandRoutes);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.listen(2000, () => {

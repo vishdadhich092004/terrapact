@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Layout from "./layouts/Layout";
 import FarmerSignIn from "./pages/Farmer/Auth/SignIn";
 import CompanySignIn from "./pages/Company/Auth/SignIn";
 import FarmerRegister from "./pages/Farmer/Auth/Register";
 import CompanyRegister from "./pages/Company/Auth/Register";
+import NewCropDemand from "./pages/Company/CropDemand/NewCropDemand";
+import FarmerLayout from "./layouts/FarmerLayout";
+import CompanyLayout from "./layouts/CompanyLayout";
 function App() {
   return (
     <BrowserRouter>
@@ -13,33 +15,41 @@ function App() {
         <Route
           path="/farmer/login"
           element={
-            <Layout>
+            <FarmerLayout>
               <FarmerSignIn />
-            </Layout>
+            </FarmerLayout>
           }
         />
         <Route
           path="/company/login"
           element={
-            <Layout>
+            <CompanyLayout>
               <CompanySignIn />
-            </Layout>
+            </CompanyLayout>
           }
         />
         <Route
           path="/company/register"
           element={
-            <Layout>
+            <CompanyLayout>
               <CompanyRegister />
-            </Layout>
+            </CompanyLayout>
           }
         />
         <Route
           path="/farmer/register"
           element={
-            <Layout>
+            <FarmerLayout>
               <FarmerRegister />
-            </Layout>
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/crop-demands/new"
+          element={
+            <CompanyLayout>
+              <NewCropDemand />
+            </CompanyLayout>
           }
         />
       </Routes>
