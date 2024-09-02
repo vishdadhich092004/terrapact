@@ -5,7 +5,7 @@ import * as apiClient from "../../../api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Briefcase, Lock } from "lucide-react";
-import image from "./image.png"; // Importing the image from the same folder
+import image from "./image.png"; 
 
 export type CompanySignInFormData = {
   email: string;
@@ -37,7 +37,7 @@ function CompanySignIn() {
       <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full max-w-4xl space-x-8">
         <div className="md:w-1/2 mb-8 md:mb-0 flex justify-center">
           <img
-            src={image} // Using the local image
+            src={image} 
             alt="Company Sign-In illustration"
             className="w-full max-w-md"
           />
