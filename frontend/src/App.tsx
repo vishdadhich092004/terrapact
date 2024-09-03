@@ -1,10 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Layout from "./layouts/Layout";
 import FarmerSignIn from "./pages/Farmer/Auth/SignIn";
 import CompanySignIn from "./pages/Company/Auth/SignIn";
 import FarmerRegister from "./pages/Farmer/Auth/Register";
 import CompanyRegister from "./pages/Company/Auth/Register";
+import NewCropDemand from "./pages/Company/CropDemand/NewCropDemand";
+import FarmerLayout from "./layouts/FarmerLayout";
+import CompanyLayout from "./layouts/CompanyLayout";
+import EditCropDemand from "./pages/Company/CropDemand/EditCropDemand";
+import AllCropDemands from "./pages/Company/CropDemand/AllCropDemands";
+import SingleCropDemand from "./pages/Company/CropDemand/SingleCropDemand";
+import MyDemands from "./pages/Company/User/MyDemands";
+import { MyBids } from "./pages/Farmer/Bid/MyBids";
+import AllCropDemandsForFarmer from "./pages/Farmer/AllCropDemandsForFarmer";
+import { CropDemandDetails } from "./pages/Farmer/CropDemandDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -13,33 +22,97 @@ function App() {
         <Route
           path="/farmer/login"
           element={
-            <Layout>
+            <FarmerLayout>
               <FarmerSignIn />
-            </Layout>
+            </FarmerLayout>
           }
         />
         <Route
           path="/company/login"
           element={
-            <Layout>
+            <CompanyLayout>
               <CompanySignIn />
-            </Layout>
+            </CompanyLayout>
           }
         />
         <Route
           path="/company/register"
           element={
-            <Layout>
+            <CompanyLayout>
               <CompanyRegister />
-            </Layout>
+            </CompanyLayout>
           }
         />
         <Route
           path="/farmer/register"
           element={
-            <Layout>
+            <FarmerLayout>
               <FarmerRegister />
-            </Layout>
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/crop-demands/new"
+          element={
+            <CompanyLayout>
+              <NewCropDemand />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/crop-demands"
+          element={
+            <CompanyLayout>
+              <AllCropDemands />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/crop-demands/:cropDemandId/edit"
+          element={
+            <CompanyLayout>
+              <EditCropDemand />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/crop-demands/:cropDemandId"
+          element={
+            <CompanyLayout>
+              <SingleCropDemand />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/company/my-demands"
+          element={
+            <CompanyLayout>
+              <MyDemands />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/farmers/:demandId/bids"
+          element={
+            <FarmerLayout>
+              <MyBids />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/crop-demands"
+          element={
+            <FarmerLayout>
+              <AllCropDemandsForFarmer />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/crop-demands/:demandId"
+          element={
+            <FarmerLayout>
+              <CropDemandDetails />
+            </FarmerLayout>
           }
         />
       </Routes>

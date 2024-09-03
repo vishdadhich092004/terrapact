@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import * as apiClient from "../../../api-clients";
+import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
