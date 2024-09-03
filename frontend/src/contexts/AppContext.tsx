@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Toast from "../components/Toast/Toast";
 import { useQuery } from "react-query";
-import * as apiClient from "../api-clients";
+import * as apiClient from "../farmer-api-clients";
 type ToastMessage = {
   message: string;
   type: "SUCCESS" | "ERROR";

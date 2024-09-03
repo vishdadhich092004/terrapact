@@ -7,6 +7,13 @@ import CompanyRegister from "./pages/Company/Auth/Register";
 import NewCropDemand from "./pages/Company/CropDemand/NewCropDemand";
 import FarmerLayout from "./layouts/FarmerLayout";
 import CompanyLayout from "./layouts/CompanyLayout";
+import EditCropDemand from "./pages/Company/CropDemand/EditCropDemand";
+import AllCropDemands from "./pages/Company/CropDemand/AllCropDemands";
+import SingleCropDemand from "./pages/Company/CropDemand/SingleCropDemand";
+import MyDemands from "./pages/Company/User/MyDemands";
+import { MyBids } from "./pages/Farmer/Bid/MyBids";
+import AllCropDemandsForFarmer from "./pages/Farmer/AllCropDemandsForFarmer";
+import { CropDemandDetails } from "./pages/Farmer/CropDemandDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -50,6 +57,62 @@ function App() {
             <CompanyLayout>
               <NewCropDemand />
             </CompanyLayout>
+          }
+        />
+        <Route
+          path="/crop-demands"
+          element={
+            <CompanyLayout>
+              <AllCropDemands />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/crop-demands/:cropDemandId/edit"
+          element={
+            <CompanyLayout>
+              <EditCropDemand />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/crop-demands/:cropDemandId"
+          element={
+            <CompanyLayout>
+              <SingleCropDemand />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/company/my-demands"
+          element={
+            <CompanyLayout>
+              <MyDemands />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/farmers/:demandId/bids"
+          element={
+            <FarmerLayout>
+              <MyBids />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/crop-demands"
+          element={
+            <FarmerLayout>
+              <AllCropDemandsForFarmer />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/crop-demands/:demandId"
+          element={
+            <FarmerLayout>
+              <CropDemandDetails />
+            </FarmerLayout>
           }
         />
       </Routes>

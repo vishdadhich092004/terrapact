@@ -15,7 +15,6 @@ export type CropDemandType = {
   cropType: string;
   quantity: string;
   location: string;
-  requiredBy: Date;
   details: string;
   status: "open" | "closed";
   createdAt: Date;

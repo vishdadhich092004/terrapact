@@ -1,54 +1,71 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-export type CropDemandData = {
+export type EditCropDemandData = {
   cropType: string;
   quantity: string;
   location: string;
   details: string;
 };
-
-function NewCropDemand() {
+function EditCropDemand() {
+  const { cropDemandId } = useParams<{ cropDemandId: string }>();
   const navigate = useNavigate();
   const { showToast } = useAppContext();
+
+  const { data: cropDemand, isLoading } = useQuery(
+    ["cropDemand", cropDemandId],
+    () => apiClient.getCropDemandById(cropDemandId!)
+  );
+
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
-  } = useForm<CropDemandData>();
-  const mutation = useMutation(apiClient.newCropDemand, {
-    onSuccess: () => {
-      showToast({
-        message: "New Crop Demand Generated",
-        type: "SUCCESS",
-      });
-      navigate("/crop-demands");
-    },
-    onError: () => {
-      showToast({
-        message: "Error creating Crop Demand. Please Try Again Later",
-        type: "ERROR",
-      });
-    },
-  });
+    setValue,
+  } = useForm<EditCropDemandData>();
+
+  // Prefill form with existing data
+  if (cropDemand && !isLoading) {
+    setValue("cropType", cropDemand.cropType);
+    setValue("quantity", cropDemand.quantity);
+    setValue("location", cropDemand.location);
+    setValue("details", cropDemand.details);
+  }
+
+  const mutation = useMutation(
+    (data: EditCropDemandData) => apiClient.editCropDemand(cropDemandId!, data),
+    {
+      onSuccess: () => {
+        showToast({
+          message: "Crop Demand updated successfully",
+          type: "SUCCESS",
+        });
+        navigate("/crop-demands");
+      },
+      onError: () => {
+        showToast({
+          message: "Error updating Crop Demand. Please try again later",
+          type: "ERROR",
+        });
+      },
+    }
+  );
 
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
 
-  const buttonStyles = isSubmitSuccessful
-    ? "w-full bg-slate-400 text-white py-2 rounded-md"
-    : "w-full bg-teal-600 text-white py-2 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-300 transform hover:scale-105";
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-slate-50">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <form className="space-y-4" onSubmit={onSubmit}>
           <h2 className="text-3xl font-bold text-center text-teal-600">
-            Create a New Crop Demand
+            Edit Crop Demand
           </h2>
           <label className="block">
             <span className="text-slate-800">Crop Type</span>
@@ -56,7 +73,7 @@ function NewCropDemand() {
               type="text"
               className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
               {...register("cropType", {
-                required: "Crop type cannot be empty",
+                required: "Crop Type cannot be empty",
               })}
             />
             {errors.cropType && (
@@ -95,7 +112,6 @@ function NewCropDemand() {
               </span>
             )}
           </label>
-
           <label className="block">
             <span className="text-slate-800">Details</span>
             <input
@@ -112,8 +128,11 @@ function NewCropDemand() {
             )}
           </label>
 
-          <button type="submit" className={buttonStyles}>
-            Create Crop Demand
+          <button
+            type="submit"
+            className="w-full bg-teal-600 text-white py-2 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-300 transform hover:scale-105"
+          >
+            Update Crop Demand
           </button>
         </form>
       </div>
@@ -121,4 +140,4 @@ function NewCropDemand() {
   );
 }
 
-export default NewCropDemand;
+export default EditCropDemand;

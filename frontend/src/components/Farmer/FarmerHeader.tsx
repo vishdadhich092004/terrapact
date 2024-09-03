@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SignOutButton from "../Buttons/SignOutButton";
 
 function FarmerHeader() {
-  const { isAuthenticated, user } = useAuthContext();
+  const { user, isFarmer } = useAuthContext();
 
   return (
     <header className="bg-green-600 text-white p-4 flex justify-between items-center">
@@ -14,20 +14,20 @@ function FarmerHeader() {
       </div>
 
       <nav className="flex space-x-4">
-        <Link to="/marketplace" className="hover:underline">
+        <Link to="/farmers/crop-demands" className="hover:underline">
           Marketplace
         </Link>
 
         {/* Farmer-specific Links */}
-        <Link to="/my-crops" className="hover:underline">
-          My Crops
+        <Link to="/my-bids" className="hover:underline">
+          My Bids
         </Link>
-        <Link to="/new-crop" className="hover:underline">
+        {/* <Link to="/new-crop" className="hover:underline">
           List a Crop
-        </Link>
+        </Link> */}
 
         {/* User Authentication Links */}
-        {isAuthenticated ? (
+        {isFarmer ? (
           <>
             <span className="font-semibold">{`Hello, ${user?.name}`}</span>
             <Link to="/profile" className="hover:underline">

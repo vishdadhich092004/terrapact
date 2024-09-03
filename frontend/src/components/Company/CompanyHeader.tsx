@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SignOutButton from "../Buttons/SignOutButton";
 
 function CompanyHeader() {
-  const { isAuthenticated, user } = useAuthContext();
+  const { isCompany, user } = useAuthContext();
 
   return (
     <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
@@ -14,12 +14,12 @@ function CompanyHeader() {
       </div>
 
       <nav className="flex space-x-4">
-        <Link to="/marketplace" className="hover:underline">
+        <Link to="/company/crop-demands" className="hover:underline">
           Marketplace
         </Link>
 
         {/* Company-specific Links */}
-        <Link to="/my-demands" className="hover:underline">
+        <Link to="/company/my-demands" className="hover:underline">
           My Demands
         </Link>
         <Link to="/crop-demands/new" className="hover:underline">
@@ -27,7 +27,7 @@ function CompanyHeader() {
         </Link>
 
         {/* User Authentication Links */}
-        {isAuthenticated ? (
+        {isCompany ? (
           <>
             <span className="font-semibold">{`Hello, ${user?.companyName}`}</span>
             <Link to="/profile" className="hover:underline">

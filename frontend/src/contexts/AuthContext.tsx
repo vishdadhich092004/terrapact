@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useQuery } from "react-query";
-import { validateToken } from "../api-clients"; // Adjust import path as necessary
+import { validateToken } from "../farmer-api-clients"; // Adjust import path as necessary
 import Loader from "../components/Loader";
 
 // Define types for user and context
