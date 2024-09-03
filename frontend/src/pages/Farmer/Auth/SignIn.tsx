@@ -45,7 +45,7 @@ function FarmerSignIn() {
   });
 
   return (
-    <div className="min-h-screen bg-[#AED065] flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-200 to-green-400">
       <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full max-w-4xl space-x-8">
         <div className="md:w-1/2 mb-8 md:mb-0 flex justify-center">
           <img
@@ -67,13 +67,13 @@ function FarmerSignIn() {
                   size={20}
                 />
                 <input
-                  type="text"
-                  placeholder="Email"
-                  className="w-full pl-10 pr-4 py-2 rounded-full text-white focus:outline-none focus:ring-2 focus:ring-white"
-                  {...register("email", {
-                    required: "Email is required",
-                  })}
-                />
+  type="text"
+  placeholder="Email"
+  className="w-full pl-10 pr-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-white"
+  {...register("email", {
+    required: "Email is required",
+  })}
+/>
               </div>
               {errors.email && (
                 <span className="text-red-200 text-sm">
@@ -86,18 +86,18 @@ function FarmerSignIn() {
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 "
                   size={20}
                 />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="PASSWORD"
-                  className="w-full pl-10 pr-4 py-2 rounded-full text-white focus:outline-none focus:ring-2 focus:ring-white"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters long",
-                    },
-                  })}
-                />
+               <input
+  type={showPassword ? "text" : "password"}
+  placeholder="PASSWORD"
+  className="w-full pl-10 pr-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-white"
+  {...register("password", {
+    required: "Password is required",
+    minLength: {
+      value: 6,
+      message: "Password must be at least 6 characters long",
+    },
+  })}
+/>
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -138,7 +138,7 @@ function FarmerSignIn() {
 
             <div className="mt-4 text-center text-white">
               <span>Not Registered? </span>
-              <Link to="/sign-up" className="underline hover:text-green-200">
+              <Link to="/farmer/Register" className="underline hover:text-green-200">
                 Sign Up here
               </Link>
             </div>
