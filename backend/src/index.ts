@@ -26,8 +26,8 @@ mongoose
   .then(() => {
     console.log("MONGO CONNECTED");
   })
-  .catch(() => {
-    console.log("MONGO CONNECTION ISSUE");
+  .catch((e) => {
+    console.log("MONGO CONNECTION ISSUE",e);
   });
 
 app.use("/api/auth", authRoutes);
