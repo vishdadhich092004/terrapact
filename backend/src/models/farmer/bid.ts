@@ -15,6 +15,7 @@ const bidSchema: Schema = new Schema({
     enum: ["pending", "accepted", "rejected"],
     default: "pending",
   },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const Bid = mongoose.model<BidType>("Bid", bidSchema);

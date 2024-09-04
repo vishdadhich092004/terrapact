@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
+import { Link } from "react-router-dom";
 
 function MyDemands() {
   const {
@@ -29,6 +30,12 @@ function MyDemands() {
             <p className="text-slate-700">Location: {demand.location}</p>
 
             <p className="text-slate-700">Details: {demand.details}</p>
+            <Link
+              className="bg-yellow-400 p-3"
+              to={`/crop-demands/${demand._id}`}
+            >
+              Voew MOre
+            </Link>
           </div>
         ))}
       </div>

@@ -15,7 +15,12 @@ export type FarmerRegisterFormData = {
 };
 
 function FarmerRegister() {
-  const { register, watch, handleSubmit, formState: { errors, isSubmitting } } = useForm<FarmerRegisterFormData>();
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FarmerRegisterFormData>();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { showToast } = useAppContext();
@@ -28,7 +33,10 @@ function FarmerRegister() {
       navigate("/");
     },
     onError: (error: Error) => {
-      showToast({ message: error.message || "Registration failed", type: "ERROR" });
+      showToast({
+        message: error.message || "Registration failed",
+        type: "ERROR",
+      });
     },
   });
 
@@ -49,11 +57,19 @@ function FarmerRegister() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-200 to-green-400">
       <div className="bg-gradient-to-r from-green-600 to-green-800 text-white p-8 rounded-xl shadow-2xl max-w-3xl w-full">
         <form className="space-y-8" onSubmit={onSubmit}>
-          <h2 className="text-4xl font-bold text-center mb-6">Farmer Registration</h2>
+          <h2 className="text-4xl font-bold text-center mb-6">
+            Farmer Registration
+          </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.name || watch("name") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.name || watch("name")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Name
               </span>
               <input
@@ -67,12 +83,20 @@ function FarmerRegister() {
                 onBlur={() => handleBlur("name")}
               />
               {errors.name && (
-                <span className="text-red-500 text-sm mt-1">{errors.name.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.email || watch("email") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.email || watch("email")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Email
               </span>
               <input
@@ -86,12 +110,20 @@ function FarmerRegister() {
                 onBlur={() => handleBlur("email")}
               />
               {errors.email && (
-                <span className="text-red-500 text-sm mt-1">{errors.email.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.farmSize || watch("farmSize") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.farmSize || watch("farmSize")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Farm Size (in acres)
               </span>
               <input
@@ -100,17 +132,27 @@ function FarmerRegister() {
                   errors.farmSize ? "border-red-500" : ""
                 }`}
                 placeholder="Farm Size"
-                {...register("farmSize", { required: "This field is required" })}
+                {...register("farmSize", {
+                  required: "This field is required",
+                })}
                 onFocus={() => handleFocus("farmSize")}
                 onBlur={() => handleBlur("farmSize")}
               />
               {errors.farmSize && (
-                <span className="text-red-500 text-sm mt-1">{errors.farmSize.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.farmSize.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.contactNumber || watch("contactNumber") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.contactNumber || watch("contactNumber")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Contact Number
               </span>
               <input
@@ -119,17 +161,27 @@ function FarmerRegister() {
                   errors.contactNumber ? "border-red-500" : ""
                 }`}
                 placeholder="Contact Number"
-                {...register("contactNumber", { required: "This field is required" })}
+                {...register("contactNumber", {
+                  required: "This field is required",
+                })}
                 onFocus={() => handleFocus("contactNumber")}
                 onBlur={() => handleBlur("contactNumber")}
               />
               {errors.contactNumber && (
-                <span className="text-red-500 text-sm mt-1">{errors.contactNumber.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.contactNumber.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.password || watch("password") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.password || watch("password")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Password
               </span>
               <input
@@ -140,18 +192,29 @@ function FarmerRegister() {
                 placeholder="Password"
                 {...register("password", {
                   required: "This field is required",
-                  minLength: { value: 6, message: "Password must be at least 6 characters long" },
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
                 })}
                 onFocus={() => handleFocus("password")}
                 onBlur={() => handleBlur("password")}
               />
               {errors.password && (
-                <span className="text-red-500 text-sm mt-1">{errors.password.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.confirmPassword || watch("confirmPassword") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.confirmPassword || watch("confirmPassword")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Confirm Password
               </span>
               <input
@@ -171,7 +234,9 @@ function FarmerRegister() {
                 onBlur={() => handleBlur("confirmPassword")}
               />
               {errors.confirmPassword && (
-                <span className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.confirmPassword.message}
+                </span>
               )}
             </label>
           </div>

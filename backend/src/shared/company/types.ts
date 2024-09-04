@@ -1,3 +1,5 @@
+import { BidType } from "../farmer/types";
+
 export type CompanyType = {
   _id: string;
   email: string;
@@ -16,6 +18,7 @@ export type CropDemandType = {
   quantity: string;
   location: string;
   details: string;
+  bids: BidType[];
   status: "open" | "closed";
   createdAt: Date;
   updatedAt: Date;

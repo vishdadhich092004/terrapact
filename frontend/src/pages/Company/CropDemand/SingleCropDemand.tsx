@@ -12,7 +12,7 @@ function CropDemandDetails() {
     isLoading,
     error,
   } = useQuery(["cropDemand", cropDemandId], () =>
-    apiClient.getCropDemandById(cropDemandId!)
+    apiClient.getCropDemandByIdForCompany(cropDemandId!)
   );
 
   if (isLoading) return <div>Loading...</div>;

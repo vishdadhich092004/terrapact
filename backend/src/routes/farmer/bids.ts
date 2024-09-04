@@ -6,23 +6,22 @@ import { AuthRequest } from "../../middleware/auth";
 
 const router = express.Router();
 
-// Create a new bid
 router.post(
-  "/:demandId/bid",
+  "/:demandId/bids/new",
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
       const { demandId } = req.params;
       const { bidAmount, message } = req.body;
-      const farmerId = req.user?.userId; // Assuming userId is stored in the token
-      if (req.user?.role.toString() !== "farmer") {
-        return res.status(500).json({ message: "Not Allowed" });
-      }
-      // Ensure the crop demand exists
+
+      const farmerId = req.user?.userId;
+
+      if (req.user?.role !== "farmer")
+        return res.status(403).json({ message: "Not Allowed" });
+
       const cropDemand = await CropDemand.findById(demandId);
-      if (!cropDemand) {
-        return res.status(404).json({ message: "Crop Demand not found" });
-      }
+      if (!cropDemand)
+        return res.status(404).json({ message: "Crop Demand Not found" });
 
       const newBid = new Bid({
         demandId,
@@ -30,67 +29,35 @@ router.post(
         bidAmount,
         message,
       });
-
       await newBid.save();
-
-      res.status(201).json(newBid);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to create bid", error });
+      cropDemand.bids.push(newBid);
+      await cropDemand.save();
+      return res.status(201).json(newBid);
+    } catch (e) {
+      res.status(500).json({ message: "Something went wrong at backend", e });
     }
   }
 );
-router.get("/:demandId/bids", async (req: Request, res: Response) => {
+
+router.get("/my-bids", verifyToken, async (req: AuthRequest, res: Response) => {
   try {
-    const { demandId } = req.params;
-
-    const bids = await Bid.find({ demandId }).populate(
-      "farmerId",
-      "name email"
-    ); // Populate farmer details if needed
-
-    if (!bids.length) {
-      return res.status(404).json({ message: "No bids found for this demand" });
+    if (req.user?.role.toString() !== "farmer") {
+      return res.status(403).json({ message: "Not Allowed" });
     }
 
-    res.status(200).json(bids);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to retrieve bids", error });
+    const farmerId = req.user.userId;
+    const bids = await Bid.find({ farmerId: farmerId });
+
+    if (bids.length === 0) {
+      return res.status(404).json({ message: "No Bids for the user" });
+    }
+
+    return res.status(200).json(bids);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong at backend", error: e });
   }
 });
-
-// Update bid status (accept/reject)
-router.put(
-  "/:bidId/status",
-  verifyToken,
-  async (req: AuthRequest, res: Response) => {
-    try {
-      const { bidId } = req.params;
-      const { status } = req.body; // status should be "accepted" or "rejected"
-
-      if (!["accepted", "rejected"].includes(status)) {
-        return res.status(400).json({ message: "Invalid status" });
-      }
-
-      const bid = await Bid.findById(bidId).populate("demandId");
-
-      if (!bid) {
-        return res.status(404).json({ message: "Bid not found" });
-      }
-
-      if (bid.demandId.companyId.toString() !== req.user?.userId) {
-        return res
-          .status(403)
-          .json({ message: "You are not authorized to update this bid" });
-      }
-
-      bid.status = status;
-      await bid.save();
-
-      res.status(200).json(bid);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to update bid status", error });
-    }
-  }
-);
 
 export default router;

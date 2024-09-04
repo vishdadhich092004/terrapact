@@ -11,9 +11,10 @@ import EditCropDemand from "./pages/Company/CropDemand/EditCropDemand";
 import AllCropDemands from "./pages/Company/CropDemand/AllCropDemands";
 import SingleCropDemand from "./pages/Company/CropDemand/SingleCropDemand";
 import MyDemands from "./pages/Company/User/MyDemands";
-import { MyBids } from "./pages/Farmer/Bid/MyBids";
 import AllCropDemandsForFarmer from "./pages/Farmer/AllCropDemandsForFarmer";
-import { CropDemandDetails } from "./pages/Farmer/CropDemandDetails";
+import CropDemandDetails from "./pages/Farmer/CropDemandDetails";
+import PlaceBid from "./pages/Farmer/PlaceBid";
+import MyBids from "./pages/Farmer/MyBids";
 function App() {
   return (
     <BrowserRouter>
@@ -91,14 +92,7 @@ function App() {
             </CompanyLayout>
           }
         />
-        <Route
-          path="/farmers/:demandId/bids"
-          element={
-            <FarmerLayout>
-              <MyBids />
-            </FarmerLayout>
-          }
-        />
+
         <Route
           path="/farmers/crop-demands"
           element={
@@ -112,6 +106,22 @@ function App() {
           element={
             <FarmerLayout>
               <CropDemandDetails />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/:demandId/bids/new"
+          element={
+            <FarmerLayout>
+              <PlaceBid />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/my-bids"
+          element={
+            <FarmerLayout>
+              <MyBids />
             </FarmerLayout>
           }
         />

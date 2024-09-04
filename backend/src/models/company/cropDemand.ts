@@ -12,6 +12,12 @@ const cropDemandSchema = new mongoose.Schema({
   location: { type: String, required: true },
   details: { type: String },
   status: { type: String, enum: ["open", "closed"], default: "open" },
+  bids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Bid",
+    },
+  ],
 });
 
 const CropDemand = mongoose.model<CropDemandType>(

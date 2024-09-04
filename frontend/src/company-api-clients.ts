@@ -70,38 +70,7 @@ export const editCropDemand = async (
   return body;
 };
 
-export const getCropDemandById = async (cropDemandId: string) => {
-  const response = await fetch(
-    `${API_BASE_URL}/api/crop-demands/${cropDemandId}`,
-    {
-      credentials: "include",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  const body = await response.json();
-  if (!response.ok) throw new Error(body.message);
-  return body;
-};
-
-export const getAllCropDemands = async (): Promise<CropDemandType[]> => {
-  const response = await fetch(`${API_BASE_URL}/api/crop-demands`, {
-    credentials: "include",
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  const body = await response.json();
-  if (!response.ok) throw new Error(body.message);
-  return body;
-};
-
-export const getCropDemandForCompany = async (
+export const getCropDemandByIdForCompany = async (
   cropDemandId: string
 ): Promise<CropDemandType> => {
   const response = await fetch(

@@ -19,7 +19,7 @@ function FarmerHeader() {
         </Link>
 
         {/* Farmer-specific Links */}
-        <Link to="/my-bids" className="hover:underline">
+        <Link to="/farmers/my-bids" className="hover:underline">
           My Bids
         </Link>
         {/* <Link to="/new-crop" className="hover:underline">

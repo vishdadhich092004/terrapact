@@ -14,10 +14,6 @@ function CompanyHeader() {
       </div>
 
       <nav className="flex space-x-4">
-        <Link to="/company/crop-demands" className="hover:underline">
-          Marketplace
-        </Link>
-
         {/* Company-specific Links */}
         <Link to="/company/my-demands" className="hover:underline">
           My Demands

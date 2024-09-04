@@ -5,8 +5,9 @@ import "dotenv/config";
 import path from "path";
 import authRoutes from "./routes/auth";
 import companyRoutes from "./routes/company/companies";
-import bidRoutes from "./routes/farmer/bids";
 import cropDemandRoutes from "./routes/company/cropDemands";
+import bidRoutes from "./routes/farmer/bids";
+
 import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
@@ -27,7 +28,7 @@ mongoose
     console.log("MONGO CONNECTED");
   })
   .catch((e) => {
-    console.log("MONGO CONNECTION ISSUE",e);
+    console.log("MONGO CONNECTION ISSUE", e);
   });
 
 app.use("/api/auth", authRoutes);

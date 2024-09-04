@@ -15,7 +15,12 @@ export type CompanyRegisterFormData = {
 };
 
 function CompanyRegister() {
-  const { register, watch, handleSubmit, formState: { errors, isSubmitting } } = useForm<CompanyRegisterFormData>();
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<CompanyRegisterFormData>();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { showToast } = useAppContext();
@@ -29,7 +34,10 @@ function CompanyRegister() {
     },
     onError: (error: Error) => {
       console.error("Registration error:", error); // Detailed error logging
-      showToast({ message: error.message || "Oops! Something went wrong.", type: "ERROR" });
+      showToast({
+        message: error.message || "Oops! Something went wrong.",
+        type: "ERROR",
+      });
     },
   });
 
@@ -50,11 +58,19 @@ function CompanyRegister() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-200 to-blue-400">
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 rounded-xl shadow-2xl max-w-3xl w-full">
         <form className="space-y-8" onSubmit={onSubmit}>
-          <h2 className="text-4xl font-bold text-center mb-6">Company Registration</h2>
+          <h2 className="text-4xl font-bold text-center mb-6">
+            Company Registration
+          </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.companyName || watch("companyName") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.companyName || watch("companyName")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Company Name
               </span>
               <input
@@ -63,17 +79,27 @@ function CompanyRegister() {
                   errors.companyName ? "border-red-500" : ""
                 }`}
                 placeholder="Company Name"
-                {...register("companyName", { required: "This field is required" })}
+                {...register("companyName", {
+                  required: "This field is required",
+                })}
                 onFocus={() => handleFocus("companyName")}
                 onBlur={() => handleBlur("companyName")}
               />
               {errors.companyName && (
-                <span className="text-red-500 text-sm mt-1">{errors.companyName.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.companyName.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.email || watch("email") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.email || watch("email")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Company Email
               </span>
               <input
@@ -87,12 +113,20 @@ function CompanyRegister() {
                 onBlur={() => handleBlur("email")}
               />
               {errors.email && (
-                <span className="text-red-500 text-sm mt-1">{errors.email.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.industryType || watch("industryType") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.industryType || watch("industryType")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Industry Type
               </span>
               <input
@@ -101,17 +135,27 @@ function CompanyRegister() {
                   errors.industryType ? "border-red-500" : ""
                 }`}
                 placeholder="Industry Type"
-                {...register("industryType", { required: "This field is required" })}
+                {...register("industryType", {
+                  required: "This field is required",
+                })}
                 onFocus={() => handleFocus("industryType")}
                 onBlur={() => handleBlur("industryType")}
               />
               {errors.industryType && (
-                <span className="text-red-500 text-sm mt-1">{errors.industryType.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.industryType.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.contactNumber || watch("contactNumber") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.contactNumber || watch("contactNumber")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Contact Number
               </span>
               <input
@@ -120,17 +164,27 @@ function CompanyRegister() {
                   errors.contactNumber ? "border-red-500" : ""
                 }`}
                 placeholder="Contact Number"
-                {...register("contactNumber", { required: "This field is required" })}
+                {...register("contactNumber", {
+                  required: "This field is required",
+                })}
                 onFocus={() => handleFocus("contactNumber")}
                 onBlur={() => handleBlur("contactNumber")}
               />
               {errors.contactNumber && (
-                <span className="text-red-500 text-sm mt-1">{errors.contactNumber.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.contactNumber.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.password || watch("password") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.password || watch("password")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Password
               </span>
               <input
@@ -141,18 +195,29 @@ function CompanyRegister() {
                 placeholder="Password"
                 {...register("password", {
                   required: "This field is required",
-                  minLength: { value: 6, message: "Password must be at least 6 characters long" },
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
                 })}
                 onFocus={() => handleFocus("password")}
                 onBlur={() => handleBlur("password")}
               />
               {errors.password && (
-                <span className="text-red-500 text-sm mt-1">{errors.password.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </span>
               )}
             </label>
 
             <label className="relative block">
-              <span className={`text-white font-medium transition-all duration-300 ${isFocused.confirmPassword || watch("confirmPassword") ? "text-xs top-0 left-0" : "text-base top-1/2 left-2.5 transform -translate-y-1/2"}`}>
+              <span
+                className={`text-white font-medium transition-all duration-300 ${
+                  isFocused.confirmPassword || watch("confirmPassword")
+                    ? "text-xs top-0 left-0"
+                    : "text-base top-1/2 left-2.5 transform -translate-y-1/2"
+                }`}
+              >
                 Confirm Password
               </span>
               <input
@@ -172,7 +237,9 @@ function CompanyRegister() {
                 onBlur={() => handleBlur("confirmPassword")}
               />
               {errors.confirmPassword && (
-                <span className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</span>
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.confirmPassword.message}
+                </span>
               )}
             </label>
           </div>

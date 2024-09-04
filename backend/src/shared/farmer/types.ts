@@ -14,8 +14,9 @@ export type FarmerType = {
 export type BidType = {
   _id: string;
   demandId: CropDemandType;
-  farmerId: string;
-  bidAmount: string;
+  farmerId: FarmerType;
+  bidAmount: number;
   status: string;
-  message: string;
+  message?: string;
+  createdAt: Date;
 };

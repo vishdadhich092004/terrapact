@@ -29,6 +29,8 @@ router.post("/new", verifyToken, async (req: AuthRequest, res: Response) => {
   try {
     const { cropType, quantity, location, details } = req.body;
 
+    if (req.user?.role !== "company")
+      return res.status(500).json({ message: "No Permission" });
     const newDemand = new CropDemand({
       companyId: req.user?.userId,
       cropType,
@@ -61,7 +63,9 @@ router.get(
   async (req: Request, res: Response) => {
     try {
       const { cropDemandId } = req.params;
-      const cropDemand = await CropDemand.findById(cropDemandId).lean();
+      const cropDemand = await CropDemand.findById(cropDemandId)
+        .lean()
+        .populate("bids");
 
       if (!cropDemand) {
         return res.status(404).json({ message: "Crop Demand not found" });
