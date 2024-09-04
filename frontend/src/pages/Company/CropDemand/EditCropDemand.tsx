@@ -3,6 +3,7 @@ import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 export type EditCropDemandData = {
   cropType: string;
@@ -10,6 +11,7 @@ export type EditCropDemandData = {
   location: string;
   details: string;
 };
+
 function EditCropDemand() {
   const { cropDemandId } = useParams<{ cropDemandId: string }>();
   const navigate = useNavigate();
@@ -17,7 +19,15 @@ function EditCropDemand() {
 
   const { data: cropDemand, isLoading } = useQuery(
     ["cropDemand", cropDemandId],
-    () => apiClient.getCropDemandById(cropDemandId!)
+    () => apiClient.getCropDemandByIdForCompany(cropDemandId!), // Fetch current crop demand
+    {
+      onError: () => {
+        showToast({
+          message: "Error fetching Crop Demand. Please try again later",
+          type: "ERROR",
+        });
+      },
+    }
   );
 
   const {
@@ -27,13 +37,15 @@ function EditCropDemand() {
     setValue,
   } = useForm<EditCropDemandData>();
 
-  // Prefill form with existing data
-  if (cropDemand && !isLoading) {
-    setValue("cropType", cropDemand.cropType);
-    setValue("quantity", cropDemand.quantity);
-    setValue("location", cropDemand.location);
-    setValue("details", cropDemand.details);
-  }
+  // Prefill form with existing data when it's loaded
+  useEffect(() => {
+    if (cropDemand) {
+      setValue("cropType", cropDemand.cropType);
+      setValue("quantity", cropDemand.quantity);
+      setValue("location", cropDemand.location);
+      setValue("details", cropDemand.details);
+    }
+  }, [cropDemand, setValue]);
 
   const mutation = useMutation(
     (data: EditCropDemandData) => apiClient.editCropDemand(cropDemandId!, data),

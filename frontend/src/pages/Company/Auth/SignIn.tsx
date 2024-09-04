@@ -5,7 +5,7 @@ import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Briefcase, Lock } from "lucide-react";
-import image from "./image.png"; 
+import image from "./image.png";
 export type CompanySignInFormData = {
   email: string;
   password: string;
@@ -138,7 +138,10 @@ function CompanySignIn() {
 
             <div className="mt-4 text-center text-white">
               <span>Not Registered? </span>
-              <Link to="/company/Register" className="underline hover:text-blue-200">
+              <Link
+                to="/company/Register"
+                className="underline hover:text-blue-200"
+              >
                 Sign Up here
               </Link>
             </div>

@@ -7,7 +7,7 @@ function CropDemandList() {
     data: cropDemands,
     isLoading,
     error,
-  } = useQuery("cropDemands", apiClient.getAllCropDemands);
+  } = useQuery("cropDemands", apiClient.getCompanyDemands);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading crop demands</div>;
