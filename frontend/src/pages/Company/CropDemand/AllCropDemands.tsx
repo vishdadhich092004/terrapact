@@ -30,6 +30,9 @@ function CropDemandList() {
             <p className="text-slate-700">Location: {demand.location}</p>
 
             <p className="text-slate-700">Details: {demand.details}</p>
+            <p className="text-slate-700">
+              Status : {demand.status.toString()}
+            </p>
             <Link
               to={`/crop-demands/${demand._id}`}
               className="bg-green-500 text-white font-bold p-3"

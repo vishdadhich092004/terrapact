@@ -31,7 +31,7 @@ function CropDemandDetails() {
     <div className="p-8">
       {isOwner && (
         <Link
-          className="bg-blue-500 text-white font-bold py-3"
+          className="bg-blue-500 text-white font-bold p-3"
           to={`/crop-demands/${cropDemandId}/edit`}
         >
           Edit{" "}
@@ -45,6 +45,9 @@ function CropDemandDetails() {
 
         <p className="text-slate-700">Details: {cropDemand.details}</p>
       </div>
+      <Link to={`bids`} className="bg-blue-500 text-white p-3 font-bold">
+        See All Bids
+      </Link>
     </div>
   );
 }

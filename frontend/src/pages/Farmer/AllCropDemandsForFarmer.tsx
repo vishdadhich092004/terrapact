@@ -32,8 +32,10 @@ const AllCropDemandsForFarmer: React.FC = () => {
                     <p className="text-sm text-gray-600">
                       Price: ${demand.details} per kg
                     </p>
+                    <p>{demand.status.toString()}</p>
                   </div>
                   <div className="space-x-2">
+                    {demand.status.toString() !== "closed"}
                     <Link
                       to={`/farmers/crop-demands/${demand._id}`}
                       className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700"

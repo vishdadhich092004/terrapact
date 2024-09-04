@@ -15,6 +15,8 @@ import AllCropDemandsForFarmer from "./pages/Farmer/AllCropDemandsForFarmer";
 import CropDemandDetails from "./pages/Farmer/CropDemandDetails";
 import PlaceBid from "./pages/Farmer/PlaceBid";
 import MyBids from "./pages/Farmer/MyBids";
+import AllBidsForADemand from "./pages/Company/Bids/AllBidsForADemand";
+import ViewBid from "./pages/Company/Bids/ViewBid";
 function App() {
   return (
     <BrowserRouter>
@@ -89,6 +91,22 @@ function App() {
           element={
             <CompanyLayout>
               <MyDemands />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="crop-demands/:demandId/bids"
+          element={
+            <CompanyLayout>
+              <AllBidsForADemand />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="crop-demands/:demandId/bids/:bidId"
+          element={
+            <CompanyLayout>
+              <ViewBid />
             </CompanyLayout>
           }
         />

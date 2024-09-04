@@ -30,6 +30,7 @@ function MyDemands() {
             <p className="text-slate-700">Location: {demand.location}</p>
 
             <p className="text-slate-700">Details: {demand.details}</p>
+            <p>{demand.status.toString()}</p>
             <Link
               className="bg-yellow-400 p-3"
               to={`/crop-demands/${demand._id}`}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SignOutButton from "../Buttons/SignOutButton";
 
 function FarmerHeader() {
-  const { user, isFarmer } = useAuthContext();
+  const { user, isFarmer, isAuthenticated } = useAuthContext();
 
   return (
     <header className="bg-green-600 text-white p-4 flex justify-between items-center">
@@ -14,14 +14,17 @@ function FarmerHeader() {
       </div>
 
       <nav className="flex space-x-4">
-        <Link to="/farmers/crop-demands" className="hover:underline">
-          Marketplace
-        </Link>
+        {isAuthenticated && isFarmer && (
+          <>
+            <Link to="/farmers/crop-demands" className="hover:underline">
+              Marketplace
+            </Link>
 
-        {/* Farmer-specific Links */}
-        <Link to="/farmers/my-bids" className="hover:underline">
-          My Bids
-        </Link>
+            <Link to="/farmers/my-bids" className="hover:underline">
+              My Bids
+            </Link>
+          </>
+        )}
         {/* <Link to="/new-crop" className="hover:underline">
           List a Crop
         </Link> */}

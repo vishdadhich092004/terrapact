@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SignOutButton from "../Buttons/SignOutButton";
 
 function CompanyHeader() {
-  const { isCompany, user } = useAuthContext();
+  const { isCompany, user, isAuthenticated } = useAuthContext();
 
   return (
     <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
@@ -14,14 +14,16 @@ function CompanyHeader() {
       </div>
 
       <nav className="flex space-x-4">
-        {/* Company-specific Links */}
-        <Link to="/company/my-demands" className="hover:underline">
-          My Demands
-        </Link>
-        <Link to="/crop-demands/new" className="hover:underline">
-          Raise Demand
-        </Link>
-
+        {isAuthenticated && isCompany && (
+          <>
+            <Link to="/company/my-demands" className="hover:underline">
+              My Demands
+            </Link>
+            <Link to="/crop-demands/new" className="hover:underline">
+              Raise Demand
+            </Link>
+          </>
+        )}
         {/* User Authentication Links */}
         {isCompany ? (
           <>

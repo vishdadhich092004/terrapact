@@ -102,3 +102,50 @@ export const getCompanyDemands = async (): Promise<CropDemandType[]> => {
   if (!response.ok) throw new Error(body.message);
   return body;
 };
+
+export const getAllBidsForADemandForACompany = async (demandId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/crop-demands/${demandId}/bids`,
+    {
+      credentials: "include",
+    }
+  );
+  if (!response.ok) throw new Error("Error in fetchind bids");
+  return response.json();
+};
+
+export const acceptBid = async (bidId: string, demandId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/crop-demands/${demandId}/bids/${bidId}/accept`,
+    {
+      method: "PUT",
+      credentials: "include",
+    }
+  );
+  if (!response.ok) throw new Error("Error accepting bid");
+  return response.json();
+};
+
+export const rejectBid = async (bidId: string, demandId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/crop-demands/${demandId}/bids/${bidId}/reject`,
+    {
+      method: "PUT",
+      credentials: "include",
+    }
+  );
+  if (!response.ok) throw new Error("Error rejecting bid");
+  return response.json();
+};
+
+export const viewBid = async (demandId: string, bidId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/crop-demands/${demandId}/bids/${bidId}`,
+    {
+      credentials: "include",
+    }
+  );
+  if (!response.ok) throw new Error("Error fetching the bid");
+
+  return response.json();
+};

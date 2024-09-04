@@ -129,14 +129,104 @@ router.delete(
   }
 );
 
-router.get("/crop-demands/:demandId/bids", verifyToken, async (req, res) => {
+router.get(
+  "/:demandId/bids",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    if (req.user?.role !== "company")
+      return res.status(500).json({ message: "Not Allowed" });
+    try {
+      const { demandId } = req.params;
+      const bids = await Bid.find({ demandId }).populate("farmerId").lean();
+      res.status(200).json(bids);
+    } catch (e) {
+      res.status(500).json({ message: "Failed to fetch bids" });
+    }
+  }
+);
+
+router.get("/:demandId/bids/:bidId", async (req: Request, res: Response) => {
   try {
-    const { demandId } = req.params;
-    const bids = await Bid.find({ demandId }).populate("farmerId").lean();
-    res.status(200).json(bids);
+    const { demandId, bidId } = req.params;
+
+    // Find the demand by its ID
+    const demand = await CropDemand.findById(demandId);
+    if (!demand) return res.status(404).json({ message: "No Demand Exists" });
+
+    // Find the bid within the demand's bids array
+    // let bid = demand.bids.find((bid) => bid._id.toString() === bidId);
+    // if (!bid) return res.status(404).json({ message: "Bid not found" });
+
+    const bid = await Bid.findById(bidId)
+      .populate("farmerId")
+      .populate("demandId");
+    res.status(200).json(bid);
   } catch (e) {
-    res.status(500).json({ message: "Failed to fetch bids" });
+    res.status(500).json({ message: "Failed to fetch bid" });
   }
 });
+
+// Accept Bid
+router.put(
+  "/:demandId/bids/:bidId/accept",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    if (req.user?.role !== "company")
+      return res.status(403).json({ message: "Not Allowed" });
+
+    try {
+      const { demandId, bidId } = req.params;
+
+      // Accept the specific bid
+      const acceptedBid = await Bid.findByIdAndUpdate(
+        bidId,
+        { status: "accepted" },
+        { new: true }
+      );
+
+      if (!acceptedBid)
+        return res.status(404).json({ message: "Bid not found" });
+
+      // Reject all other bids for the same demand
+      await Bid.updateMany(
+        { _id: { $ne: bidId }, demandId: demandId },
+        { status: "rejected" }
+      );
+      const demand = await CropDemand.findById(demandId);
+      if (!demand) return res.status(404).json({ message: "No Demand Exist" });
+      demand.status = "closed";
+      res.status(200).json({
+        message: "Bid accepted and others rejected",
+        bid: acceptedBid,
+      });
+    } catch (e) {
+      res.status(500).json({ message: "Failed to accept bid" });
+    }
+  }
+);
+
+// Reject Bid
+router.put(
+  "/:demandId/bids/:bidId/reject",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    if (req.user?.role !== "company")
+      return res.status(403).json({ message: "Not Allowed" });
+
+    try {
+      const { bidId } = req.params;
+      const bid = await Bid.findByIdAndUpdate(
+        bidId,
+        { status: "rejected" },
+        { new: true }
+      );
+      if (!bid) return res.status(404).json({ message: "Bid not found" });
+
+      res.status(200).json({ message: "Bid rejected", bid });
+    } catch (e) {
+      res.status(500).json({ message: "Failed to reject bid" });
+    }
+  }
+);
 
 export default router;
