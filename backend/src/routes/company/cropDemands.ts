@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import CropDemand from "../../models/company/cropDemand";
 import { verifyToken, AuthRequest } from "../../middleware/auth"; // Assuming you have a JWT middleware
 import Bid from "../../models/farmer/bid";
+import { check, validationResult } from "express-validator";
 
 const router = express.Router();
 
@@ -25,26 +26,39 @@ const checkOwnership = async (
   }
 };
 // Create a new crop demand
-router.post("/new", verifyToken, async (req: AuthRequest, res: Response) => {
-  try {
-    const { cropType, quantity, location, details } = req.body;
+router.post(
+  "/new",
+  [
+    check("cropType", "Crop Type is required").isString().notEmpty(),
+    check("quantity", "Quantity is required").isNumeric().notEmpty(),
+    check("location", "Location is required").isString().notEmpty(),
+    check("details", "Details is required").isString().notEmpty(),
+  ],
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ message: errors.array() });
+    try {
+      const { cropType, quantity, location, details } = req.body;
 
-    if (req.user?.role !== "company")
-      return res.status(500).json({ message: "No Permission" });
-    const newDemand = new CropDemand({
-      companyId: req.user?.userId,
-      cropType,
-      quantity,
-      location,
-      details,
-    });
+      if (req.user?.role !== "company")
+        return res.status(500).json({ message: "No Permission" });
+      const newDemand = new CropDemand({
+        companyId: req.user?.userId,
+        cropType,
+        quantity,
+        location,
+        details,
+      });
 
-    await newDemand.save();
-    res.status(201).json(newDemand);
-  } catch (e) {
-    res.status(500).json({ message: "Something went wrong", e });
+      await newDemand.save();
+      res.status(201).json(newDemand);
+    } catch (e) {
+      res.status(500).json({ message: "Something went wrong", e });
+    }
   }
-});
+);
 
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -96,7 +110,7 @@ router.put(
           requiredBy,
           details,
         },
-        { new: true } // Return the updated document
+        { new: true, runValidators: true } // Return the updated document
       );
 
       if (!updatedDemand) {

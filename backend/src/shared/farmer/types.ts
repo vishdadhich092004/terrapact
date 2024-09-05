@@ -4,7 +4,7 @@ export type FarmerType = {
   _id: string;
   name: string;
   email: string;
-  farmSize: string;
+  farmSize: number;
   contactNumber: string;
   password: string;
   createdAt: Date;
@@ -17,6 +17,6 @@ export type BidType = {
   farmerId: FarmerType;
   bidAmount: number;
   status: string;
-  message?: string;
+  message: string;
   createdAt: Date;
 };

@@ -13,7 +13,7 @@ router.post(
   [
     check("name", "Name is required").isString(),
     check("email", "Email is required").isString(),
-    check("farmSize", "Farm Size is required").isString(),
+    check("farmSize", "Farm Size is required").isNumeric(),
     check("contactNumber", "Contact Number is required").isString(),
     check("password", "Password with 6 or more characters required").isLength({
       min: 6,

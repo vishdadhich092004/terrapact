@@ -15,7 +15,7 @@ export type CropDemandType = {
   _id: string;
   companyId: CompanyType;
   cropType: string;
-  quantity: string;
+  quantity: number;
   location: string;
   details: string;
   bids: BidType[];

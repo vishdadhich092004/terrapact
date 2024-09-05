@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export type EditCropDemandData = {
   cropType: string;
-  quantity: string;
+  quantity: number;
   location: string;
   details: string;
 };
@@ -97,7 +97,7 @@ function EditCropDemand() {
           <label className="block">
             <span className="text-slate-800">Quantity (tons)</span>
             <input
-              type="text"
+              type="number"
               className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
               {...register("quantity", {
                 required: "Quantity cannot be empty",

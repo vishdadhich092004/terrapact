@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export type FarmerRegisterFormData = {
   name: string;
   email: string;
-  farmSize: string;
+  farmSize: number;
   contactNumber: string;
   password: string;
   confirmPassword: string;
@@ -127,7 +127,7 @@ function FarmerRegister() {
                 Farm Size (in acres)
               </span>
               <input
-                type="text"
+                type="number"
                 className={`mt-2 block w-full p-3 border border-white rounded-md bg-transparent placeholder-transparent focus:outline-none focus:ring-2 focus:ring-green-400 ${
                   errors.farmSize ? "border-red-500" : ""
                 }`}

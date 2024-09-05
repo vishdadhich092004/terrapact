@@ -8,7 +8,7 @@ const cropDemandSchema = new mongoose.Schema({
     required: true,
   },
   cropType: { type: String, required: true },
-  quantity: { type: String, required: true },
+  quantity: { type: Number, required: true },
   location: { type: String, required: true },
   details: { type: String },
   status: { type: String, enum: ["open", "closed"], default: "open" },

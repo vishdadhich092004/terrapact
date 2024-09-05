@@ -3,13 +3,22 @@ import Bid from "../../models/farmer/bid";
 import CropDemand from "../../models/company/cropDemand";
 import { verifyToken } from "../../middleware/auth"; // Assumes you have an auth middleware
 import { AuthRequest } from "../../middleware/auth";
+import { check, validationResult } from "express-validator";
 
 const router = express.Router();
 
 router.post(
   "/:demandId/bids/new",
+  [
+    check("bidAmount", "Bid Amount is required").isNumeric().notEmpty(),
+    check("message", "Message is required").isString().notEmpty(),
+  ],
   verifyToken,
+
   async (req: AuthRequest, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ message: errors.array() });
     try {
       const { demandId } = req.params;
       const { bidAmount, message } = req.body;
