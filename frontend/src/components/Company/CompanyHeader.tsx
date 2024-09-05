@@ -28,8 +28,11 @@ function CompanyHeader() {
         {isCompany ? (
           <>
             <span className="font-semibold">{`Hello, ${user?.companyName}`}</span>
-            <Link to="/profile" className="hover:underline">
-              Profile
+            <Link
+              to="/company/contracts/my-contracts"
+              className="hover:underline"
+            >
+              My Contracts
             </Link>
             <SignOutButton />
           </>

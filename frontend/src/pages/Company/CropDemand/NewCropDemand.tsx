@@ -19,13 +19,14 @@ function NewCropDemand() {
     formState: { errors, isSubmitSuccessful },
     handleSubmit,
   } = useForm<CropDemandData>();
+
   const mutation = useMutation(apiClient.newCropDemand, {
     onSuccess: () => {
       showToast({
-        message: "New Crop Demand Generated",
+        message: "New Crop Demand Created Successfully",
         type: "SUCCESS",
       });
-      navigate("/crop-demands");
+      navigate("/company/my-demands");
     },
     onError: () => {
       showToast({
@@ -40,23 +41,23 @@ function NewCropDemand() {
   });
 
   const buttonStyles = isSubmitSuccessful
-    ? "w-full bg-slate-400 text-white py-2 rounded-md"
+    ? "w-full bg-gray-400 text-white py-2 rounded-md"
     : "w-full bg-teal-600 text-white py-2 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-300 transform hover:scale-105";
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-slate-50">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <form className="space-y-4" onSubmit={onSubmit}>
-          <h2 className="text-3xl font-bold text-center text-teal-600">
+          <h2 className="text-3xl font-bold text-center text-teal-600 mb-6">
             Create a New Crop Demand
           </h2>
           <label className="block">
-            <span className="text-slate-800">Crop Type</span>
+            <span className="text-gray-800">Crop Type</span>
             <input
               type="text"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
               {...register("cropType", {
-                required: "Crop type cannot be empty",
+                required: "Crop Type cannot be empty",
               })}
             />
             {errors.cropType && (
@@ -66,10 +67,10 @@ function NewCropDemand() {
             )}
           </label>
           <label className="block">
-            <span className="text-slate-800">Quantity (tons)</span>
+            <span className="text-gray-800">Quantity (tons)</span>
             <input
               type="number"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
               {...register("quantity", {
                 required: "Quantity cannot be empty",
               })}
@@ -81,10 +82,10 @@ function NewCropDemand() {
             )}
           </label>
           <label className="block">
-            <span className="text-slate-800">Location</span>
+            <span className="text-gray-800">Location</span>
             <input
               type="text"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
               {...register("location", {
                 required: "Location cannot be empty",
               })}
@@ -95,12 +96,11 @@ function NewCropDemand() {
               </span>
             )}
           </label>
-
           <label className="block">
-            <span className="text-slate-800">Details</span>
+            <span className="text-gray-800">Details</span>
             <input
               type="text"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
               {...register("details", {
                 required: "Details cannot be empty",
               })}

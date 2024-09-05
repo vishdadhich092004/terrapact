@@ -114,3 +114,11 @@ export const allBidsForAFarmer = async () => {
   if (!response.ok) throw new Error("Error fetching Bids");
   return response.json();
 };
+
+export const getFarmerContracts = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/contracts/my-contracts`, {
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error("Failed to fetch the contracts");
+  return response.json();
+};

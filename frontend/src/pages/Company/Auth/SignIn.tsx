@@ -139,7 +139,7 @@ function CompanySignIn() {
             <div className="mt-4 text-center text-white">
               <span>Not Registered? </span>
               <Link
-                to="/company/Register"
+                to="/company/register"
                 className="underline hover:text-blue-200"
               >
                 Sign Up here

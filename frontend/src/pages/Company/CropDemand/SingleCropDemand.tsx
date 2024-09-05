@@ -15,11 +15,14 @@ function CropDemandDetails() {
     apiClient.getCropDemandByIdForCompany(cropDemandId!)
   );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading crop demand</div>;
+  if (isLoading) return <div className="text-center">Loading...</div>;
+  if (error)
+    return (
+      <div className="text-center text-red-500">Error loading crop demand</div>
+    );
 
   if (!cropDemand) {
-    return <div>Crop Demand Not Found</div>;
+    return <div className="text-center">Crop Demand Not Found</div>;
   }
 
   const isOwner =
@@ -28,24 +31,30 @@ function CropDemandDetails() {
     user?._id.toString() === cropDemand?.companyId.toString();
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-slate-50 min-h-screen">
       {isOwner && (
         <Link
-          className="bg-blue-500 text-white font-bold p-3"
+          className="block mb-4 bg-teal-600 text-white font-bold py-2 px-4 rounded-md text-center hover:bg-teal-700 transition-colors"
           to={`/crop-demands/${cropDemandId}/edit`}
         >
-          Edit{" "}
+          Edit
         </Link>
       )}
-      <h1 className="text-3xl font-bold mb-4">Crop Demand Details</h1>
-      <div className="p-4 border border-slate-300 rounded-lg shadow-sm bg-white">
-        <h2 className="text-xl font-semibold">{cropDemand.cropType}</h2>
-        <p className="text-slate-700">Quantity: {cropDemand.quantity} tons</p>
-        <p className="text-slate-700">Location: {cropDemand.location}</p>
-
-        <p className="text-slate-700">Details: {cropDemand.details}</p>
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        Crop Demand Details
+      </h1>
+      <div className="p-6 border border-slate-300 rounded-lg shadow-lg bg-white">
+        <h2 className="text-xl font-semibold text-gray-800">
+          {cropDemand.cropType}
+        </h2>
+        <p className="text-gray-700">Quantity: {cropDemand.quantity} tons</p>
+        <p className="text-gray-700">Location: {cropDemand.location}</p>
+        <p className="text-gray-700">Details: {cropDemand.details}</p>
       </div>
-      <Link to={`bids`} className="bg-blue-500 text-white p-3 font-bold">
+      <Link
+        to={`bids`}
+        className="block mt-6 bg-indigo-600 text-white py-2 px-4 rounded-md text-center hover:bg-indigo-700 transition-colors"
+      >
         See All Bids
       </Link>
     </div>

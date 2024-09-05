@@ -33,8 +33,11 @@ function FarmerHeader() {
         {isFarmer ? (
           <>
             <span className="font-semibold">{`Hello, ${user?.name}`}</span>
-            <Link to="/profile" className="hover:underline">
-              Profile
+            <Link
+              to="/farmers/contracts/my-contracts"
+              className="hover:underline"
+            >
+              My Contracts
             </Link>
             <SignOutButton />
           </>

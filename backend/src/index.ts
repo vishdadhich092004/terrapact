@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth";
 import companyRoutes from "./routes/company/companies";
 import cropDemandRoutes from "./routes/company/cropDemands";
 import bidRoutes from "./routes/farmer/bids";
+import contractRoutes from "./routes/contracts";
 
 import cookieParser from "cookie-parser";
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/crop-demands", cropDemandRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/farmers", bidRoutes);
+app.use("/api/contracts", contractRoutes);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.listen(2000, () => {

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
-import * as apiClient from "../../farmer-api-clients"; // Adjust the import path as necessary
-import { useAppContext } from "../../contexts/AppContext";
+import * as apiClient from "../../farmer-api-clients";
+import Loader from "../../components/Loader";
 
 type Bid = {
   _id: string;
@@ -12,19 +12,10 @@ type Bid = {
   createdAt: string;
 };
 
-const MyBids: React.FC = () => {
-  const { showToast } = useAppContext();
+const MyBids = () => {
   const { data, error, isLoading, refetch } = useQuery<Bid[], Error>(
     "myBids",
-    apiClient.allBidsForAFarmer,
-    {
-      onError: (error) => {
-        showToast({
-          message: `Error fetching bids: ${error.message}`,
-          type: "ERROR",
-        });
-      },
-    }
+    apiClient.allBidsForAFarmer
   );
 
   // Trigger refetch on some condition or event if needed
@@ -34,27 +25,32 @@ const MyBids: React.FC = () => {
   }, [refetch]);
 
   if (isLoading) {
-    return <div>Loading your bids...</div>;
+    return <Loader />;
   }
-
+  if (!data) return <div className="text-gray-800">No Bids as of now</div>;
   if (error) {
-    return <div>Error loading bids: {error.message}</div>;
+    return (
+      <div className="text-red-600">Error loading bids: {error.message}</div>
+    );
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">My Bids</h2>
-      {data && data.length > 0 ? (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">My Bids</h2>
+      {data.length > 0 ? (
         <ul className="space-y-4">
           {data.map((bid) => (
-            <li key={bid._id} className="border rounded p-4 shadow-sm">
-              <p>
+            <li
+              key={bid._id}
+              className="border border-gray-300 rounded-lg p-4 shadow-md bg-white"
+            >
+              <p className="text-gray-800">
                 <strong>Bid Amount:</strong> ${bid.bidAmount}
               </p>
-              <p>
+              <p className="text-gray-800">
                 <strong>Message:</strong> {bid.message}
               </p>
-              <p>
+              <p className="text-gray-800">
                 <strong>Submitted on:</strong>{" "}
                 {new Date(bid.createdAt).toLocaleDateString()}
               </p>
@@ -62,7 +58,7 @@ const MyBids: React.FC = () => {
           ))}
         </ul>
       ) : (
-        <div>No bids found.</div>
+        <div className="text-gray-800">No bids found.</div>
       )}
     </div>
   );

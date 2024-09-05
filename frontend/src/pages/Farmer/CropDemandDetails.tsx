@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { getCropDemandByIdForFarmer } from "../../farmer-api-clients";
 import { CropDemandType } from "../../../../backend/src/shared/company/types";
 import { useAuthContext } from "../../contexts/AuthContext";
+import Loader from "../../components/Loader";
 
 const CropDemandDetails = () => {
   const { user } = useAuthContext();
@@ -17,22 +18,29 @@ const CropDemandDetails = () => {
     (bid) => bid.farmerId.toString() === user?._id.toString()
   );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !data) return <div>Error loading crop demand details</div>;
+  if (isLoading) return <Loader />;
+  if (error || !data)
+    return (
+      <div className="text-red-600">Error loading crop demand details</div>
+    );
 
   return (
-    <div className="min-h-screen bg-[#AED065] flex flex-col items-center py-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8">
       <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-6">{data.cropType}</h1>
-        <p className="text-lg mb-4">Quantity Required: {data.quantity} kg</p>
-        <p className="text-lg mb-4">Details: {data.details}</p>
-        <p className="text-lg mb-4">Location: {data.location}</p>
-        <p className="text-lg mb-4">Status: {data.status}</p>
+        <h1 className="text-3xl font-bold mb-6 text-gray-800">
+          {data.cropType}
+        </h1>
+        <p className="text-lg mb-4 text-gray-800">
+          Quantity Required: {data.quantity} kg
+        </p>
+        <p className="text-lg mb-4 text-gray-800">Details: {data.details}</p>
+        <p className="text-lg mb-4 text-gray-800">Location: {data.location}</p>
+        <p className="text-lg mb-4 text-gray-800">Status: {data.status}</p>
 
         {!existingBid ? (
           <Link
             to={`/farmers/${demandId}/bids/new`}
-            className="bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+            className="bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-700"
           >
             Create a bid
           </Link>
