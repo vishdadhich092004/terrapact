@@ -195,6 +195,7 @@ router.put(
       const demand = await CropDemand.findById(demandId);
       if (!demand) return res.status(404).json({ message: "No Demand Exist" });
       demand.status = "closed";
+      await demand.save();
       res.status(200).json({
         message: "Bid accepted and others rejected",
         bid: acceptedBid,
