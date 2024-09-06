@@ -122,3 +122,12 @@ export const getFarmerContracts = async () => {
   if (!response.ok) throw new Error("Failed to fetch the contracts");
   return response.json();
 };
+
+export const getContractById = async (contractId: string) => {
+  const response = await fetch(`${API_BASE_URL}/api/contracts/${contractId}`, {
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error("Error fetching contract");
+
+  return response.json();
+};

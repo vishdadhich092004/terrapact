@@ -2,8 +2,9 @@ import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import Loader from "../../../components/Loader";
+import { Link } from "react-router-dom";
 
-function MyContracts() {
+function MyContractsForCompany() {
   const {
     data: contracts,
     isLoading,
@@ -49,12 +50,12 @@ function MyContracts() {
             <p className="text-gray-700">
               <strong>Status:</strong> {contract.status}
             </p>
-            {/* <Link
-              to={`/contracts/${contract._id}`}
+            <Link
+              to={`/company/contracts/${contract._id}`}
               className="bg-yellow-400 text-white font-bold px-3 py-3 mt-5"
             >
               View More
-            </Link> */}
+            </Link>
           </div>
         ))}
       </div>
@@ -62,4 +63,4 @@ function MyContracts() {
   );
 }
 
-export default MyContracts;
+export default MyContractsForCompany;

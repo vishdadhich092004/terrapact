@@ -2,8 +2,9 @@ import { useQuery } from "react-query";
 import * as apiClient from "../../../farmer-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import Loader from "../../../components/Loader";
+import { Link } from "react-router-dom";
 
-function MyContractsFarmer() {
+function MyContractsForFarmer() {
   const {
     data: contracts,
     isLoading,
@@ -39,6 +40,12 @@ function MyContractsFarmer() {
             <p className="text-gray-700">Quantity: {contract.quantity} tons</p>
             <p className="text-gray-700">Price: ${contract.agreedPrice}</p>
             <p className="text-gray-700">Status: {contract.status}</p>
+            <Link
+              to={`/farmers/contracts/${contract._id}`}
+              className="bg-yellow-400 text-white font-bold px-3 py-3 mt-5"
+            >
+              View More
+            </Link>
           </div>
         ))}
       </div>
@@ -46,4 +53,4 @@ function MyContractsFarmer() {
   );
 }
 
-export default MyContractsFarmer;
+export default MyContractsForFarmer;

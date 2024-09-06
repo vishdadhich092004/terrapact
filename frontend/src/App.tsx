@@ -16,9 +16,11 @@ import CropDemandDetails from "./pages/Farmer/CropDemands/CropDemandDetails";
 import MyBids from "./pages/Farmer/User/MyBids";
 import AllBidsForADemand from "./pages/Company/Bids/AllBidsForADemand";
 import ViewBid from "./pages/Company/Bids/ViewBid";
-import MyContracts from "./pages/Company/User/MyContracts";
-import MyContractsFarmer from "./pages/Farmer/User/MyContractsFarmer";
+import MyContractsForCompany from "./pages/Company/User/MyContractsForCompany";
+import MyContractsForFarmer from "./pages/Farmer/User/MyContractsForFarmer";
 import PlaceBid from "./pages/Farmer/Bids/PlaceBid";
+import ViewContractForCompany from "./pages/Company/Contracts/ViewContractForCompany";
+import ViewContractForFarmer from "./pages/Farmer/Contracts/ViewContractForFarmer";
 function App() {
   return (
     <BrowserRouter>
@@ -116,8 +118,24 @@ function App() {
           path="/company/contracts/my-contracts"
           element={
             <CompanyLayout>
-              <MyContracts />
+              <MyContractsForCompany />
             </CompanyLayout>
+          }
+        />
+        <Route
+          path="/company/contracts/:contractId"
+          element={
+            <CompanyLayout>
+              <ViewContractForCompany />
+            </CompanyLayout>
+          }
+        />
+        <Route
+          path="/farmers/contracts/:contractId"
+          element={
+            <FarmerLayout>
+              <ViewContractForFarmer />
+            </FarmerLayout>
           }
         />
 
@@ -125,7 +143,7 @@ function App() {
           path="/farmers/contracts/my-contracts"
           element={
             <FarmerLayout>
-              <MyContractsFarmer />
+              <MyContractsForFarmer />
             </FarmerLayout>
           }
         />

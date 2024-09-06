@@ -166,6 +166,7 @@ export const updateContractStatus = async (
     `${API_BASE_URL}/api/contracts/${contractId}/status`,
     {
       credentials: "include",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
