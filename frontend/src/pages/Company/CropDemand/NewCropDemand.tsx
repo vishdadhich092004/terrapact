@@ -9,6 +9,7 @@ export type CropDemandData = {
   quantity: number;
   location: string;
   details: string;
+  lastDate: Date;
 };
 
 function NewCropDemand() {
@@ -108,6 +109,21 @@ function NewCropDemand() {
             {errors.details && (
               <span className="text-red-500 text-sm">
                 {errors.details.message}
+              </span>
+            )}
+          </label>
+          <label className="block">
+            <span className="text-gray-800">Last Date</span>
+            <input
+              type="date"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              {...register("lastDate", {
+                required: "Last Date cannot be empty",
+              })}
+            />
+            {errors.lastDate && (
+              <span className="text-red-500 text-sm">
+                {errors.lastDate.message}
               </span>
             )}
           </label>

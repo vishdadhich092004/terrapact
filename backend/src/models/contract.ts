@@ -12,9 +12,10 @@ const contractSchema = new Schema({
   bidId: { type: Schema.Types.ObjectId, ref: "Bid", required: true },
   agreedPrice: { type: Number, required: true },
   quantity: { type: Number, required: true },
+  deliveryDate: { type: Date, required: true },
   status: {
     type: String,
-    enum: ["Pending", "Active", "In Progess", "Completed", "Cancelled"],
+    enum: ["Pending", "In Progess", "Completed", "Cancelled"],
     default: "Pending",
   },
   createdAt: { type: Date, default: Date.now },

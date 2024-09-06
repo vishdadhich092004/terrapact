@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import ContractStatusSelect from "../../../components/Company/UpdateContractStatus";
@@ -7,14 +7,14 @@ import Loader from "../../../components/Loader";
 import { useAppContext } from "../../../contexts/AppContext";
 
 function ViewContractForCompany() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { showToast } = useAppContext();
   const { contractId } = useParams<{ contractId: string }>();
+
   const {
     data: contract,
-    isLoading,
-    error,
+    isLoading: isContractLoading,
+    error: contractError,
   } = useQuery<ContractType>(
     ["contract", contractId],
     () => {
@@ -27,25 +27,28 @@ function ViewContractForCompany() {
       enabled: !!contractId, // Ensures the query only runs if contractId is available
     }
   );
+
   const mutation = useMutation(
     (newStatus: string) =>
       apiClient.updateContractStatus(contractId!, newStatus),
     {
       onSuccess: async () => {
         showToast({ message: "Status Updated", type: "SUCCESS" });
-        await queryClient.invalidateQueries("getContractById");
-        navigate(`/company/contracts/my-contracts`);
+        await queryClient.invalidateQueries(["contract", contractId]);
+      },
+      onError: (error: Error) => {
+        showToast({ message: error.message, type: "ERROR" });
       },
     }
   );
 
-  if (isLoading) return <Loader />;
-  if (error || !contract)
-    return <div className="text-red-600">Error loading contract details.</div>;
-
   const handleStatusChange = (newStatus: string) => {
     mutation.mutate(newStatus);
   };
+
+  if (isContractLoading) return <Loader />;
+  if (contractError || !contract)
+    return <div className="text-red-600">Error loading contract details.</div>;
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
@@ -68,9 +71,6 @@ function ViewContractForCompany() {
         <p className="text-gray-700">
           <strong>Price:</strong> ${contract.agreedPrice}
         </p>
-        <p className="text-gray-700">
-          <strong>Status:</strong> {contract.status}
-        </p>
         <div>
           <strong>Update Status:</strong>{" "}
           <ContractStatusSelect
@@ -78,7 +78,9 @@ function ViewContractForCompany() {
             onChange={handleStatusChange}
           />
         </div>
-        {mutation.isLoading && <p>Updating status...</p>}
+        {mutation.isLoading && (
+          <p className="text-gray-700">Updating status...</p>
+        )}
         {mutation.isError && (
           <p className="text-red-600">Error updating status.</p>
         )}

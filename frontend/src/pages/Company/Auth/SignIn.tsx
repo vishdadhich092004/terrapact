@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../../company-api-clients";
@@ -21,7 +21,7 @@ function CompanySignIn() {
     handleSubmit,
   } = useForm<CompanySignInFormData>();
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const mutation = useMutation(apiClient.signInCompany, {
     onSuccess: async () => {

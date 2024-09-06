@@ -4,6 +4,7 @@ import { useAppContext } from "../../../contexts/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import Loader from "../../../components/Loader";
 
 export type EditCropDemandData = {
   cropType: string;
@@ -74,12 +75,7 @@ function EditCropDemand() {
     mutation.mutate(data);
   });
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading...
-      </div>
-    );
+  if (isLoading) return <Loader />;
   if (error)
     return (
       <div className="flex items-center justify-center min-h-screen text-red-500">

@@ -1,11 +1,10 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { getAllCropDemandsForFarmer } from "../../../farmer-api-clients";
 import { CropDemandType } from "../../../../../backend/src/shared/company/types";
 import { Link } from "react-router-dom";
 import Loader from "../../../components/Loader";
 
-const AllCropDemandsForFarmer: React.FC = () => {
+const AllCropDemandsForFarmer = () => {
   const { data, isLoading, error } = useQuery<CropDemandType[]>(
     "crop-demands",
     getAllCropDemandsForFarmer

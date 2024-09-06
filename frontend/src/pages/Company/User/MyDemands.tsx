@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { Link } from "react-router-dom";
+import Loader from "../../../components/Loader";
 
 function MyDemands() {
   const {
@@ -9,7 +10,7 @@ function MyDemands() {
     error,
   } = useQuery("companyDemands", apiClient.getCompanyDemands);
 
-  if (isLoading) return <div className="text-center">Loading...</div>;
+  if (isLoading) return <Loader />;
 
   if (error)
     return (

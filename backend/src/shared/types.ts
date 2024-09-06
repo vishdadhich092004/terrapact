@@ -8,6 +8,7 @@ export type ContractType = {
   cropDemandId: CropDemandType;
   bidId: BidType;
   agreedPrice: number;
+  deliveryDate: Date;
   quantity: number;
   status: string;
   createdAt: Date;

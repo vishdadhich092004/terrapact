@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface LoaderProps {
   size?: "small" | "medium" | "large";
   color?: string;
 }
 
-const Loader: React.FC<LoaderProps> = ({ size = "medium", color = "teal" }) => {
+const Loader = ({ size = "medium", color = "teal" }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {

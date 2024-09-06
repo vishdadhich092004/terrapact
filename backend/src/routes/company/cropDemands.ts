@@ -34,6 +34,7 @@ router.post(
     check("quantity", "Quantity is required").isNumeric().notEmpty(),
     check("location", "Location is required").isString().notEmpty(),
     check("details", "Details is required").isString().notEmpty(),
+    check("lastDate", "Last Date is required").isDate().notEmpty(),
   ],
   verifyToken,
   async (req: AuthRequest, res: Response) => {
@@ -41,7 +42,7 @@ router.post(
     if (!errors.isEmpty())
       return res.status(400).json({ message: errors.array() });
     try {
-      const { cropType, quantity, location, details } = req.body;
+      const { cropType, quantity, location, details, lastDate } = req.body;
 
       if (req.user?.role !== "company")
         return res.status(500).json({ message: "No Permission" });
@@ -51,6 +52,7 @@ router.post(
         quantity,
         location,
         details,
+        lastDate,
       });
 
       await newDemand.save();
@@ -100,7 +102,8 @@ router.put(
   async (req: AuthRequest, res: Response) => {
     try {
       const { cropDemandId } = req.params;
-      const { cropType, quantity, location, requiredBy, details } = req.body;
+      const { cropType, quantity, location, requiredBy, details, lastDate } =
+        req.body;
 
       const updatedDemand = await CropDemand.findByIdAndUpdate(
         cropDemandId,
@@ -110,6 +113,7 @@ router.put(
           location,
           requiredBy,
           details,
+          lastDate,
         },
         { new: true, runValidators: true } // Return the updated document
       );
@@ -172,10 +176,6 @@ router.get(
       const demand = await CropDemand.findById(cropDemandId);
       if (!demand) return res.status(404).json({ message: "No Demand Exists" });
 
-      // Find the bid within the demand's bids array
-      // let bid = demand.bids.find((bid) => bid._id.toString() === bidId);
-      // if (!bid) return res.status(404).json({ message: "Bid not found" });
-
       const bid = await Bid.findById(bidId)
         .populate("farmerId")
         .populate("demandId");
@@ -229,7 +229,8 @@ router.put(
         buyerId: req.user.userId, // Assuming req.user._id is the company's ID
         agreedPrice: acceptedBid.bidAmount,
         quantity: demand.quantity,
-        status: "Active",
+        deliveryDate: demand.lastDate,
+        status: "Pending",
       });
 
       const savedContract = await newContract.save();

@@ -1,4 +1,3 @@
-import React from "react";
 import { useMutation } from "react-query";
 import { createBid } from "../../../farmer-api-clients"; // Adjust the import path as necessary
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +9,7 @@ type BidData = {
   message: string;
 };
 
-const PlaceBid: React.FC = () => {
+const PlaceBid = () => {
   const { demandId } = useParams<{ demandId: string }>();
   const { showToast } = useAppContext();
   const navigate = useNavigate();

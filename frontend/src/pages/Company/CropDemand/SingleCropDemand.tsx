@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import * as apiClient from "../../../company-api-clients";
 import { useAuthContext } from "../../../contexts/AuthContext";
+import Loader from "../../../components/Loader";
 
 function CropDemandDetails() {
   const { isAuthenticated, isCompany, user } = useAuthContext();
@@ -15,7 +16,7 @@ function CropDemandDetails() {
     apiClient.getCropDemandByIdForCompany(cropDemandId!)
   );
 
-  if (isLoading) return <div className="text-center">Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error)
     return (
       <div className="text-center text-red-500">Error loading crop demand</div>
