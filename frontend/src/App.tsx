@@ -11,14 +11,14 @@ import EditCropDemand from "./pages/Company/CropDemand/EditCropDemand";
 import AllCropDemands from "./pages/Company/CropDemand/AllCropDemands";
 import SingleCropDemand from "./pages/Company/CropDemand/SingleCropDemand";
 import MyDemands from "./pages/Company/User/MyDemands";
-import AllCropDemandsForFarmer from "./pages/Farmer/AllCropDemandsForFarmer";
-import CropDemandDetails from "./pages/Farmer/CropDemandDetails";
-import PlaceBid from "./pages/Farmer/PlaceBid";
-import MyBids from "./pages/Farmer/MyBids";
+import AllCropDemandsForFarmer from "./pages/Farmer/CropDemands/AllCropDemandsForFarmer";
+import CropDemandDetails from "./pages/Farmer/CropDemands/CropDemandDetails";
+import MyBids from "./pages/Farmer/User/MyBids";
 import AllBidsForADemand from "./pages/Company/Bids/AllBidsForADemand";
 import ViewBid from "./pages/Company/Bids/ViewBid";
 import MyContracts from "./pages/Company/User/MyContracts";
-import MyContractsFarmer from "./pages/Farmer/MyContractsFarmer";
+import MyContractsFarmer from "./pages/Farmer/User/MyContractsFarmer";
+import PlaceBid from "./pages/Farmer/Bids/PlaceBid";
 function App() {
   return (
     <BrowserRouter>

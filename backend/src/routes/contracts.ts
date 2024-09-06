@@ -34,4 +34,64 @@ router.get(
   }
 );
 
+router.get(
+  "/:contractId",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    const { contractId } = req.params;
+    try {
+      const contract = await Contract.findById(contractId)
+        .populate("bidId")
+        .populate("demandId")
+        .populate("farmerId", "name");
+
+      if (!contract) {
+        return res.status(404).json({ message: "No Contract Found" });
+      }
+
+      return res.status(200).json(contract);
+    } catch (e) {
+      return res.status(500).json({ message: "Error retrieving contract" });
+    }
+  }
+);
+
+router.patch(
+  ":contractId/status",
+  verifyToken,
+  async (req: AuthRequest, res: Response) => {
+    const { contractId } = req.params;
+    const { status } = req.body;
+
+    if (
+      !["pending", "active", "in progress", "completed", "canceled"].includes(
+        status
+      )
+    ) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    try {
+      const contract = await Contract.findById(contractId);
+      if (!contract)
+        return res.status(404).json({ message: "No Contract Found" });
+
+      // only the company is allowed to update the contract status
+      if (contract.companyId._id.toString() !== req.user?.userId.toString())
+        return res.status(403).json({ message: "Unauthorised" });
+
+      contract.status = status;
+      contract.updatedAt = new Date();
+
+      await contract.save();
+
+      return res.status(200).json(contract);
+    } catch (e) {
+      return res
+        .status(500)
+        .json({ message: "Something went wrong at the backend", e });
+    }
+  }
+);
+
 export default router;

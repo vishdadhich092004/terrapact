@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
+import Loader from "../../../components/Loader";
 
 function MyContracts() {
   const {
@@ -9,7 +10,7 @@ function MyContracts() {
     error,
   } = useQuery("companyContracts", apiClient.getCompanyContracts);
 
-  if (isLoading) return <div className="text-gray-800">Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error)
     return <div className="text-red-600">Error loading contracts.</div>;
 
@@ -48,6 +49,12 @@ function MyContracts() {
             <p className="text-gray-700">
               <strong>Status:</strong> {contract.status}
             </p>
+            {/* <Link
+              to={`/contracts/${contract._id}`}
+              className="bg-yellow-400 text-white font-bold px-3 py-3 mt-5"
+            >
+              View More
+            </Link> */}
           </div>
         ))}
       </div>

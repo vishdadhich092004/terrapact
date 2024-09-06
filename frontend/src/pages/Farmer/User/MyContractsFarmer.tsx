@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
-import * as apiClient from "../../farmer-api-clients";
-import { ContractType } from "../../../../backend/src/shared/types";
-import Loader from "../../components/Loader";
+import * as apiClient from "../../../farmer-api-clients";
+import { ContractType } from "../../../../../backend/src/shared/types";
+import Loader from "../../../components/Loader";
 
 function MyContractsFarmer() {
   const {

@@ -1,9 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getCropDemandByIdForFarmer } from "../../farmer-api-clients";
-import { CropDemandType } from "../../../../backend/src/shared/company/types";
-import { useAuthContext } from "../../contexts/AuthContext";
-import Loader from "../../components/Loader";
+import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
+import { CropDemandType } from "../../../../../backend/src/shared/company/types";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import Loader from "../../../components/Loader";
 
 const CropDemandDetails = () => {
   const { user } = useAuthContext();

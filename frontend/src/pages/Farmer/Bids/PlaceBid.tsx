@@ -1,9 +1,9 @@
 import React from "react";
 import { useMutation } from "react-query";
-import { createBid } from "../../farmer-api-clients"; // Adjust the import path as necessary
+import { createBid } from "../../../farmer-api-clients"; // Adjust the import path as necessary
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAppContext } from "../../contexts/AppContext"; // Adjust the import path as necessary
+import { useAppContext } from "../../../contexts/AppContext"; // Adjust the import path as necessary
 
 type BidData = {
   bidAmount: number;

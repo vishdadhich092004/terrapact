@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import * as apiClient from "../../farmer-api-clients";
-import Loader from "../../components/Loader";
+import * as apiClient from "../../../farmer-api-clients";
+import Loader from "../../../components/Loader";
 
 type Bid = {
   _id: string;

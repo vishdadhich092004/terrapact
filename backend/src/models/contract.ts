@@ -14,7 +14,7 @@ const contractSchema = new Schema({
   quantity: { type: Number, required: true },
   status: {
     type: String,
-    enum: ["Pending", "Active", "Completed", "Cancelled"],
+    enum: ["Pending", "Active", "In Progess", "Completed", "Cancelled"],
     default: "Pending",
   },
   createdAt: { type: Date, default: Date.now },
