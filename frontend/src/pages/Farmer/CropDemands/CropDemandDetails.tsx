@@ -4,7 +4,6 @@ import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
 import { CropDemandType } from "../../../../../backend/src/shared/company/types";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import Loader from "../../../components/Loader";
-
 const CropDemandDetails = () => {
   const { user } = useAuthContext();
   const { demandId } = useParams<{ demandId: string }>();
@@ -18,6 +17,10 @@ const CropDemandDetails = () => {
     (bid) => bid.farmerId.toString() === user?._id.toString()
   );
 
+  // Determine if the demand is closed or open
+  const isBidClosed = existingBid && 
+    (existingBid.status === "accepted" || existingBid.status === "rejected");
+
   if (isLoading) return <Loader />;
   if (error || !data)
     return (
@@ -25,28 +28,55 @@ const CropDemandDetails = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8">
-      <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
+      <div className="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">
+        <h1 className="text-4xl font-extrabold mb-6 text-gray-800">
           {data.cropType}
         </h1>
-        <p className="text-lg mb-4 text-gray-800">
-          Quantity Required: {data.quantity} kg
-        </p>
-        <p className="text-lg mb-4 text-gray-800">Details: {data.details}</p>
-        <p className="text-lg mb-4 text-gray-800">Location: {data.location}</p>
-        <p className="text-lg mb-4 text-gray-800">Status: {data.status}</p>
+        <div className="mb-4">
+          <span
+            className={`px-3 py-1 rounded-full text-white font-semibold ${
+              isBidClosed ? "bg-red-500" : "bg-green-500"
+            }`}
+          >
+            {isBidClosed ? "Closed" : "Open"}
+          </span>
+        </div>
+        <div className="text-lg space-y-4 text-gray-800">
+          <p>
+            <span className="font-bold">Quantity Required:</span>{" "}
+            {data.quantity} kg
+          </p>
+          <p>
+            <span className="font-bold">Details:</span> {data.details}
+          </p>
+          <p>
+            <span className="font-bold">Location:</span> {data.location}
+          </p>
+          <p>
+            <span className="font-bold">Status:</span>{" "}
+            <span
+              className={`font-bold ${
+                isBidClosed ? "text-red-600" : "text-green-600"
+              }`}
+            >
+              {isBidClosed ? "Closed" : "Open"}
+            </span>
+          </p>
+        </div>
 
         {!existingBid ? (
-          <Link
-            to={`/farmers/${demandId}/bids/new`}
-            className="bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-700"
-          >
-            Create a bid
-          </Link>
+          <div className="mt-6">
+            <Link
+              to={`/farmers/${demandId}/bids/new`}
+              className="bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-300"
+            >
+              Create a Bid
+            </Link>
+          </div>
         ) : (
-          <div className="mt-4">
-            <h2 className="text-lg font-semibold text-green-600">
+          <div className="mt-6 bg-gray-100 p-4 rounded-lg">
+            <h2 className="text-xl font-semibold text-green-600">
               You have already placed a bid
             </h2>
             <p className="text-md mt-2">
@@ -60,7 +90,8 @@ const CropDemandDetails = () => {
                     : "text-gray-600"
                 }`}
               >
-                {existingBid.status}
+                {existingBid.status.charAt(0).toUpperCase() +
+                  existingBid.status.slice(1)}
               </span>
             </p>
           </div>
