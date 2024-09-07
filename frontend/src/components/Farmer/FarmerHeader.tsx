@@ -1,46 +1,42 @@
 import { useAuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import SignOutButton from "../Buttons/SignOutButton";
+import { UserCircle } from "lucide-react";
 
 function FarmerHeader() {
-  const { user, isFarmer, isAuthenticated } = useAuthContext();
+  const { isFarmer, isAuthenticated } = useAuthContext();
 
   return (
-    <header className="bg-green-600 text-white p-4 flex justify-between items-center">
+    <header className="bg-green-500 text-white p-4 flex justify-between items-center">
       <div>
         <Link to="/" className="text-xl font-bold">
           Farmer's Dashboard
         </Link>
       </div>
 
-      <nav className="flex space-x-4">
+      <nav className="flex items-center space-x-6">
         {isAuthenticated && isFarmer && (
           <>
             <Link to="/farmers/crop-demands" className="hover:underline">
               Marketplace
             </Link>
-
             <Link to="/farmers/my-bids" className="hover:underline">
               My Bids
             </Link>
-          </>
-        )}
-        {/* <Link to="/new-crop" className="hover:underline">
-          List a Crop
-        </Link> */}
-
-        {/* User Authentication Links */}
-        {isFarmer ? (
-          <>
-            <span className="font-semibold">{`Hello, ${user?.name}`}</span>
             <Link
               to="/farmers/contracts/my-contracts"
               className="hover:underline"
             >
               My Contracts
             </Link>
-            <SignOutButton />
           </>
+        )}
+
+        {isFarmer ? (
+          <div className="flex items-center space-x-4">
+            <UserCircle className="w-6 h-6" />
+            <SignOutButton />
+          </div>
         ) : (
           <>
             <Link to="/farmer/login" className="hover:underline">

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../farmer-api-clients";
 import { useAppContext } from "../../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 const SignOutButton = () => {
   const navigate = useNavigate();
@@ -27,9 +28,9 @@ const SignOutButton = () => {
   return (
     <button
       onClick={handleClick}
-      className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition-colors duration-300 text-sm uppercase tracking-wide"
+      className="text-white hover:text-gray-200 transition-colors duration-300"
     >
-      Sign Out
+      <LogOut className="w-6 h-6" />
     </button>
   );
 };
