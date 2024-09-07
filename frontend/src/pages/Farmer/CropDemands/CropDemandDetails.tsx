@@ -18,7 +18,8 @@ const CropDemandDetails = () => {
   );
 
   // Determine if the demand is closed or open
-  const isBidClosed = existingBid && 
+  const isBidClosed =
+    existingBid &&
     (existingBid.status === "accepted" || existingBid.status === "rejected");
 
   if (isLoading) return <Loader />;
@@ -53,22 +54,12 @@ const CropDemandDetails = () => {
           <p>
             <span className="font-bold">Location:</span> {data.location}
           </p>
-          <p>
-            <span className="font-bold">Status:</span>{" "}
-            <span
-              className={`font-bold ${
-                isBidClosed ? "text-red-600" : "text-green-600"
-              }`}
-            >
-              {isBidClosed ? "Closed" : "Open"}
-            </span>
-          </p>
         </div>
 
         {!existingBid ? (
           <div className="mt-6">
             <Link
-              to={`/farmers/${demandId}/bids/new`}
+              to={/farmers/${demandId}/bids/new}
               className="bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-300"
             >
               Create a Bid
