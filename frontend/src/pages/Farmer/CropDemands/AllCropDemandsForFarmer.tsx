@@ -16,6 +16,14 @@ const AllCropDemandsForFarmer = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8">
+      <a
+        href="http://13.126.86.86:5000"
+        target="_blank"
+        className="bg-yellow-500 py-3 px-3 font-bold text-white"
+      >
+        Modellll
+      </a>
+
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
         Available Crop Demands
       </h1>
