@@ -1,10 +1,11 @@
+import React from "react";
 import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import * as apiClient from "../../../farmer-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
-import Loader from "../../../components/Loader";
+import { ClipboardList, DollarSign, User, Scale, Calendar } from "lucide-react";
 
-function ViewContractForFarmer() {
+const ViewContractForFarmer: React.FC = () => {
   const { contractId } = useParams<{ contractId: string }>();
   const {
     data: contract,
@@ -19,67 +20,88 @@ function ViewContractForFarmer() {
       return Promise.reject("No contract ID provided");
     },
     {
-      enabled: !!contractId, // Ensures the query only runs if contractId is available
+      enabled: !!contractId,
     }
   );
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen text-green-700">
+        Loading...
+      </div>
+    );
   if (error || !contract)
-    return <div className="text-red-600">Error loading contract details.</div>;
+    return (
+      <div className="text-red-600 text-center py-8">
+        Error loading contract details.
+      </div>
+    );
+
+  const contractDetails = [
+    {
+      icon: ClipboardList,
+      label: "Crop Type",
+      value: contract.cropDemandId.cropType,
+    },
+    { icon: User, label: "Farmer", value: contract.farmerId.name },
+    { icon: Scale, label: "Quantity", value: `${contract.quantity} tons` },
+    { icon: DollarSign, label: "Price", value: `$${contract.agreedPrice}` },
+    {
+      icon: Calendar,
+      label: "Bid Date",
+      value: new Date(contract.createdAt).toLocaleDateString(),
+    },
+  ];
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-teal-600">
-        Contract Details
-      </h1>
-      <div className="space-y-4 bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Contract ID: {contract._id}
-        </h2>
-        <p className="text-gray-700">
-          <strong>Crop Type:</strong> {contract.cropDemandId.cropType}
-        </p>
-        <p className="text-gray-700">
-          <strong>Farmer:</strong> {contract.farmerId.name}
-        </p>
-        <p className="text-gray-700">
-          <strong>Quantity:</strong> {contract.quantity} tons
-        </p>
-        <p className="text-gray-700">
-          <strong>Price:</strong> ${contract.agreedPrice}
-        </p>
-        <p className="text-gray-700">
-          <strong>Status:</strong> {contract.status}
-        </p>
-        <div>
-          <strong>Update Status:</strong>{" "}
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow bg-green-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl font-extrabold text-green-800 sm:text-4xl mb-8 text-center">
+            Contract Details
+          </h1>
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg border border-green-200">
+            <div className="px-4 py-5 sm:px-6 bg-green-100">
+              <h2 className="text-lg leading-6 font-medium text-green-800">
+                Contract ID: {contract._id}
+              </h2>
+              <p className="mt-1 max-w-2xl text-sm text-green-600">
+                Current Status: {contract.status}
+              </p>
+            </div>
+            <div className="border-t border-green-200">
+              <dl>
+                {contractDetails.map((detail, index) => (
+                  <div
+                    key={index}
+                    className={`${
+                      index % 2 === 0 ? "bg-green-50" : "bg-white"
+                    } px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6`}
+                  >
+                    <dt className="text-sm font-medium text-green-600 flex items-center">
+                      <detail.icon className="h-5 w-5 mr-2 text-green-500" />
+                      {detail.label}
+                    </dt>
+                    <dd className="mt-1 text-sm text-green-800 sm:mt-0 sm:col-span-2">
+                      {detail.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              to="/farmers/contracts/my-contracts"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+            >
+              Back to Contracts
+            </Link>
+          </div>
         </div>
-
-        <h3 className="text-lg font-semibold mt-4 text-gray-800">
-          Bid Details
-        </h3>
-        <p className="text-gray-700">
-          <strong>Bid Amount:</strong> ${contract.agreedPrice}
-        </p>
-        <p className="text-gray-700">
-          <strong>Bid Placed By:</strong> {contract.farmerId.name}
-        </p>
-        <p className="text-gray-700">
-          <strong>Bid Date:</strong>{" "}
-          {new Date(contract.createdAt).toLocaleDateString()}
-        </p>
-        <p className="text-gray-700">
-          <strong>Bid Status:</strong> {contract.status}
-        </p>
-      </div>
-      <Link
-        to="/farmers/contracts/my-contracts"
-        className="bg-teal-600 text-white font-bold px-4 py-2 mt-5 inline-block rounded"
-      >
-        Back to Contracts
-      </Link>
+      </main>
     </div>
   );
-}
+};
 
 export default ViewContractForFarmer;

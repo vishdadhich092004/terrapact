@@ -1,22 +1,24 @@
+import React from "react";
 import { useMutation } from "react-query";
 import { createBid } from "../../../farmer-api-clients"; // Adjust the import path as necessary
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAppContext } from "../../../contexts/AppContext"; // Adjust the import path as necessary
+import { DollarSign, MessageSquare } from "lucide-react";
 
 type BidData = {
   bidAmount: number;
   message: string;
 };
 
-const PlaceBid = () => {
+const PlaceBid: React.FC = () => {
   const { demandId } = useParams<{ demandId: string }>();
   const { showToast } = useAppContext();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<BidData>();
 
   const mutation = useMutation({
@@ -41,59 +43,86 @@ const PlaceBid = () => {
     mutation.mutate(data);
   });
 
-  const buttonStyles = isSubmitSuccessful
-    ? "w-full bg-slate-400 text-white py-2 rounded-md"
-    : "w-full bg-blue-600 text-white py-2 rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105";
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <form className="space-y-4" onSubmit={onSubmit}>
-          <h2 className="text-3xl font-bold text-center text-blue-600">
-            Place a Bid
-          </h2>
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Place a Bid
+            </h2>
+          </div>
+          <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <label htmlFor="bid-amount" className="sr-only">
+                  Bid Amount
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <DollarSign
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <input
+                    id="bid-amount"
+                    type="number"
+                    step="0.01"
+                    {...register("bidAmount", {
+                      required: "Bid amount is required",
+                      min: {
+                        value: 1,
+                        message: "Bid amount must be greater than 0",
+                      },
+                    })}
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Bid Amount"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="message" className="sr-only">
+                  Message
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <MessageSquare
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <textarea
+                    id="message"
+                    {...register("message", {
+                      required: "Message cannot be empty",
+                    })}
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Your message"
+                    rows={4}
+                  />
+                </div>
+              </div>
+            </div>
 
-          <label className="block">
-            <span className="text-slate-800">Bid Amount</span>
-            <input
-              type="number"
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-              {...register("bidAmount", {
-                required: "Bid amount is required",
-                min: { value: 1, message: "Bid amount must be greater than 0" },
-              })}
-            />
-            {errors.bidAmount && (
-              <span className="text-red-500 text-sm">
-                {errors.bidAmount.message}
-              </span>
+            {(errors.bidAmount || errors.message) && (
+              <div className="text-red-500 text-sm mt-2">
+                {errors.bidAmount?.message || errors.message?.message}
+              </div>
             )}
-          </label>
 
-          <label className="block">
-            <span className="text-slate-800">Message</span>
-            <textarea
-              className="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-              {...register("message", {
-                required: "Message cannot be empty",
-              })}
-            />
-            {errors.message && (
-              <span className="text-red-500 text-sm">
-                {errors.message.message}
-              </span>
-            )}
-          </label>
-
-          <button
-            type="submit"
-            disabled={mutation.isLoading}
-            className={buttonStyles}
-          >
-            {mutation.isLoading ? "Submitting..." : "Submit Bid"}
-          </button>
-        </form>
-      </div>
+            <div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                {isSubmitting ? "Submitting..." : "Submit Bid"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
   );
 };

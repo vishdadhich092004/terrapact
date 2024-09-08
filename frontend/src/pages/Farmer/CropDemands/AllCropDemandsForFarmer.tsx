@@ -1,41 +1,39 @@
+import React from "react";
 import { useQuery } from "react-query";
 import { getAllCropDemandsForFarmer } from "../../../farmer-api-clients"; // Adjust the import path if necessary
 import { CropDemandType } from "../../../../../backend/src/shared/company/types"; // Adjust the path as needed
 import { Link } from "react-router-dom";
-import Loader from "../../../components/Loader"; // Assuming you have a Loader component for loading state
+import { Sprout, DollarSign, Weight } from "lucide-react";
 
-const AllCropDemandsForFarmer = () => {
+const AllCropDemandsForFarmer: React.FC = () => {
   const { data, isLoading, error } = useQuery<CropDemandType[]>(
     "crop-demands",
     getAllCropDemandsForFarmer
   );
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   if (error)
-    return <div className="text-red-600">Error loading crop demands</div>;
+    return (
+      <div className="text-red-600 text-center py-8">
+        Error loading crop demands
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
-      <h1 className="text-4xl font-extrabold mb-8 text-gray-900">
-        Available Crop Demands
-      </h1>
-      <div className="w-full max-w-5xl bg-white p-8 rounded-lg shadow-xl">
-        <a
-          href="http://13.126.86.86:5000"
-          target="_blank"
-          className="bg-yellow-500 py-3 px-3 font-bold text-white"
-        >
-          Modellll
-        </a>
-
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">
-          Available Crop Demands
-        </h1>
-        <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
+            Available Crop Demands
+          </h1>
           {data && data.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {data.map((demand) => {
-                // Determine the status color based on demand status
                 const statusColor =
                   demand.status === "open"
                     ? "bg-green-500"
@@ -46,40 +44,38 @@ const AllCropDemandsForFarmer = () => {
                 return (
                   <div
                     key={demand._id}
-                    className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 relative"
+                    className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:shadow-xl hover:-translate-y-1"
                   >
-                    <div className="relative">
-                      <img
-                        src="https://via.placeholder.com/300"
-                        alt={demand.cropType}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div
-                        className={`absolute top-2 right-2 px-3 py-1 text-white font-semibold rounded-full ${statusColor}`}
-                      >
-                        {demand.status}
-                      </div>
-                    </div>
                     <div className="p-6">
-                      <h5 className="text-2xl font-semibold text-gray-800 mb-2">
-                        {demand.cropType}
-                      </h5>
-                      <p className="text-gray-600 mb-2">
-                        Quantity Required:{" "}
-                        <span className="font-medium">
-                          {demand.quantity} kg
+                      <div className="flex justify-between items-center mb-4">
+                        <h5 className="text-2xl font-semibold text-gray-800">
+                          {demand.cropType}
+                        </h5>
+                        <span
+                          className={`px-3 py-1 text-xs font-semibold text-white rounded-full ${statusColor}`}
+                        >
+                          {demand.status}
                         </span>
-                      </p>
-                      <p className="text-gray-600 mb-4">
-                        Price:{" "}
-                        <span className="font-medium">
-                          ${demand.details} per kg
-                        </span>
-                      </p>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-gray-600 flex items-center">
+                          <Weight className="h-5 w-5 mr-2 text-green-600" />
+                          <span className="font-medium">
+                            {demand.quantity} kg
+                          </span>
+                        </p>
+                        <p className="text-gray-600 flex items-center">
+                          <DollarSign className="h-5 w-5 mr-2 text-green-600" />
+                          <span className="font-medium">
+                            ${demand.details} per kg
+                          </span>
+                        </p>
+                      </div>
                       <Link
                         to={`/farmers/crop-demands/${demand._id}`}
-                        className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md text-center font-semibold mt-4 hover:bg-blue-700 transition-colors"
+                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
                       >
+                        <Sprout className="h-5 w-5 mr-2" />
                         View More
                       </Link>
                     </div>
@@ -88,12 +84,12 @@ const AllCropDemandsForFarmer = () => {
               })}
             </div>
           ) : (
-            <div className="text-gray-600 text-center">
+            <div className="text-gray-600 text-center bg-white p-8 rounded-lg shadow-md">
               No crop demands available.
             </div>
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 };
