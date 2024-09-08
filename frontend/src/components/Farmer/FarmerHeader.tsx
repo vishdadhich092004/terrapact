@@ -44,6 +44,13 @@ const FarmerHeader = () => {
                   >
                     Crop Recommendation
                   </a>
+                  <a
+                    href="http://3.111.53.110:8502/"
+                    target="_blank"
+                    className="text-base font-medium text-white hover:text-green-200"
+                  >
+                    Plant Disease Detection
+                  </a>
                 </>
               )}
             </div>
