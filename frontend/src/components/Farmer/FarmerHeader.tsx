@@ -37,6 +37,13 @@ const FarmerHeader = () => {
                   >
                     My Contracts
                   </Link>
+                  <a
+                    href="http://13.232.145.198:5000"
+                    target="_blank"
+                    className="text-base font-medium text-white hover:text-green-200"
+                  >
+                    Crop Recommendation
+                  </a>
                 </>
               )}
             </div>
