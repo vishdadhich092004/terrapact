@@ -6,10 +6,16 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        customGreen: '#738A41E8',
+      animation: {
+        fadeIn: 'fadeIn 1s ease-in forwards',
       },
-    },
-  },
-  plugins: [],
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+      plugins: [],
+    }
+  }
 };

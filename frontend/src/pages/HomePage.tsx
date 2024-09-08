@@ -1,71 +1,44 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import Header from "../components/HomePage/Header";
+import Footer from "../components/HomePage/Footer";
+import Hero from "../components/HomePage/Hero";
+import OptionCard from "../components/HomePage/OptionCard";
+import CallToAction from "../components/HomePage/CallToAction";
 
-function HomePage() {
+const Home: React.FC = () => {
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      {/* Farmer Section */}
-      <div
-        className="flex-1 flex items-center justify-center bg-cover bg-center min-h-[50vh] md:min-h-screen"
-        style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1527847263472-aa5338d178b8?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
-        }}
-      >
-        <div className="bg-black bg-opacity-30 p-8 rounded-lg text-center backdrop-blur-sm">
-          <h2 className="text-3xl font-bold text-white mb-4 text-shadow">
-            Are you a Farmer?
-          </h2>
-          <p className="text-lg text-white mb-6 text-shadow">
-            Login or Signup to get started
-          </p>
-          <div className="space-x-4">
-            <Link
-              to="/farmer/login"
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300"
-            >
-              Login
-            </Link>
-            <Link
-              to="/farmer/register"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300"
-            >
-              Signup
-            </Link>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        <Hero />
+        <section className="py-16 bg-gray-200">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              Choose Your Path
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <OptionCard
+                title="For Companies"
+                description="Raise a demand for crops and find the best bids from experienced farmers."
+                link="/company"
+                icon="office-building"
+                gradient="bg-gradient-to-br from-indigo-500 to-indigo-600"
+              />
+              <OptionCard
+                title="For Farmers"
+                description="Bid on crop contracts, secure deals, and maximize your income."
+                link="/farmer"
+                icon="tractor"
+                gradient="bg-gradient-to-br from-green-500 to-green-600"
+              />
+            </div>
           </div>
-        </div>
-      </div>
-
-      {/* Company/Org Section */}
-      <div
-        className="flex-1 flex items-center justify-center bg-cover bg-center min-h-[50vh] md:min-h-screen"
-        style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
-        }}
-      >
-        <div className="bg-black bg-opacity-30 p-8 rounded-lg text-center backdrop-blur-sm">
-          <h2 className="text-3xl font-bold text-white mb-4 text-shadow">
-            Are you a Company/Org?
-          </h2>
-          <p className="text-lg text-white mb-6 text-shadow">
-            Login or Signup to get started
-          </p>
-          <div className="space-x-4">
-            <Link
-              to="/company/login"
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300"
-            >
-              Login
-            </Link>
-            <Link
-              to="/company/register"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300"
-            >
-              Signup
-            </Link>
-          </div>
-        </div>
-      </div>
+        </section>
+        <CallToAction />
+      </main>
+      <Footer />
     </div>
   );
-}
+};
 
-export default HomePage;
+export default Home;

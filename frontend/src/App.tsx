@@ -21,11 +21,15 @@ import MyContractsForFarmer from "./pages/Farmer/User/MyContractsForFarmer";
 import PlaceBid from "./pages/Farmer/Bids/PlaceBid";
 import ViewContractForCompany from "./pages/Company/Contracts/ViewContractForCompany";
 import ViewContractForFarmer from "./pages/Farmer/Contracts/ViewContractForFarmer";
+import FarmerPage from "./pages/Farmer/FarmerPage";
+import CompanyPage from "./pages/Company/CompanyPage";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/farmer" element={<FarmerPage />} />
+        <Route path="/company" element={<CompanyPage />} />
         <Route
           path="/farmer/login"
           element={
