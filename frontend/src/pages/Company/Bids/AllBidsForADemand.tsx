@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { Link, useParams } from "react-router-dom";

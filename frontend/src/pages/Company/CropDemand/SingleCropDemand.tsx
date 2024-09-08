@@ -77,7 +77,7 @@ function CropDemandDetails() {
         <div className="mt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
           {isOwner && (
             <Link
-              className="w-full sm:w-auto block bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-center hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center justify-center"
+              className="w-full sm:w-auto  bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-center hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center justify-center"
               to={`/crop-demands/${cropDemandId}/edit`}
             >
               <Edit className="w-5 h-5 mr-2" />
@@ -86,7 +86,7 @@ function CropDemandDetails() {
           )}
           <Link
             to={`bids`}
-            className="w-full sm:w-auto block bg-blue-500 text-white font-bold py-3 px-6 rounded-full text-center hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg flex items-center justify-center"
+            className="w-full sm:w-auto  bg-blue-500 text-white font-bold py-3 px-6 rounded-full text-center hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg flex items-center justify-center"
           >
             <ListFilter className="w-5 h-5 mr-2" />
             See All Bids
