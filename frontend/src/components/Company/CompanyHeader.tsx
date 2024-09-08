@@ -36,24 +36,6 @@ const Header = () => {
                   </Link>
                 </>
               )}
-              <Link
-                to=""
-                className="text-base font-medium text-white hover:text-blue-200"
-              >
-                Services
-              </Link>
-              <Link
-                to=""
-                className="text-base font-medium text-white hover:text-blue-200"
-              >
-                About
-              </Link>
-              <Link
-                to=""
-                className="text-base font-medium text-white hover:text-blue-200"
-              >
-                Contact
-              </Link>
             </div>
           </div>
           <div className="ml-10 space-x-4">

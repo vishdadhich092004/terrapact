@@ -10,10 +10,10 @@ import {
   CheckCircle,
   XCircle,
   ArrowLeft,
-  DollarSign,
   User,
   Calendar,
   TrendingUp,
+  IndianRupeeIcon,
 } from "lucide-react";
 
 function ViewContractForCompany() {
@@ -103,9 +103,9 @@ function ViewContractForCompany() {
                   value={`${contract.quantity} tons`}
                 />
                 <InfoItem
-                  icon={<DollarSign />}
+                  icon={<IndianRupeeIcon />}
                   label="Price"
-                  value={`$${contract.agreedPrice}`}
+                  value={`${contract.agreedPrice}`}
                 />
               </div>
               <div className="mt-8">
@@ -143,9 +143,9 @@ function ViewContractForCompany() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem
-                icon={<DollarSign />}
+                icon={<IndianRupeeIcon />}
                 label="Bid Amount"
-                value={`$${contract.agreedPrice}`}
+                value={`${contract.agreedPrice}`}
               />
               <InfoItem
                 icon={<User />}

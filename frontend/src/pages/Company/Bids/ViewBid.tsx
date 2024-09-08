@@ -1,7 +1,14 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import * as apiClient from "../../../company-api-clients";
-import { Loader2, User, DollarSign, MapPin, Crop, Info } from "lucide-react";
+import {
+  Loader2,
+  User,
+  IndianRupeeIcon,
+  MapPin,
+  Crop,
+  Info,
+} from "lucide-react";
 import AcceptBidButton from "../../../components/Buttons/AcceptBidButton";
 import RejectBidButton from "../../../components/Buttons/RejectBidButton";
 
@@ -62,8 +69,8 @@ function ViewBid() {
             <strong>Farmer:</strong> {bid.farmerId.name}
           </p>
           <p className="text-blue-700 flex items-center">
-            <DollarSign className="w-5 h-5 mr-2 text-blue-600" />
-            <strong>Price:</strong> ${bid.bidAmount}
+            <IndianRupeeIcon className="w-5 h-5 mr-2 text-blue-600" />
+            <strong>Price:</strong> {bid.bidAmount}
           </p>
         </div>
       </div>

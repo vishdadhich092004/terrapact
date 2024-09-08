@@ -45,7 +45,7 @@ function MyContractsForFarmer() {
               <strong>Quantity:</strong> {contract.quantity} tons
             </p>
             <p className="text-green-700">
-              <strong>Price:</strong> ${contract.agreedPrice}
+              <strong>Price:</strong> {contract.agreedPrice}
             </p>
             <p className="text-green-700">
               <strong>Status:</strong>{" "}

@@ -3,7 +3,8 @@ import { useQuery } from "react-query";
 import { getAllCropDemandsForFarmer } from "../../../farmer-api-clients"; // Adjust the import path if necessary
 import { CropDemandType } from "../../../../../backend/src/shared/company/types"; // Adjust the path as needed
 import { Link } from "react-router-dom";
-import { Sprout, DollarSign, Weight } from "lucide-react";
+import { Sprout, DiamondPercentIcon, Weight } from "lucide-react";
+import Loader from "../../../components/Loader";
 
 const AllCropDemandsForFarmer: React.FC = () => {
   const { data, isLoading, error } = useQuery<CropDemandType[]>(
@@ -11,12 +12,7 @@ const AllCropDemandsForFarmer: React.FC = () => {
     getAllCropDemandsForFarmer
   );
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+  if (isLoading) return <Loader />;
   if (error)
     return (
       <div className="text-red-600 text-center py-8">
@@ -61,14 +57,12 @@ const AllCropDemandsForFarmer: React.FC = () => {
                         <p className="text-gray-600 flex items-center">
                           <Weight className="h-5 w-5 mr-2 text-green-600" />
                           <span className="font-medium">
-                            {demand.quantity} kg
+                            {demand.quantity} tons
                           </span>
                         </p>
                         <p className="text-gray-600 flex items-center">
-                          <DollarSign className="h-5 w-5 mr-2 text-green-600" />
-                          <span className="font-medium">
-                            ${demand.details} per kg
-                          </span>
+                          <DiamondPercentIcon className="h-5 w-5 mr-2 text-green-600" />
+                          <span className="font-medium">{demand.details}</span>
                         </p>
                       </div>
                       <Link

@@ -62,8 +62,7 @@ function MyContractsForCompany() {
               tons
             </p>
             <p className="text-blue-800 mb-2">
-              <span className="font-medium">Price:</span> $
-              {contract.agreedPrice}
+              <span className="font-medium">Price:</span> {contract.agreedPrice}
             </p>
             <StatusProgressBar status={contract.status} />
             <Link

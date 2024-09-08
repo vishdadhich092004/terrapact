@@ -4,7 +4,14 @@ import { useQuery } from "react-query";
 import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
 import { CropDemandType } from "../../../../../backend/src/shared/company/types";
 import { useAuthContext } from "../../../contexts/AuthContext";
-import { Sprout, Weight, MapPin, DollarSign } from "lucide-react";
+import {
+  Sprout,
+  Weight,
+  MapPin,
+  DollarSign,
+  DiamondPercentIcon,
+} from "lucide-react";
+import Loader from "../../../components/Loader";
 
 const CropDemandDetails: React.FC = () => {
   const { user } = useAuthContext();
@@ -22,12 +29,7 @@ const CropDemandDetails: React.FC = () => {
     existingBid &&
     (existingBid.status === "accepted" || existingBid.status === "rejected");
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+  if (isLoading) return <Loader />;
   if (error || !data)
     return (
       <div className="text-red-600 text-center py-8">
@@ -59,7 +61,7 @@ const CropDemandDetails: React.FC = () => {
               <span className="ml-2">{data.quantity} kg</span>
             </p>
             <p className="flex items-center">
-              <DollarSign className="h-6 w-6 mr-3 text-green-600" />
+              <DiamondPercentIcon className="h-6 w-6 mr-3 text-green-600" />
               <span className="font-bold">Details:</span>{" "}
               <span className="ml-2">{data.details}</span>
             </p>

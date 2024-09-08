@@ -3,7 +3,13 @@ import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import * as apiClient from "../../../farmer-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
-import { ClipboardList, DollarSign, User, Scale, Calendar } from "lucide-react";
+import {
+  ClipboardList,
+  IndianRupeeIcon,
+  User,
+  Scale,
+  Calendar,
+} from "lucide-react";
 
 const ViewContractForFarmer: React.FC = () => {
   const { contractId } = useParams<{ contractId: string }>();
@@ -45,7 +51,11 @@ const ViewContractForFarmer: React.FC = () => {
     },
     { icon: User, label: "Farmer", value: contract.farmerId.name },
     { icon: Scale, label: "Quantity", value: `${contract.quantity} tons` },
-    { icon: DollarSign, label: "Price", value: `$${contract.agreedPrice}` },
+    {
+      icon: IndianRupeeIcon,
+      label: "Price",
+      value: `${contract.agreedPrice}`,
+    },
     {
       icon: Calendar,
       label: "Bid Date",

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ChevronDown,
-  ClipboardList,
-  BarChart,
-  PieChart,
-  Truck,
-} from "lucide-react";
+import { ChevronDown, Dumbbell, BarChart, PieChart, Truck } from "lucide-react";
 import FarmerCTA from "../../components/Farmer/FarmerCta";
 import FarmerHero from "../../components/Farmer/FarmerHero";
 import FarmerTestimonials from "../../components/Farmer/FarmerTestimonials";
@@ -19,7 +13,7 @@ const FarmerPage: React.FC = () => {
       title: "Contract Bidding",
       description:
         "Access and bid on high-value crop contracts from top companies.",
-      icon: ClipboardList,
+      icon: Dumbbell,
       color: "indigo",
     },
     {

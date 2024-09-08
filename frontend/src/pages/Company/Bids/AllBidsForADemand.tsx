@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { Link, useParams } from "react-router-dom";
 import { BidType } from "../../../../../backend/src/shared/farmer/types";
-import { Loader2, User, DollarSign, Eye } from "lucide-react";
+import { Loader2, User, Eye, IndianRupeeIcon } from "lucide-react";
 
 function AllBidsForADemand() {
   const { demandId } = useParams<{ demandId: string }>();
@@ -48,8 +48,8 @@ function AllBidsForADemand() {
                     Farmer: {bid.farmerId.name}
                   </p>
                   <p className="text-blue-700 flex items-center">
-                    <DollarSign className="w-5 h-5 mr-2 text-blue-600" />
-                    Amount: ${bid.bidAmount}
+                    <IndianRupeeIcon className="w-5 h-5 mr-2 text-blue-600" />
+                    Amount: {bid.bidAmount}
                   </p>
                 </div>
                 <Link
