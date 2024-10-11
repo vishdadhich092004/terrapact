@@ -45,15 +45,8 @@ function FarmerSignIn() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-200 to-green-400">
+    <div className="flex flex-col items-center justify-center min-h-screen ">
       <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full max-w-4xl space-x-8">
-        <div className="md:w-1/2 mb-8 md:mb-0 flex justify-center">
-          <img
-            src="https://s3-alpha-sig.figma.com/img/338b/d7d4/152a4758004c78bc712cc5b3e10bb69c?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Xn65Xj2vzbZ2V-ec36dU8JnleU3jvXSbfXJk2m4d07U47LKBYdyrl3IZuUwoAo5uiTj-0m7r4BUyE6uYS7lmBdapcasntMG0uv-O5-ghLYLbkiVemVC5kHITl1JU4Kpg~h0rGAcAW5ei-9TovTcjlAsWtf5vpPDrygYRPFLKAHdeUDaH6GTJqoXkRKrkxpOaQPGJG7fvZFuHtGVA~u2cI37Ikdan~MyhQx1XNtxWws55UN1P5Zc1jjQGX~R7uN9kPKpHFQnIIWveVn2B8derNCStC2bjtBiFc2NdTrMdCMU2HUUsXhogHNG2Whl8oWETjXOTRn8iunnDtF3xvB1SgQ__"
-            alt="Signup illustration"
-            className="w-full max-w-md"
-          />
-        </div>
         <div className="md:w-1/2">
           <div className="bg-[#738A41E8] rounded-lg shadow-lg p-8 w-full">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">

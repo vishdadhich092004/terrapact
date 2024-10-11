@@ -1,114 +1,32 @@
-import express, { Request, Response } from "express";
-import { check, validationResult } from "express-validator";
-import Farmer from "../models/farmer/farmer";
-import jwt from "jsonwebtoken";
-import Company from "../models/company/company";
-import bcrypt from "bcrypt";
-import { AuthRequest, verifyToken } from "../middleware/auth";
+import express from "express";
+import { check } from "express-validator";
+import { verifyToken } from "../middleware/auth";
+import * as authControllers from "../controllers/authControllers";
 const router = express.Router();
 
 // Farmer Register Route
-router.post(
-  "/farmer/register",
-  [
-    check("name", "Name is required").isString(),
-    check("email", "Email is required").isString(),
-    check("farmSize", "Farm Size is required").isNumeric(),
-    check("contactNumber", "Contact Number is required").isString(),
-    check("password", "Password with 6 or more characters required").isLength({
-      min: 6,
-    }),
-  ],
-  async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array() });
-    }
-    try {
-      let farmer = await Farmer.findOne({ email: req.body.email });
-      if (farmer) {
-        return res.status(400).json({ message: "Farmer Already Registered" });
-      }
-      const { email, name, farmSize, contactNumber, password } = req.body;
-      farmer = new Farmer({
-        email,
-        name,
-        farmSize,
-        contactNumber,
-        password,
-      });
-      farmer.role = "farmer";
-      await farmer.save();
-      const token = jwt.sign(
-        { userId: farmer._id, role: farmer.role },
-        process.env.JWT_SECRET_KEY as string,
-        { expiresIn: "1d" }
-      );
-      res.cookie("auth_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      return res.status(200).send(farmer);
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ message: "Something went wrong" });
-    }
-  }
-);
+router.post("/farmer/register", [
+  check("name", "Name is required").isString(),
+  check("email", "Email is required").isString(),
+  check("farmSize", "Farm Size is required").isNumeric(),
+  check("contactNumber", "Contact Number is required").isString(),
+  check("password", "Password with 6 or more characters required").isLength({
+    min: 6,
+  }),
+  authControllers.registerFarmer,
+]);
 
 // Company Register Route
-router.post(
-  "/company/register",
-  [
-    check("companyName", "Company Name is required").isString(),
-    check("email", "Email is required").isString(),
-    check("contactNumber", "Contact Number is required").isString(),
-    check("industryType", "Industry Type is required").isString(),
-    check("password", "Password with 6 or more characters required").isLength({
-      min: 6,
-    }),
-  ],
-  async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array() });
-    }
-    try {
-      let company = await Company.findOne({ email: req.body.email });
-      if (company) {
-        return res.status(400).json({ message: "Company Already Registered" });
-      }
-      const { email, companyName, contactNumber, password, industryType } =
-        req.body;
-      company = new Company({
-        companyName,
-        email,
-        industryType,
-        contactNumber,
-        password,
-      });
-      company.role = "company";
-      await company.save();
-      const token = jwt.sign(
-        { userId: company._id, role: company.role },
-        process.env.JWT_SECRET_KEY as string,
-        {
-          expiresIn: "1d",
-        }
-      );
-      res.cookie("auth_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      return res.status(200).send(company);
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ message: "Something went wrong", e });
-    }
-  }
-);
+router.post("/company/register", [
+  check("companyName", "Company Name is required").isString(),
+  check("email", "Email is required").isString(),
+  check("contactNumber", "Contact Number is required").isString(),
+  check("industryType", "Industry Type is required").isString(),
+  check("password", "Password with 6 or more characters required").isLength({
+    min: 6,
+  }),
+  authControllers.registerCompany,
+]);
 
 // Farmer Login Route
 router.post(
@@ -117,41 +35,7 @@ router.post(
     check("email", "Email is required").isEmail(),
     check("password", "Password cannot be empty").notEmpty(),
   ],
-  async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array() });
-    }
-
-    const { email, password } = req.body;
-
-    try {
-      const farmer = await Farmer.findOne({ email });
-      if (!farmer) {
-        return res.status(400).json({ message: "Invalid Credentials" });
-      }
-
-      const isMatch = await bcrypt.compare(password, farmer.password);
-      if (!isMatch) {
-        return res.status(400).json({ message: "Invalid Credentials" });
-      }
-
-      const token = jwt.sign(
-        { userId: farmer._id, role: "farmer" },
-        process.env.JWT_SECRET_KEY as string,
-        { expiresIn: "1d" }
-      );
-      res.cookie("auth_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
-      });
-
-      res.status(200).json(farmer);
-    } catch (e) {
-      res.status(500).json({ message: "Something went wrong" });
-    }
-  }
+  authControllers.loginFarmer
 );
 
 // Company Login Route
@@ -161,76 +45,13 @@ router.post(
     check("email", "Email is required").isEmail(),
     check("password", "Password cannot be empty").notEmpty(),
   ],
-  async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array() });
-    }
-
-    const { email, password } = req.body;
-
-    try {
-      const company = await Company.findOne({ email });
-      if (!company) {
-        return res.status(400).json({ message: "Invalid Credentials" });
-      }
-
-      const isMatch = await bcrypt.compare(password, company.password);
-      if (!isMatch) {
-        return res.status(400).json({ message: "Invalid Credentials" });
-      }
-
-      const token = jwt.sign(
-        { userId: company._id, role: "company" },
-        process.env.JWT_SECRET_KEY as string,
-        { expiresIn: "1d" }
-      );
-      res.cookie("auth_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
-      });
-
-      res.status(200).json(company);
-    } catch (e) {
-      res.status(500).json({ message: "Something went wrong" });
-    }
-  }
+  authControllers.loginCompany
 );
 
 // validate-token
-router.get(
-  "/validate-token",
-  verifyToken,
-  async (req: AuthRequest, res: Response) => {
-    try {
-      // const userId = req.user?.userId;
-      let user;
-      // // Determine if the user is a farmer or company and fetch accordingly
-      if (req.user?.role === "farmer") {
-        user = await Farmer.findById(req.user.userId);
-      } else if (req.user?.role === "company") {
-        user = await Company.findById(req.user.userId);
-      } else {
-        return res.status(404).json({ message: "Invalid user role" });
-      }
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      res.status(200).json({ user });
-    } catch (e) {
-      res.status(500).json({ message: "Something went wrong" });
-    }
-  }
-);
+router.get("/validate-token", verifyToken, authControllers.validateToken);
 
 // logout
-router.post("/logout", (req: Request, res: Response) => {
-  res.cookie("auth_token", "", {
-    expires: new Date(0),
-  });
-  res.send();
-});
+router.post("/logout", authControllers.logout);
+
 export default router;
