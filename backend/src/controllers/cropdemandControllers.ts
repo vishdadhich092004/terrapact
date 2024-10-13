@@ -1,9 +1,8 @@
 import { validationResult } from "express-validator";
-import { AuthRequest } from "../middleware/auth";
 import CropDemand from "../models/company/cropDemand";
 import { Request, Response } from "express";
 
-export const createNewCropDemand = async (req: AuthRequest, res: Response) => {
+export const createNewCropDemand = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return res.status(400).json({ message: errors.array() });
@@ -56,7 +55,7 @@ export const getACropDemand = async (req: Request, res: Response) => {
   }
 };
 
-export const updateCropDemand = async (req: AuthRequest, res: Response) => {
+export const updateCropDemand = async (req: Request, res: Response) => {
   try {
     const { cropDemandId } = req.params;
     const { cropType, quantity, location, requiredBy, details, lastDate } =
@@ -85,7 +84,7 @@ export const updateCropDemand = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const deleteCropDemand = async (req: AuthRequest, res: Response) => {
+export const deleteCropDemand = async (req: Request, res: Response) => {
   try {
     const { cropDemandId } = req.params;
     const cropDemand = await CropDemand.findById(cropDemandId);

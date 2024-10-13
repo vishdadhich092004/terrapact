@@ -1,8 +1,7 @@
-import { AuthRequest } from "../middleware/auth";
 import { Request, Response } from "express";
 import Contract from "../models/contract";
 
-export const getMyContracts = async (req: AuthRequest, res: Response) => {
+export const getMyContracts = async (req: Request, res: Response) => {
   try {
     let contracts;
 
@@ -27,7 +26,7 @@ export const getMyContracts = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getAContract = async (req: AuthRequest, res: Response) => {
+export const getAContract = async (req: Request, res: Response) => {
   const { contractId } = req.params;
   try {
     const contract = await Contract.findById(contractId);

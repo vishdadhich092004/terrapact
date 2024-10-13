@@ -1,13 +1,9 @@
 import { validationResult } from "express-validator";
-import { AuthRequest } from "../middleware/auth";
 import CropDemand from "../models/company/cropDemand";
 import Contract from "../models/contract";
 import Bid from "../models/farmer/bid";
 import { Request, Response } from "express";
-export const getAllBidsForACropDemand = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const getAllBidsForACropDemand = async (req: Request, res: Response) => {
   if (req.user?.role !== "company")
     return res.status(500).json({ message: "Not Allowed" });
   try {
@@ -38,7 +34,7 @@ export const getABid = async (req: Request, res: Response) => {
   }
 };
 
-export const acceptBid = async (req: AuthRequest, res: Response) => {
+export const acceptBid = async (req: Request, res: Response) => {
   if (req.user?.role !== "company")
     return res.status(403).json({ message: "Not Allowed" });
 
@@ -94,7 +90,7 @@ export const acceptBid = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const rejectBid = async (req: AuthRequest, res: Response) => {
+export const rejectBid = async (req: Request, res: Response) => {
   if (req.user?.role !== "company")
     return res.status(403).json({ message: "Not Allowed" });
 
@@ -113,7 +109,7 @@ export const rejectBid = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const createNewBid = async (req: AuthRequest, res: Response) => {
+export const createNewBid = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return res.status(400).json({ message: errors.array() });
@@ -145,7 +141,7 @@ export const createNewBid = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getAllBidsForFarmer = async (req: AuthRequest, res: Response) => {
+export const getAllBidsForFarmer = async (req: Request, res: Response) => {
   try {
     if (req.user?.role.toString() !== "farmer") {
       return res.status(403).json({ message: "Not Allowed" });

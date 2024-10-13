@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import Company from "../models/company/company";
-import { AuthRequest } from "../middleware/auth";
 
 export const registerFarmer = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -155,7 +154,7 @@ export const loginCompany = async (req: Request, res: Response) => {
   }
 };
 
-export const validateToken = async (req: AuthRequest, res: Response) => {
+export const validateToken = async (req: Request, res: Response) => {
   try {
     // const userId = req.user?.userId;
     let user;

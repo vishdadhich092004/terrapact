@@ -1,15 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export interface AuthRequest extends Request {
-  user?: {
-    userId: string;
-    role: string;
-  };
+// Define a custom interface for the user property
+interface User {
+  userId: string;
+  role: string;
+}
+
+// Extend the Express Request type
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        userId: string;
+        role: string;
+      };
+    }
+  }
 }
 
 export const verifyToken = (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -24,7 +35,7 @@ export const verifyToken = (
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET_KEY as string
-    ) as AuthRequest["user"];
+    ) as User;
     req.user = decoded;
     next();
   } catch (error) {

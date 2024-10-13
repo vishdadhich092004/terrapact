@@ -1,10 +1,9 @@
-import { NextFunction, Response } from "express";
-import { AuthRequest } from "./auth";
+import { NextFunction, Request, Response } from "express";
 import CropDemand from "../models/company/cropDemand";
 import Contract from "../models/contract";
 
 export const checkOwnershipForCropDemand = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -23,7 +22,7 @@ export const checkOwnershipForCropDemand = async (
 };
 
 export const checkOwnershipForContract = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
