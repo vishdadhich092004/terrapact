@@ -1,44 +1,42 @@
-import { Link } from "react-router-dom";
-import handshake from "../images/handshake.png";
-const Home = () => {
+import React from "react";
+import Header from "../components/HomePage/Header";
+import Footer from "../components/HomePage/Footer";
+import Hero from "../components/HomePage/Hero";
+import OptionCard from "../components/HomePage/OptionCard";
+import CallToAction from "../components/HomePage/CallToAction";
+
+const Home: React.FC = () => {
   return (
-    <div className="relative flex h-screen">
-      <div className="flex-1 relative">
-        <img
-          className="w-full h-full object-cover"
-          src="https://images.unsplash.com/photo-1486754735734-325b5831c3ad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
-        />
-        <div className=" absolute inset-0 flex justify-center items-center z-20">
-          <h1 className="text-black font-bold">Companty Side</h1>
-          <Link to="company/login" className="bg-yellow-300 p-3 ">
-            Sign in
-          </Link>
-        </div>
-      </div>
-      <h1 className="absolute inset-0 flex justify-center items-center text-black font-bold text-8xl z-10">
-        Hello
-      </h1>
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20">
-        <img
-          className="w-32 h-32 object-contain bg-transparent"
-          src={handshake}
-          alt="Handshake"
-        />
-      </div>
-      <div className="flex-1 relative">
-        <img
-          className="w-full h-full object-cover"
-          src="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
-        />
-        <div className=" absolute inset-0 flex justify-center items-center z-20">
-          <h1 className="text-black font-bold">Farmer Side</h1>
-          <Link to="farmer/login" className="bg-yellow-300 p-3 ">
-            Sign in
-          </Link>
-        </div>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        <Hero />
+        <section className="py-16 bg-gray-200">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              Choose Your Path
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <OptionCard
+                title="For Companies"
+                description="Raise a demand for crops and find the best bids from experienced farmers."
+                link="/company"
+                icon="office-building"
+                gradient="bg-gradient-to-br from-indigo-500 to-indigo-600"
+              />
+              <OptionCard
+                title="For Farmers"
+                description="Bid on crop contracts, secure deals, and maximize your income."
+                link="/farmer"
+                icon="tractor"
+                gradient="bg-gradient-to-br from-green-500 to-green-600"
+              />
+            </div>
+          </div>
+        </section>
+        <CallToAction />
+      </main>
+      <Footer />
     </div>
   );
 };

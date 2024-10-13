@@ -19,7 +19,7 @@ const Header: React.FC = () => {
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to="/" className="flex items-center">
               <span className="ml-2 text-2xl font-extrabold bg-clip-text text-transparent bg-white">
-                TerraPact
+                Farmify
               </span>
             </Link>
           </div>

@@ -4,9 +4,9 @@ import bcrypt from "bcrypt";
 const companySchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  companyName: { type: String, required: true },
-  industryType: { type: String, required: true },
-  contactNumber: { type: String, required: true },
+  companyName: { type: String, required: true }, // Company name
+  industryType: { type: String, required: true }, // Industry type, e.g., Food Processing
+  contactNumber: { type: String, required: true }, // Contact number
   createdAt: { type: Date, default: Date.now },
   role: { type: String, default: "company" },
 });
