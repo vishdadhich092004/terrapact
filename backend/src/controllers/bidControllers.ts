@@ -10,6 +10,7 @@ export const getAllBidsForACropDemand = async (req: Request, res: Response) => {
     const { cropDemandId } = req.params;
     const bids = await Bid.find({ demandId: cropDemandId })
       .populate("farmerId")
+      .populate("demandId")
       .lean();
     res.status(200).json(bids);
   } catch (e) {

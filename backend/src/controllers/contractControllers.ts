@@ -8,8 +8,10 @@ export const getMyContracts = async (req: Request, res: Response) => {
     if (req.user?.role === "company") {
       // Retrieve contracts where the company is the buyer
       contracts = await Contract.find({ companyId: req.user.userId })
-        .populate("farmerId", "name email") // Populate with farmer details
-        .populate("cropDemandId", "cropType quantity");
+        .populate("farmerId") // Populate with farmer details
+        .populate("cropDemandId")
+        .populate("bidId")
+        .populate("companyId");
     } else if (req.user?.role === "farmer") {
       // Retrieve contracts where the farmer is the seller
       contracts = await Contract.find({ farmerId: req.user.userId })

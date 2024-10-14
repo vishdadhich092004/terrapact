@@ -4,8 +4,16 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Briefcase, Lock } from "lucide-react";
-import image from "./image.png";
+import {
+  Eye,
+  EyeOff,
+  Building,
+  Mails,
+  RectangleEllipsis,
+  Sparkle,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 export type CompanySignInFormData = {
   email: string;
   password: string;
@@ -19,6 +27,7 @@ function CompanySignIn() {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<CompanySignInFormData>();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -39,57 +48,69 @@ function CompanySignIn() {
       });
     },
   });
+  const autofillForm = () => {
+    setValue("email", "com@com.com");
+    setValue("password", "111111");
+  };
 
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-200 to-blue-400">
-      <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full max-w-4xl space-x-8">
-        <div className="md:w-1/2 mb-8 md:mb-0 flex justify-center">
-          <img
-            src={image}
-            alt="Company Sign In illustration"
-            className="w-full max-w-md"
-          />
+    <div className="container mx-auto pl-4 pr-3 my-16">
+      <div className="flex flex-col lg:flex-row items-center justify-between">
+        <div className="lg:w-1/2 mb-8 lg:mb-0 animate-fadeIn">
+          <h2 className="text-4xl md:text-8xl font-bold text-[#512601] mb-6 leading-tight flex justify-stretch">
+            <Building className="h-24 w-24 text-[#fec89a] mr-2" />
+            <span className="text-[#a24c02]">TerraPact</span>
+            <span className="text-sm">Company</span>
+          </h2>
         </div>
-        <div className="md:w-1/2">
-          <div className="bg-[#3B5998E8] rounded-lg shadow-lg p-8 w-full">
-            <h2 className="text-3xl font-bold text-white mb-6 text-center">
-              COMPANY SIGN IN
+        <div className="lg:w-1/2 overflow-hidden animate-grow">
+          <div className="rounded-lg shadow-2xl p-12 w-full border border-[#fec89a]">
+            <h2 className="text-3xl font-bold text-[#512601] mb-6 text-center">
+              Sign In
             </h2>
 
-            <form onSubmit={onSubmit} className="space-y-4">
+            <form onSubmit={onSubmit} className="space-y-8">
+              <button
+                type="button"
+                onClick={autofillForm}
+                className="w-full bg-[#fec89a] text-[#512601] hover:bg-[#a24c02] hover:text-white text-xl p-3 rounded-lg transition-colors mb-4 flex items-center justify-center"
+              >
+                <Sparkle className="mr-2" size={20} />
+                Autofill For Viewing
+              </button>
               <div className="relative">
-                <Briefcase
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 "
+                <Mails
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
                   size={20}
                 />
                 <input
                   type="text"
                   placeholder="Email"
-                  className="w-full pl-10 pr-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-white"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
                   {...register("email", {
                     required: "Email is required",
                   })}
                 />
               </div>
               {errors.email && (
-                <span className="text-red-200 text-sm">
+                <span className="text-[#a24c02] text-sm">
                   {errors.email.message}
                 </span>
               )}
 
               <div className="relative">
-                <Lock
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 "
+                <RectangleEllipsis
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
                   size={20}
                 />
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="PASSWORD"
-                  className="w-full pl-10 pr-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-white"
+                  placeholder="Password"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -104,43 +125,31 @@ function CompanySignIn() {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 >
                   {showPassword ? (
-                    <EyeOff className="text-blue-800" size={20} />
+                    <EyeOff className="text-[#512601]" size={20} />
                   ) : (
-                    <Eye className="text-blue-800" size={20} />
+                    <Eye className="text-[#512601]" size={20} />
                   )}
                 </button>
               </div>
               {errors.password && (
-                <span className="text-red-200 text-sm">
+                <span className="text-[#a24c02] text-sm">
                   {errors.password.message}
                 </span>
               )}
 
-              <div className="flex items-center justify-between mt-2 text-sm text-white">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="mr-2"
-                    onChange={() => setShowPassword(!showPassword)}
-                    checked={showPassword}
-                  />
-                  Show Password
-                </label>
-              </div>
-
-              <button
+              <Button
                 type="submit"
-                className="w-full bg-white text-blue-700 rounded-full py-2 mt-6 font-bold hover:bg-blue-100 transition duration-300"
+                className="w-full bg-[#512601] text-white hover:bg-[#a24c02] text-xl p-6 rounded-lg"
               >
-                SIGN IN
-              </button>
+                Sign In
+              </Button>
             </form>
 
-            <div className="mt-4 text-center text-white">
+            <div className="mt-4 text-center text-[#512601]">
               <span>Not Registered? </span>
               <Link
                 to="/company/register"
-                className="underline hover:text-blue-200"
+                className="underline hover:text-[#a24c02]"
               >
                 Sign Up here
               </Link>

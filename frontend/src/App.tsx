@@ -21,15 +21,29 @@ import MyContractsForFarmer from "./pages/Farmer/User/MyContractsForFarmer";
 import PlaceBid from "./pages/Farmer/Bids/PlaceBid";
 import ViewContractForCompany from "./pages/Company/Contracts/ViewContractForCompany";
 import ViewContractForFarmer from "./pages/Farmer/Contracts/ViewContractForFarmer";
-import FarmerPage from "./pages/Farmer/FarmerPage";
-import CompanyPage from "./pages/Company/CompanyPage";
+import FarmerDashboard from "./pages/Dashboard/FarmerDashboard";
+import CompanyDashboard from "./pages/Dashboard/CompanyDashboard";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/farmer" element={<FarmerPage />} />
-        <Route path="/company" element={<CompanyPage />} />
+        <Route
+          path="/farmer/user/dashboard"
+          element={
+            <FarmerLayout>
+              <FarmerDashboard />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/company/user/dashboard"
+          element={
+            <CompanyLayout>
+              <CompanyDashboard />
+            </CompanyLayout>
+          }
+        />
         <Route
           path="/farmer/login"
           element={

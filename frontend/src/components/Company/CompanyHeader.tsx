@@ -1,86 +1,87 @@
-import { useState } from "react";
-import { Menu, X, Leaf } from "lucide-react";
+import React, { useState } from "react";
+import { Menu, X, UserCircle, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import SignOutButton from "../Buttons/SignOutButton";
 
+const NavLink = ({
+  to,
+  children,
+}: {
+  to: string;
+  children: React.ReactNode;
+}) => (
+  <Link
+    to={to}
+    className="text-[#512601] hover:text-[#a24c02] px-3 py-2 rounded-md text-sm font-medium"
+  >
+    {children}
+  </Link>
+);
+
 const CompanyHeader = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { isCompany, user, isAuthenticated } = useAuthContext();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isCompany, isAuthenticated, user } = useAuthContext();
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-10">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="w-full py-4 flex items-center justify-between border-b border-[#fae1dd] lg:border-none">
+    <nav className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link
-              to="/"
-              className="text-xl font-bold text-[#512601] hover:text-[#a24c02] flex items-center"
-            >
-              <Leaf className="mr-2 text-[#fec89a]" />
-              <span className="hidden sm:inline">TerraPact Company</span>
-              <span className="sm:hidden">TerraPact</span>
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <Leaf className="h-8 w-8 text-[#fec89a] mr-2" />
+              <span className="text-xl font-bold text-[#512601] hidden sm:inline">
+                TerraPact <span className="text-xs">Company-Side</span>
+              </span>
+              <span className="text-xl font-bold text-[#512601] sm:hidden">
+                TerraPact
+              </span>
             </Link>
-            <div className="hidden ml-10 space-x-8 lg:flex">
+            <div className="hidden md:flex ml-10 items-center space-x-4">
               {isAuthenticated && isCompany && (
                 <>
-                  <Link
-                    to="/company/my-demands"
-                    className="text-base font-medium text-[#512601] hover:text-[#a24c02]"
-                  >
-                    My Demands
-                  </Link>
-                  <Link
-                    to="/crop-demands/new"
-                    className="text-base font-medium text-[#512601] hover:text-[#a24c02]"
-                  >
-                    Raise Demand
-                  </Link>
+                  <NavLink to="/company/my-demands">My Demands</NavLink>
+                  <NavLink to="/crop-demands/new">Raise Demand</NavLink>
+                  <NavLink to="/company/contracts/my-contracts">
+                    My Contracts
+                  </NavLink>
                 </>
               )}
             </div>
           </div>
-          <div className="hidden lg:flex ml-10 items-center space-x-4">
+          <div className="hidden md:flex items-center">
             {isAuthenticated && isCompany ? (
-              <>
-                <span className="text-base font-medium text-[#512601] truncate max-w-[150px]">
+              <div className="flex items-center space-x-4">
+                <span className="text-sm font-medium text-[#512601] truncate max-w-[150px]">
                   {`Hello, ${user?.companyName}`}
                 </span>
-                <Link
-                  to="/company/contracts/my-contracts"
-                  className="text-base font-medium text-[#512601] hover:text-[#a24c02]"
-                >
-                  My Contracts
-                </Link>
+                <UserCircle className="h-8 w-8 text-[#fec89a]" />
                 <SignOutButton />
-              </>
+              </div>
             ) : (
-              <>
+              <div className="flex space-x-4">
                 <Link
                   to="/company/login"
-                  className="inline-block bg-[#fec89a] py-2 px-4 border border-transparent rounded-md text-base font-medium text-[#512601] hover:bg-[#ffd7ba]"
+                  className="bg-[#fec89a] text-[#512601] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#ffd7ba]"
                 >
-                  Sign in
+                  Login
                 </Link>
                 <Link
                   to="/company/register"
-                  className="inline-block bg-[#512601] py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-[#a24c02]"
+                  className="bg-[#512601] text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-[#a24c02]"
                 >
-                  Sign up
+                  Register
                 </Link>
-              </>
+              </div>
             )}
           </div>
-          <div className="flex lg:hidden">
+          <div className="md:hidden flex items-center">
             <button
-              type="button"
-              className="bg-[#fec89a] rounded-md p-2 inline-flex items-center justify-center text-[#512601] hover:bg-[#ffd7ba] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#512601]"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd] focus:outline-none"
             >
-              <span className="sr-only">
-                {isOpen ? "Close menu" : "Open menu"}
-              </span>
-              {isOpen ? (
+              <span className="sr-only">Open main menu</span>
+              {isMenuOpen ? (
                 <X className="block h-6 w-6" aria-hidden="true" />
               ) : (
                 <Menu className="block h-6 w-6" aria-hidden="true" />
@@ -88,55 +89,40 @@ const CompanyHeader = () => {
             </button>
           </div>
         </div>
-        <div className={`lg:hidden ${isOpen ? "block" : "hidden"}`}>
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {isAuthenticated && isCompany && (
+      </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden bg-white">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {isAuthenticated && isCompany ? (
               <>
-                <Link
-                  to="/company/my-demands"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
-                >
-                  My Demands
-                </Link>
-                <Link
-                  to="/crop-demands/new"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
-                >
-                  Raise Demand
-                </Link>
-                <Link
-                  to="/company/contracts/my-contracts"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
-                >
+                <NavLink to="/company/my-demands">My Demands</NavLink>
+                <NavLink to="/crop-demands/new">Raise Demand</NavLink>
+                <NavLink to="/company/contracts/my-contracts">
                   My Contracts
-                </Link>
+                </NavLink>
               </>
-            )}
-            {!isAuthenticated && (
+            ) : (
               <>
-                <Link
-                  to="/company/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  to="/company/register"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
-                >
-                  Sign up
-                </Link>
+                <NavLink to="/company/login">Login</NavLink>
+                <NavLink to="/company/register">Register</NavLink>
               </>
-            )}
-            {isAuthenticated && isCompany && (
-              <div className="px-3 py-2">
-                <SignOutButton />
-              </div>
             )}
           </div>
+          {isAuthenticated && isCompany && (
+            <div className="pt-4 pb-3 border-t border-[#fae1dd]">
+              <div className="flex items-center px-5">
+                <UserCircle className="h-8 w-8 text-[#fec89a] mr-3" />
+                <span className="text-sm font-medium text-[#512601] truncate max-w-[150px] mr-3">
+                  {`Hello, ${user?.companyName}`}
+                </span>
+                <SignOutButton />
+              </div>
+            </div>
+          )}
         </div>
-      </nav>
-    </header>
+      )}
+    </nav>
   );
 };
 

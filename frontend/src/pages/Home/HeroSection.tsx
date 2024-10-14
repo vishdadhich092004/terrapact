@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 const HeroSection = () => {
   const { isAuthenticated, isFarmer, isCompany } = useAuthContext();
   const navigate = useNavigate();
-  const farmerLink = isAuthenticated && isFarmer ? "/farmers" : "/farmer/login";
+  const farmerLink =
+    isAuthenticated && isFarmer ? "/farmer/user/dashboard" : "/farmer/login";
 
   const handleFarmer = () => {
     navigate(farmerLink);
   };
   const companyLink =
-    isAuthenticated && isCompany ? "/company" : "/company/login";
+    isAuthenticated && isCompany ? "/company/user/dashboard" : "/company/login";
   const handleCompaany = () => {
     navigate(companyLink);
   };

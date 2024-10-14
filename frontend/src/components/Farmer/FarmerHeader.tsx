@@ -31,7 +31,7 @@ const FarmerHeader = () => {
             <Link to="/" className="flex-shrink-0 flex items-center">
               <Leaf className="h-8 w-8 text-[#fec89a] mr-2" />
               <span className="text-xl font-bold text-[#512601] hidden sm:inline">
-                TerraPact Farmer
+                TerraPact <span className="text-xs ">Farmer-Side</span>
               </span>
               <span className="text-xl font-bold text-[#512601] sm:hidden">
                 TerraPact

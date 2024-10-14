@@ -29,7 +29,10 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
 
 export const getAllCropDemands = async (req: Request, res: Response) => {
   try {
-    const allCropDemands = await CropDemand.find({}).lean();
+    const allCropDemands = await CropDemand.find({})
+      .populate("companyId")
+      .populate("bids")
+      .lean();
     if (!allCropDemands)
       return res.status(404).json({ message: "No Crop Demand Found" });
     return res.status(200).json(allCropDemands);
@@ -43,6 +46,7 @@ export const getACropDemand = async (req: Request, res: Response) => {
     const { cropDemandId } = req.params;
     const cropDemand = await CropDemand.findById(cropDemandId)
       .lean()
+      .populate("companyId")
       .populate("bids");
 
     if (!cropDemand) {
