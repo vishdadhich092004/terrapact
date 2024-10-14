@@ -1,36 +1,38 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import SignOutButton from "../Buttons/SignOutButton";
 
-const Header = () => {
+const CompanyHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isCompany, user, isAuthenticated } = useAuthContext();
 
   return (
-    <header className="bg-blue-800">
+    <header className="bg-white shadow-sm sticky top-0 z-10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="w-full py-6 flex items-center justify-between border-b border-blue-700 lg:border-none">
+        <div className="w-full py-4 flex items-center justify-between border-b border-[#fae1dd] lg:border-none">
           <div className="flex items-center">
             <Link
               to="/"
-              className="text-xl font-bold text-white hover:text-blue-200"
+              className="text-xl font-bold text-[#512601] hover:text-[#a24c02] flex items-center"
             >
-              Company's Dashboard
+              <Leaf className="mr-2 text-[#fec89a]" />
+              <span className="hidden sm:inline">TerraPact Company</span>
+              <span className="sm:hidden">TerraPact</span>
             </Link>
-            <div className="hidden ml-10 space-x-8 lg:block">
+            <div className="hidden ml-10 space-x-8 lg:flex">
               {isAuthenticated && isCompany && (
                 <>
                   <Link
                     to="/company/my-demands"
-                    className="text-base font-medium text-white hover:text-blue-200"
+                    className="text-base font-medium text-[#512601] hover:text-[#a24c02]"
                   >
                     My Demands
                   </Link>
                   <Link
                     to="/crop-demands/new"
-                    className="text-base font-medium text-white hover:text-blue-200"
+                    className="text-base font-medium text-[#512601] hover:text-[#a24c02]"
                   >
                     Raise Demand
                   </Link>
@@ -38,15 +40,15 @@ const Header = () => {
               )}
             </div>
           </div>
-          <div className="ml-10 space-x-4">
+          <div className="hidden lg:flex ml-10 items-center space-x-4">
             {isAuthenticated && isCompany ? (
               <>
-                <span className="text-base font-medium text-white">
+                <span className="text-base font-medium text-[#512601] truncate max-w-[150px]">
                   {`Hello, ${user?.companyName}`}
                 </span>
                 <Link
                   to="/company/contracts/my-contracts"
-                  className="text-base font-medium text-white hover:text-blue-200"
+                  className="text-base font-medium text-[#512601] hover:text-[#a24c02]"
                 >
                   My Contracts
                 </Link>
@@ -56,13 +58,13 @@ const Header = () => {
               <>
                 <Link
                   to="/company/login"
-                  className="inline-block bg-blue-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
+                  className="inline-block bg-[#fec89a] py-2 px-4 border border-transparent rounded-md text-base font-medium text-[#512601] hover:bg-[#ffd7ba]"
                 >
                   Sign in
                 </Link>
                 <Link
                   to="/company/register"
-                  className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-800 hover:bg-blue-50"
+                  className="inline-block bg-[#512601] py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-[#a24c02]"
                 >
                   Sign up
                 </Link>
@@ -72,7 +74,7 @@ const Header = () => {
           <div className="flex lg:hidden">
             <button
               type="button"
-              className="bg-blue-700 rounded-md p-2 inline-flex items-center justify-center text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="bg-[#fec89a] rounded-md p-2 inline-flex items-center justify-center text-[#512601] hover:bg-[#ffd7ba] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#512601]"
               onClick={() => setIsOpen(!isOpen)}
             >
               <span className="sr-only">
@@ -92,42 +94,45 @@ const Header = () => {
               <>
                 <Link
                   to="/company/my-demands"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-200 hover:bg-blue-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
                 >
                   My Demands
                 </Link>
                 <Link
                   to="/crop-demands/new"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-200 hover:bg-blue-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
                 >
                   Raise Demand
                 </Link>
                 <Link
                   to="/company/contracts/my-contracts"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-200 hover:bg-blue-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
                 >
                   My Contracts
                 </Link>
               </>
             )}
-            <Link
-              to=""
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-200 hover:bg-blue-700"
-            >
-              Services
-            </Link>
-            <Link
-              to=""
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-200 hover:bg-blue-700"
-            >
-              About
-            </Link>
-            <Link
-              to=""
-              className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-200 hover:bg-blue-700"
-            >
-              Contact
-            </Link>
+            {!isAuthenticated && (
+              <>
+                <Link
+                  to="/company/login"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  to="/company/register"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-[#512601] hover:text-[#a24c02] hover:bg-[#fae1dd]"
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
+            {isAuthenticated && isCompany && (
+              <div className="px-3 py-2">
+                <SignOutButton />
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -135,4 +140,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default CompanyHeader;

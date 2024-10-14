@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/Home/HomePage";
 import FarmerSignIn from "./pages/Farmer/Auth/SignIn";
 import CompanySignIn from "./pages/Company/Auth/SignIn";
 import FarmerRegister from "./pages/Farmer/Auth/Register";

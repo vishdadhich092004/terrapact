@@ -1,69 +1,114 @@
-import React from "react";
-import { ChevronDown, Dumbbell, BarChart, PieChart, Truck } from "lucide-react";
-import FarmerCTA from "../../components/Farmer/FarmerCta";
-import FarmerHero from "../../components/Farmer/FarmerHero";
-import FarmerTestimonials from "../../components/Farmer/FarmerTestimonials";
-import ServiceCard from "../../components/Farmer/ServiceCard";
-import FarmerHeader from "../../components/Farmer/FarmerHeader";
-import FarmerFooter from "../../components/Farmer/FarmerFooter";
+import React, { useState } from "react";
+import { FaUserPlus, FaHandshake, FaSeedling, FaTruck } from "react-icons/fa";
+import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
 
-const FarmerPage: React.FC = () => {
-  const services = [
-    {
-      title: "Contract Bidding",
-      description:
-        "Access and bid on high-value crop contracts from top companies.",
-      icon: Dumbbell,
-      color: "indigo",
-    },
-    {
-      title: "Crop Management",
-      description: "Advanced tools to optimize your crop yield and quality.",
-      icon: BarChart,
-      color: "green",
-    },
-    {
-      title: "Market Insights",
-      description:
-        "Real-time market data and trends to inform your farming decisions.",
-      icon: PieChart,
-      color: "blue",
-    },
-    {
-      title: "Equipment Rentals",
-      description:
-        "Rent state-of-the-art farming equipment at competitive prices.",
-      icon: Truck,
-      color: "yellow",
-    },
-  ];
+interface Step {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
 
+const farmerSteps: Step[] = [
+  {
+    icon: <FaUserPlus className="text-green-600 text-5xl mb-4" />,
+    title: "Step 1: Register",
+    description:
+      "Sign up as a farmer, create your profile, and join our network to start connecting with companies.",
+  },
+  {
+    icon: <FaSeedling className="text-yellow-600 text-5xl mb-4" />,
+    title: "Step 2: List Your Crops",
+    description:
+      "Add details about your crops, including type, quantity, price, and harvest date, for companies to browse.",
+  },
+  {
+    icon: <FaHandshake className="text-blue-600 text-5xl mb-4" />,
+    title: "Step 3: Negotiate & Agree",
+    description:
+      "Connect directly with buyers, negotiate contract terms, and reach an agreement easily on the platform.",
+  },
+  {
+    icon: <FaTruck className="text-indigo-600 text-5xl mb-4" />,
+    title: "Step 4: Deliver & Get Paid",
+    description:
+      "Deliver your crops as per the agreement and receive payments securely through the platform.",
+  },
+];
+
+interface StepTrackerProps {
+  currentStep: number;
+  totalSteps: number;
+}
+
+const StepTracker: React.FC<StepTrackerProps> = ({
+  currentStep,
+  totalSteps,
+}) => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <FarmerHeader />
-      <main className="flex-grow">
-        <FarmerHero />
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl text-center mb-12">
-              Our Services for Farmers
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {services.map((service, index) => (
-                <ServiceCard key={index} {...service} />
-              ))}
-            </div>
-          </div>
-        </section>
-        <div className="text-center py-12">
-          <ChevronDown className="h-12 w-12 mx-auto text-gray-400 animate-bounce" />
-        </div>
-        <FarmerTestimonials />
-        <FarmerCTA />
-      </main>
-      <FarmerFooter />
+    <div className="flex justify-center items-center space-x-2 mb-6">
+      {[...Array(totalSteps)].map((_, index) => (
+        <div
+          key={index}
+          className={`h-2 w-8 rounded-full ${
+            index < currentStep ? "bg-blue-600" : "bg-gray-300"
+          }`}
+        />
+      ))}
     </div>
   );
 };
 
-export default FarmerPage;
+interface StepNavigatorProps {
+  steps: Step[];
+}
+
+const StepNavigator: React.FC<StepNavigatorProps> = ({ steps }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-6 py-12">
+      <StepTracker currentStep={currentStep + 1} totalSteps={steps.length} />
+
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full text-center">
+        {steps[currentStep].icon}
+        <h3 className="text-2xl font-semibold text-gray-800">
+          {steps[currentStep].title}
+        </h3>
+        <p className="mt-4 text-gray-600">{steps[currentStep].description}</p>
+
+        <div className="flex justify-between items-center mt-6">
+          <button
+            onClick={handlePrev}
+            className="flex items-center space-x-2 bg-gray-300 text-gray-700 hover:bg-gray-400 px-4 py-2 rounded-md"
+            disabled={currentStep === 0}
+          >
+            <AiOutlineArrowLeft /> <span>Previous</span>
+          </button>
+
+          <button
+            onClick={handleNext}
+            className="flex items-center space-x-2 bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md"
+            disabled={currentStep === steps.length - 1}
+          >
+            <span>Next</span> <AiOutlineArrowRight />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FarmerLandingPage: React.FC = () => <StepNavigator steps={farmerSteps} />;
+export default FarmerLandingPage;

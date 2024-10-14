@@ -50,7 +50,7 @@ function FarmerSignIn() {
         <div className="md:w-1/2">
           <div className="bg-[#738A41E8] rounded-lg shadow-lg p-8 w-full">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">
-              SIGN IN
+              Sign In
             </h2>
 
             <form onSubmit={onSubmit} className="space-y-4">
@@ -108,18 +108,6 @@ function FarmerSignIn() {
                   {errors.password.message}
                 </span>
               )}
-
-              <div className="flex items-center justify-between mt-2 text-sm text-white">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="mr-2"
-                    onChange={() => setShowPassword(!showPassword)}
-                    checked={showPassword}
-                  />
-                  Show Password
-                </label>
-              </div>
 
               <button
                 type="submit"

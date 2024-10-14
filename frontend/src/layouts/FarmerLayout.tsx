@@ -1,4 +1,4 @@
-import FarmerFooter from "../components/Farmer/FarmerFooter";
+import GlobalFooter from "@/pages/Home/Footer";
 import FarmerHeader from "../components/Farmer/FarmerHeader";
 
 type LayoutProps = {
@@ -6,10 +6,10 @@ type LayoutProps = {
 };
 function FarmerLayout({ children }: LayoutProps) {
   return (
-    <div className="flex flex-col min-h-screen bg-green-50">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-[#fae1dd]">
       <FarmerHeader />
       <main className="flex-grow container mx-auto py-10">{children}</main>
-      <FarmerFooter />
+      <GlobalFooter />
     </div>
   );
 }
