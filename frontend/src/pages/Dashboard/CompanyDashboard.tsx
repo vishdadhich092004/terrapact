@@ -25,6 +25,9 @@ import {
 } from "recharts";
 import { CropDemandType } from "../../../../backend/src/shared/company/types";
 import { ContractType } from "../../../../backend/src/shared/types";
+import { Link } from "react-router-dom";
+import { timeLeft } from "@/utils.ts/timeCalc";
+import Loader from "@/components/Loader";
 
 const Dashboard = () => {
   const [demands, setDemands] = useState<CropDemandType[]>([]);
@@ -51,7 +54,12 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  if (loading) return <div className="text-center mt-8">Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center item-center">
+        <Loader />
+      </div>
+    );
   if (error)
     return <div className="text-center mt-8 text-red-500">{error}</div>;
 
@@ -60,9 +68,10 @@ const Dashboard = () => {
     quantity: demand.quantity,
   }));
 
+  console.log(contracts);
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Company Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">Your Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
@@ -97,17 +106,28 @@ const Dashboard = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead>Demand Id</TableHead>
                     <TableHead>Crop Name</TableHead>
-                    <TableHead>Quantity</TableHead>
+                    <TableHead>Active Bids</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>More Details</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {demands.map((demand) => (
                     <TableRow key={demand._id}>
+                      <TableCell>{demand._id}</TableCell>
                       <TableCell>{demand.cropType}</TableCell>
-                      <TableCell>{demand.quantity}</TableCell>
+                      <TableCell>{demand.bids.length}</TableCell>
                       <TableCell>{demand.status}</TableCell>
+                      <TableCell>
+                        <Link
+                          to={`/company/crop-demands/${demand._id}`}
+                          className="text-blue-500"
+                        >
+                          View
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -127,6 +147,8 @@ const Dashboard = () => {
                     <TableHead>Contract ID</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Farmer</TableHead>
+                    <TableHead>Delivery Time Left</TableHead>
+                    <TableHead>More Details</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -135,6 +157,17 @@ const Dashboard = () => {
                       <TableCell>{contract._id}</TableCell>
                       <TableCell>{contract.status}</TableCell>
                       <TableCell>{contract.farmerId.name}</TableCell>
+                      <TableCell>
+                        {timeLeft(new Date(contract.deliveryDate))}
+                      </TableCell>
+                      <TableCell>
+                        <Link
+                          to={`/company/contracts/${contract._id}`}
+                          className="text-blue-500"
+                        >
+                          View
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

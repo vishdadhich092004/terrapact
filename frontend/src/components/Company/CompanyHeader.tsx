@@ -45,6 +45,7 @@ const CompanyHeader = () => {
                   <NavLink to="/company/contracts/my-contracts">
                     My Contracts
                   </NavLink>
+                  <NavLink to="/company/user/dashboard">My Dashboard</NavLink>
                 </>
               )}
             </div>
@@ -101,6 +102,7 @@ const CompanyHeader = () => {
                 <NavLink to="/company/contracts/my-contracts">
                   My Contracts
                 </NavLink>
+                <NavLink to="/company/user/dashboard">My Dashboard</NavLink>
               </>
             ) : (
               <>

@@ -85,7 +85,7 @@ function App() {
           }
         />
         <Route
-          path="/crop-demands"
+          path="/company/crop-demands"
           element={
             <CompanyLayout>
               <AllCropDemands />
@@ -101,7 +101,7 @@ function App() {
           }
         />
         <Route
-          path="/crop-demands/:cropDemandId"
+          path="/company/crop-demands/:cropDemandId"
           element={
             <CompanyLayout>
               <SingleCropDemand />

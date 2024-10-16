@@ -39,7 +39,7 @@ function CompanySignIn() {
         type: "SUCCESS",
       });
       await queryClient.invalidateQueries("validate-token");
-      navigate("/company/my-demands");
+      navigate("/company/user/dashboard");
     },
     onError: (error: Error) => {
       showToast({

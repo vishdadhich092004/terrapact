@@ -39,7 +39,7 @@ function FarmerSignIn() {
         type: "SUCCESS",
       });
       await queryClient.invalidateQueries("validate-token");
-      navigate("/farmers/crop-demands");
+      navigate("/farmer/user/dashboard");
     },
     onError: (error: Error) => {
       showToast({

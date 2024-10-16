@@ -1,7 +1,6 @@
 import { CompanyRegisterFormData } from "./pages/Company/Auth/Register";
 import { CompanySignInFormData } from "./pages/Company/Auth/SignIn";
 import { EditCropDemandData } from "./pages/Company/CropDemand/EditCropDemand";
-import { CropDemandData } from "./pages/Company/CropDemand/NewCropDemand";
 import { CropDemandType } from "../../backend/src/shared/company/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -35,15 +34,13 @@ export const signInCompany = async (formData: CompanySignInFormData) => {
   return body;
 };
 
-export const newCropDemand = async (formData: CropDemandData) => {
+export const newCropDemand = async (formData: FormData) => {
   const response = await fetch(`${API_BASE_URL}/api/crop-demands/new`, {
     credentials: "include",
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
+    body: formData, // No need for headers when using FormData
   });
+
   const body = await response.json();
   if (!response.ok) throw new Error(body.message);
   return body;

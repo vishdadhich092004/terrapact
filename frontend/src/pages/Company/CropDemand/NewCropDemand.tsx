@@ -3,6 +3,8 @@ import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import ImageUpload from "@/components/ImageUpload";
 
 export type CropDemandData = {
   cropType: string;
@@ -21,24 +23,43 @@ function NewCropDemand() {
     handleSubmit,
   } = useForm<CropDemandData>();
 
-  const mutation = useMutation(apiClient.newCropDemand, {
-    onSuccess: () => {
-      showToast({
-        message: "New Crop Demand Created Successfully",
-        type: "SUCCESS",
-      });
-      navigate("/company/my-demands");
-    },
-    onError: () => {
-      showToast({
-        message: "Error creating Crop Demand. Please Try Again Later",
-        type: "ERROR",
-      });
-    },
-  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const mutation = useMutation(
+    (formData: FormData) => apiClient.newCropDemand(formData),
+    {
+      onSuccess: () => {
+        showToast({
+          message: "New Crop Demand Created Successfully",
+          type: "SUCCESS",
+        });
+        navigate("/company/my-demands");
+      },
+      onError: () => {
+        showToast({
+          message: "Error creating Crop Demand. Please Try Again Later",
+          type: "ERROR",
+        });
+      },
+    }
+  );
 
   const onSubmit = handleSubmit((data) => {
-    mutation.mutate(data);
+    const formData = new FormData();
+    formData.append("cropType", data.cropType);
+    formData.append("quantity", data.quantity.toString());
+    formData.append("location", data.location);
+    formData.append("details", data.details);
+    formData.append("lastDate", new Date(data.lastDate).toISOString());
+
+    // Attach the image file, if present
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    // Pass FormData to the mutation
+    mutation.mutate(formData);
+    // console.log(formData);
   });
 
   const buttonStyles = isSubmitSuccessful
@@ -81,6 +102,8 @@ function NewCropDemand() {
               </label>
             )
           )}
+
+          <ImageUpload onImageUpload={setImageFile} />
 
           <button type="submit" className={buttonStyles}>
             Create Crop Demand

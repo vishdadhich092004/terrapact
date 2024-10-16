@@ -21,10 +21,10 @@ const AllCropDemandsForFarmer: React.FC = () => {
     );
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-[#fec89a] bg-opacity-20">
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
+          <h1 className="text-4xl font-extrabold text-[#512601] mb-8 text-center">
             Available Crop Demands
           </h1>
           {data && data.length > 0 ? (
@@ -32,19 +32,19 @@ const AllCropDemandsForFarmer: React.FC = () => {
               {data.map((demand) => {
                 const statusColor =
                   demand.status === "open"
-                    ? "bg-green-500"
+                    ? "bg-green-600"
                     : demand.status === "closed"
-                    ? "bg-red-500"
-                    : "bg-yellow-500";
+                    ? "bg-red-600"
+                    : "bg-[#a24c02]";
 
                 return (
                   <div
                     key={demand._id}
-                    className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:shadow-xl hover:-translate-y-1"
+                    className="bg-white border border-[#fec89a] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:shadow-xl hover:-translate-y-1"
                   >
                     <div className="p-6">
                       <div className="flex justify-between items-center mb-4">
-                        <h5 className="text-2xl font-semibold text-gray-800">
+                        <h5 className="text-2xl font-semibold text-[#a24c02]">
                           {demand.cropType}
                         </h5>
                         <span
@@ -54,20 +54,20 @@ const AllCropDemandsForFarmer: React.FC = () => {
                         </span>
                       </div>
                       <div className="space-y-2">
-                        <p className="text-gray-600 flex items-center">
-                          <Weight className="h-5 w-5 mr-2 text-green-600" />
+                        <p className="text-[#775d3f] flex items-center">
+                          <Weight className="h-5 w-5 mr-2 text-[#a24c02]" />
                           <span className="font-medium">
                             {demand.quantity} tons
                           </span>
                         </p>
-                        <p className="text-gray-600 flex items-center">
-                          <DiamondPercentIcon className="h-5 w-5 mr-2 text-green-600" />
+                        <p className="text-[#775d3f] flex items-center">
+                          <DiamondPercentIcon className="h-5 w-5 mr-2 text-[#a24c02]" />
                           <span className="font-medium">{demand.details}</span>
                         </p>
                       </div>
                       <Link
                         to={`/farmers/crop-demands/${demand._id}`}
-                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#a24c02] hover:bg-[#512601] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#fec89a] transition-colors"
                       >
                         <Sprout className="h-5 w-5 mr-2" />
                         View More
@@ -78,7 +78,7 @@ const AllCropDemandsForFarmer: React.FC = () => {
               })}
             </div>
           ) : (
-            <div className="text-gray-600 text-center bg-white p-8 rounded-lg shadow-md">
+            <div className="text-[#775d3f] text-center bg-white p-8 rounded-lg shadow-md border border-[#fec89a]">
               No crop demands available.
             </div>
           )}

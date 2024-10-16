@@ -45,6 +45,7 @@ const FarmerHeader = () => {
                   <NavLink to="/farmers/contracts/my-contracts">
                     My Contracts
                   </NavLink>
+                  <NavLink to="/farmer/user/dashboard">My Dashboard</NavLink>
                 </>
               )}
             </div>
@@ -98,6 +99,7 @@ const FarmerHeader = () => {
                 <NavLink to="/farmers/contracts/my-contracts">
                   My Contracts
                 </NavLink>
+                <NavLink to="/farmer/user/dashboard">My Dashboard</NavLink>
               </>
             ) : (
               <>

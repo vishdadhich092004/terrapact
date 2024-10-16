@@ -11,7 +11,9 @@ router.get("/my-demands", verifyToken, async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const companyDemands = await CropDemand.find({ companyId }).lean();
+    const companyDemands = await CropDemand.find({ companyId })
+      .lean()
+      .populate("companyId");
 
     if (!companyDemands.length) {
       return res

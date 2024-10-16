@@ -4,17 +4,22 @@ import { check } from "express-validator";
 import * as bidControllers from "../../controllers/bidControllers";
 import * as cropdemandControllers from "../../controllers/cropdemandControllers";
 import { checkOwnershipForCropDemand } from "../../middleware/ownership";
+import multer from "multer";
 const router = express.Router();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Create a new crop demand
 router.post(
   "/new",
+  upload.single("image"),
   [
     check("cropType", "Crop Type is required").isString().notEmpty(),
     check("quantity", "Quantity is required").isNumeric().notEmpty(),
     check("location", "Location is required").isString().notEmpty(),
     check("details", "Details is required").isString().notEmpty(),
-    check("lastDate", "Last Date is required").isDate().notEmpty(),
+    // check("lastDate", "Last Date is required").isDate().notEmpty(),
   ],
   verifyToken,
   cropdemandControllers.createNewCropDemand

@@ -23,4 +23,5 @@ export type CropDemandType = {
   status: "open" | "closed";
   createdAt: Date;
   updatedAt: Date;
+  image: string;
 };

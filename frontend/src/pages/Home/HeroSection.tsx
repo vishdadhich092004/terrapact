@@ -44,7 +44,7 @@ const HeroSection = () => {
             </Button>
           </div>
         </div>
-        <div className="lg:w-1/2 overflow-hidden animate-grow">
+        <div className="lg:w-1/2 overflow-hidden animate-grow mr-2">
           <img
             src={hero}
             alt="Farm landscape"

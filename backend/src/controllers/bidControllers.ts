@@ -149,7 +149,7 @@ export const getAllBidsForFarmer = async (req: Request, res: Response) => {
     }
 
     const farmerId = req.user.userId;
-    const bids = await Bid.find({ farmerId: farmerId });
+    const bids = await Bid.find({ farmerId: farmerId }).populate("demandId");
 
     if (bids.length === 0) {
       return res.status(404).json({ message: "No Bids for the user" });
