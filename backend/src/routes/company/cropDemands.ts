@@ -19,6 +19,7 @@ router.post(
     check("quantity", "Quantity is required").isNumeric().notEmpty(),
     check("location", "Location is required").isString().notEmpty(),
     check("details", "Details is required").isString().notEmpty(),
+    check("perUnitPrice", "Per Unit Price is required").isNumeric().notEmpty(),
     // check("lastDate", "Last Date is required").isDate().notEmpty(),
   ],
   verifyToken,

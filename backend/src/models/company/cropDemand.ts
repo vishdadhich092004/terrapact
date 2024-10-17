@@ -23,6 +23,14 @@ const cropDemandSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  perUnitPrice: {
+    type: Number,
+    required: true,
+  },
 });
 
 const CropDemand = mongoose.model<CropDemandType>(

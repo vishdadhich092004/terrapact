@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import CropDemand from "../models/company/cropDemand";
 import crypto from "crypto";
 import { Request, Response } from "express";
-import { s3 } from "../config/awss3";
+import { getSignedUrlForCropDemand, s3 } from "../config/awss3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 const bucketName = process.env.AWS_BUCKET_NAME!;
@@ -40,7 +40,8 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
     // Upload the file to S3
     const imageName = await uploadFileToS3(file, "image");
 
-    const { cropType, quantity, location, details, lastDate } = req.body;
+    const { cropType, quantity, location, details, lastDate, perUnitPrice } =
+      req.body;
 
     // Convert `lastDate` to a Date object
     const parsedLastDate = new Date(lastDate);
@@ -59,6 +60,7 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
       details,
       lastDate: parsedLastDate,
       image: imageName,
+      perUnitPrice,
     });
 
     // Save the new demand to the database
@@ -72,15 +74,41 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
 
 export const getAllCropDemands = async (req: Request, res: Response) => {
   try {
-    const allCropDemands = await CropDemand.find({})
+    const { page, limit } = req.query;
+    const pageNumber = page ? parseInt(page as string, 10) : 1;
+    const limitNumber = limit ? parseInt(limit as string, 10) : 10;
+
+    let cropDemandsQuery = CropDemand.find({})
+      .sort({ _id: -1 })
       .populate("companyId")
       .populate("bids")
       .lean();
-    if (!allCropDemands)
-      return res.status(404).json({ message: "No Crop Demand Found" });
-    return res.status(200).json(allCropDemands);
-  } catch (e) {
-    return res.status(500).json({ message: "Something went wrong" });
+
+    if (pageNumber && limitNumber) {
+      cropDemandsQuery = cropDemandsQuery
+        .skip((pageNumber - 1) * limitNumber)
+        .limit(limitNumber);
+    }
+
+    const allCropDemands = await cropDemandsQuery;
+    const cropDemandsWithSignedUrls = await Promise.all(
+      allCropDemands.map(async (cropDemand) => {
+        const image = await getSignedUrlForCropDemand(cropDemand);
+        return { ...cropDemand, image };
+      })
+    );
+
+    const totalCropDemands = await CropDemand.countDocuments();
+
+    res.status(200).json({
+      currentPage: pageNumber,
+      totalCropDemands,
+      cropDemandsPerPage: limitNumber,
+      allCropDemands: cropDemandsWithSignedUrls,
+    });
+  } catch (error) {
+    console.error("Error fetching crop demands:", error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -95,8 +123,9 @@ export const getACropDemand = async (req: Request, res: Response) => {
     if (!cropDemand) {
       return res.status(404).json({ message: "Crop Demand not found" });
     }
+    const image = await getSignedUrlForCropDemand(cropDemand);
 
-    res.status(200).json(cropDemand);
+    res.status(200).json({ ...cropDemand, image });
   } catch (e) {
     return res.status(500).json({ message: "Something went wrong" });
   }

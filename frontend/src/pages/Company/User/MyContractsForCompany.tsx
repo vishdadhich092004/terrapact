@@ -59,7 +59,7 @@ function MyContractsForCompany() {
             </p>
             <p className="text-blue-800 mb-2">
               <span className="font-medium">Quantity:</span> {contract.quantity}{" "}
-              tons
+              Kg
             </p>
             <p className="text-blue-800 mb-2">
               <span className="font-medium">Price:</span> {contract.agreedPrice}

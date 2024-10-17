@@ -50,7 +50,7 @@ const ViewContractForFarmer: React.FC = () => {
       value: contract.cropDemandId.cropType,
     },
     { icon: User, label: "Farmer", value: contract.farmerId.name },
-    { icon: Scale, label: "Quantity", value: `${contract.quantity} tons` },
+    { icon: Scale, label: "Quantity", value: `${contract.quantity} Kg` },
     {
       icon: IndianRupeeIcon,
       label: "Price",

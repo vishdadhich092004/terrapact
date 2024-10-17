@@ -26,8 +26,9 @@ import {
 import { CropDemandType } from "../../../../backend/src/shared/company/types";
 import { ContractType } from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
-import { timeLeft } from "@/utils.ts/timeCalc";
+import { timeLeft } from "@/utils/timeCalc";
 import Loader from "@/components/Loader";
+import NotFound from "../NotFound";
 
 const Dashboard = () => {
   const [demands, setDemands] = useState<CropDemandType[]>([]);
@@ -61,7 +62,11 @@ const Dashboard = () => {
       </div>
     );
   if (error)
-    return <div className="text-center mt-8 text-red-500">{error}</div>;
+    return (
+      <div className="text-center mt-8 text-red-500">
+        <NotFound />
+      </div>
+    );
 
   const demandChartData = demands.map((demand) => ({
     name: demand.cropType,

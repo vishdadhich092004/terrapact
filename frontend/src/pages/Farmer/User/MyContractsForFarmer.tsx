@@ -42,7 +42,7 @@ function MyContractsForFarmer() {
               <strong>Company:</strong> {contract.companyId.companyName}
             </p>
             <p className="text-green-700">
-              <strong>Quantity:</strong> {contract.quantity} tons
+              <strong>Quantity:</strong> {contract.quantity} Kg
             </p>
             <p className="text-green-700">
               <strong>Price:</strong> {contract.agreedPrice}

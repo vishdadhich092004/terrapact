@@ -100,7 +100,7 @@ function ViewContractForCompany() {
                 <InfoItem
                   icon={<TrendingUp />}
                   label="Quantity"
-                  value={`${contract.quantity} tons`}
+                  value={`${contract.quantity} Kg`}
                 />
                 <InfoItem
                   icon={<IndianRupeeIcon />}

@@ -29,6 +29,7 @@ import { BidType } from "../../../../backend/src/shared/farmer/types";
 import { ContractType } from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 import Loader from "@/components/Loader";
+import NotFound from "../NotFound";
 
 const FarmerDashboard = () => {
   const [cropDemands, setCropDemands] = useState<CropDemandType[]>([]);
@@ -65,7 +66,11 @@ const FarmerDashboard = () => {
       </div>
     );
   if (error)
-    return <div className="text-center mt-8 text-red-500">{error}</div>;
+    return (
+      <div className="text-center mt-8 text-red-500">
+        <NotFound />
+      </div>
+    );
 
   const bidChartData = bids.map((bid) => ({
     name: bid.demandId.cropType,

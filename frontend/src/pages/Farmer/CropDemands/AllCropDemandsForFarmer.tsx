@@ -1,34 +1,32 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { getAllCropDemandsForFarmer } from "../../../farmer-api-clients"; // Adjust the import path if necessary
-import { CropDemandType } from "../../../../../backend/src/shared/company/types"; // Adjust the path as needed
+import { getAllCropDemandsForFarmer } from "../../../farmer-api-clients";
 import { Link } from "react-router-dom";
-import { Sprout, DiamondPercentIcon, Weight } from "lucide-react";
+import { Sprout } from "lucide-react";
 import Loader from "../../../components/Loader";
+import NotFound from "@/pages/NotFound";
 
 const AllCropDemandsForFarmer: React.FC = () => {
-  const { data, isLoading, error } = useQuery<CropDemandType[]>(
-    "crop-demands",
-    getAllCropDemandsForFarmer
+  const { data, isLoading, error } = useQuery(
+    ["crop-demands", 1, 10],
+    () => getAllCropDemandsForFarmer(1, 10),
+    {
+      select: (data) => data.allCropDemands,
+    }
   );
 
   if (isLoading) return <Loader />;
-  if (error)
-    return (
-      <div className="text-red-600 text-center py-8">
-        Error loading crop demands
-      </div>
-    );
+  if (error) return <NotFound />;
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#fec89a] bg-opacity-20">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-extrabold text-[#512601] mb-8 text-center">
             Available Crop Demands
           </h1>
           {data && data.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-8">
               {data.map((demand) => {
                 const statusColor =
                   demand.status === "open"
@@ -40,9 +38,14 @@ const AllCropDemandsForFarmer: React.FC = () => {
                 return (
                   <div
                     key={demand._id}
-                    className="bg-white border border-[#fec89a] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:shadow-xl hover:-translate-y-1"
+                    className="bg-white border border-[#fec89a] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:shadow-xl hover:-translate-y-1 flex"
                   >
-                    <div className="p-6">
+                    <img
+                      src={demand.image || "/api/placeholder/300/200"}
+                      alt={demand.cropType}
+                      className="w-1/3 object-cover"
+                    />
+                    <div className="p-6 flex-grow">
                       <div className="flex justify-between items-center mb-4">
                         <h5 className="text-2xl font-semibold text-[#a24c02]">
                           {demand.cropType}
@@ -54,15 +57,19 @@ const AllCropDemandsForFarmer: React.FC = () => {
                         </span>
                       </div>
                       <div className="space-y-2">
-                        <p className="text-[#775d3f] flex items-center">
-                          <Weight className="h-5 w-5 mr-2 text-[#a24c02]" />
-                          <span className="font-medium">
-                            {demand.quantity} tons
-                          </span>
+                        <p className="text-[#775d3f]">
+                          <span className="font-medium">Quantity: </span>
+                          {demand.quantity} Kg
                         </p>
-                        <p className="text-[#775d3f] flex items-center">
-                          <DiamondPercentIcon className="h-5 w-5 mr-2 text-[#a24c02]" />
-                          <span className="font-medium">{demand.details}</span>
+                        <p className="text-[#775d3f]">
+                          <span className="font-medium">Details: </span>
+                          {demand.details}
+                        </p>
+                        <p className="text-[#775d3f]">
+                          <span className="font-medium">
+                            Expected Profit :{" "}
+                          </span>
+                          {demand.quantity * demand.perUnitPrice}
                         </p>
                       </div>
                       <Link

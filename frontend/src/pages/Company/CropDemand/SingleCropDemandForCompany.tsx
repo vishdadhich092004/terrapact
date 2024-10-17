@@ -1,22 +1,21 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
-import { CropDemandType } from "../../../../../backend/src/shared/company/types";
+import { Link, useParams } from "react-router-dom";
+import * as apiClient from "../../../company-api-clients";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, Edit, ListFilter, MapPin } from "lucide-react";
 
-const SingleCropDemandForFarmer: React.FC = () => {
-  const { user } = useAuthContext();
-  const { demandId } = useParams<{ demandId: string }>();
+function SingleCropDemandForCompany() {
+  const { isAuthenticated, isCompany, user } = useAuthContext();
+  const { cropDemandId } = useParams<{ cropDemandId: string }>();
+
   const {
     data: cropDemand,
     isLoading,
     error,
-  } = useQuery<CropDemandType>(["crop-demand", demandId], () =>
-    getCropDemandByIdForFarmer(demandId!)
+  } = useQuery(["cropDemand", cropDemandId], () =>
+    apiClient.getCropDemandByIdForCompany(cropDemandId!)
   );
 
   if (isLoading)
@@ -26,16 +25,25 @@ const SingleCropDemandForFarmer: React.FC = () => {
       </div>
     );
 
-  if (error || !cropDemand)
+  if (error)
     return (
       <div className="text-center text-red-500 p-8 bg-[#fec89a]/10 min-h-screen flex items-center justify-center">
         <p className="text-xl font-semibold">Error loading crop demand</p>
       </div>
     );
 
-  const existingBid = cropDemand.bids.find(
-    (bid) => bid.farmerId.toString() === user?._id.toString()
-  );
+  if (!cropDemand) {
+    return (
+      <div className="text-center text-[#512601] p-8 bg-[#fec89a]/10 min-h-screen flex items-center justify-center">
+        <p className="text-xl font-semibold">Crop Demand Not Found</p>
+      </div>
+    );
+  }
+
+  const isOwner =
+    isAuthenticated &&
+    isCompany &&
+    user?._id.toString() === cropDemand?.companyId.toString();
 
   const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -52,7 +60,8 @@ const SingleCropDemandForFarmer: React.FC = () => {
           <h1 className="text-3xl md:text-5xl font-bold text-[#512601]">
             {cropDemand.cropType}
           </h1>
-          <div className="text-[#775d3f] mt-2">
+          <div className="flex items-center mt-2 text-[#775d3f]">
+            <MapPin className="w-4 h-4 mr-2" />
             <span>{cropDemand.location}</span>
           </div>
         </div>
@@ -83,38 +92,27 @@ const SingleCropDemandForFarmer: React.FC = () => {
               </CardContent>
             </Card>
 
-            <div className="mt-6">
-              {!existingBid ? (
+            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+              {isOwner && (
                 <Button
                   className="bg-[#a24c02] text-white hover:bg-[#512601]"
                   asChild
                 >
-                  <Link to={`/farmers/${demandId}/bids/new`}>Create a Bid</Link>
+                  <Link to={`/crop-demands/${cropDemandId}/edit`}>
+                    <Edit className="w-4 h-4 mr-2" />
+                    Edit Demand
+                  </Link>
                 </Button>
-              ) : (
-                <Card className="bg-[#fec89a]/20 border-[#a24c02]/20">
-                  <CardContent className="p-6">
-                    <h2 className="text-lg font-semibold text-[#512601] mb-2">
-                      Your Bid Status
-                    </h2>
-                    <p className="text-md flex items-center">
-                      <span className="font-medium mr-2">Status:</span>
-                      <span
-                        className={`px-2 py-1 rounded-full text-white text-sm font-semibold ${
-                          existingBid.status === "accepted"
-                            ? "bg-green-500"
-                            : existingBid.status === "rejected"
-                            ? "bg-red-500"
-                            : "bg-yellow-500"
-                        }`}
-                      >
-                        {existingBid.status.charAt(0).toUpperCase() +
-                          existingBid.status.slice(1)}
-                      </span>
-                    </p>
-                  </CardContent>
-                </Card>
               )}
+              <Button
+                className="bg-[#fec89a] text-[#512601] hover:bg-[#ffd7ba]"
+                asChild
+              >
+                <Link to="bids">
+                  <ListFilter className="w-4 h-4 mr-2" />
+                  View Bids
+                </Link>
+              </Button>
             </div>
           </div>
 
@@ -128,17 +126,7 @@ const SingleCropDemandForFarmer: React.FC = () => {
                 <div className="space-y-4">
                   <InfoRow
                     label="Quantity"
-                    value={`${cropDemand.quantity} kg`}
-                  />
-                  <InfoRow
-                    label="Expected Profit"
-                    value={`Rs. ${
-                      cropDemand.perUnitPrice * cropDemand.quantity
-                    }`}
-                  />
-                  <InfoRow
-                    label="Last Date"
-                    value={formatDate(cropDemand.lastDate)}
+                    value={`${cropDemand.quantity} Kg`}
                   />
                   <InfoRow
                     label="Status"
@@ -147,6 +135,14 @@ const SingleCropDemandForFarmer: React.FC = () => {
                       cropDemand.status.slice(1)
                     }
                     highlight={cropDemand.status === "open"}
+                  />
+                  <InfoRow
+                    label="Last Date"
+                    value={formatDate(cropDemand.lastDate)}
+                  />
+                  <InfoRow
+                    label="Created"
+                    value={formatDate(cropDemand.createdAt || "2024-01-01")}
                   />
                   <InfoRow
                     label="Total Bids"
@@ -165,7 +161,7 @@ const SingleCropDemandForFarmer: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 function InfoRow({
   label,
@@ -192,4 +188,4 @@ function InfoRow({
   );
 }
 
-export default SingleCropDemandForFarmer;
+export default SingleCropDemandForCompany;

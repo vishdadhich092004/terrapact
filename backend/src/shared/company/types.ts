@@ -24,4 +24,5 @@ export type CropDemandType = {
   createdAt: Date;
   updatedAt: Date;
   image: string;
+  perUnitPrice: number;
 };

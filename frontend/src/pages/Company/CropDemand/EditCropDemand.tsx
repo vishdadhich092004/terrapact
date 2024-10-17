@@ -106,7 +106,7 @@ function EditCropDemand() {
             )}
           </label>
           <label className="block">
-            <span className="text-gray-800">Quantity (tons)</span>
+            <span className="text-gray-800">Quantity (Kg)</span>
             <input
               type="number"
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"

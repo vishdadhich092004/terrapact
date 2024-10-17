@@ -86,14 +86,20 @@ export const getCropDemandByIdForCompany = async (
   return body;
 };
 
-export const getCompanyDemands = async (): Promise<CropDemandType[]> => {
-  const response = await fetch(`${API_BASE_URL}/api/company/my-demands`, {
-    credentials: "include",
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export const getCompanyDemands = async (
+  page: number = 1,
+  limit: number = 10
+): Promise<CropDemandType[]> => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/company/my-demands?page=${page}&limit=${limit}`,
+    {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const body = await response.json();
   if (!response.ok) throw new Error(body.message);

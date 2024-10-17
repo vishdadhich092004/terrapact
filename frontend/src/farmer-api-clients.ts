@@ -51,16 +51,25 @@ export const signOut = async () => {
   if (!response.ok) throw new Error("Error during Signout");
 };
 
-export const getAllCropDemandsForFarmer = async (): Promise<
-  CropDemandType[]
-> => {
-  const response = await fetch(`${API_BASE_URL}/api/crop-demands`, {
-    credentials: "include",
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export const getAllCropDemandsForFarmer = async (
+  page: number = 1,
+  limit: number = 10
+): Promise<{
+  allCropDemands: CropDemandType[];
+  currentPage: number;
+  cropDemandsPerPage: number;
+  totalCropDemands: number;
+}> => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/crop-demands?page=${page}&limit=${limit}`,
+    {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const body = await response.json();
   if (!response.ok) throw new Error(body.message);

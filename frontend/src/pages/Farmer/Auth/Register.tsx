@@ -110,7 +110,7 @@ function FarmerRegister() {
                 />
                 <input
                   type="number"
-                  placeholder="Farm Size"
+                  placeholder="Farm Size (in hectares)"
                   className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
                   {...register("farmSize", {
                     required: "Farm Size is required",
