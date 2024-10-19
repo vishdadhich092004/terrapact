@@ -27,26 +27,25 @@ import { CropDemandType } from "../../../../backend/src/shared/company/types";
 import { ContractType } from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 import { timeLeft } from "@/utils/timeCalc";
-import Loader from "@/components/Loader";
-import NotFound from "../NotFound";
+import { Loader2 } from "lucide-react";
 
-const Dashboard = () => {
+const CompanyDashboard = () => {
   const [demands, setDemands] = useState<CropDemandType[]>([]);
   const [contracts, setContracts] = useState<ContractType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [demandsData, contractsData] = await Promise.all([
-          getCompanyDemands(),
+        const [demandsResponse, contractsResponse] = await Promise.all([
+          getCompanyDemands(1, 100), // Get more demands for the dashboard
           getCompanyContracts(),
         ]);
-        setDemands(demandsData);
-        setContracts(contractsData);
+        setDemands(demandsResponse.allCropDemands || []);
+        setContracts(contractsResponse || []);
       } catch (err: any) {
-        setError(err);
+        setError(err.message || "Failed to load dashboard data");
       } finally {
         setLoading(false);
       }
@@ -57,14 +56,16 @@ const Dashboard = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center item-center">
-        <Loader />
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
       </div>
     );
+
   if (error)
     return (
       <div className="text-center mt-8 text-red-500">
-        <NotFound />
+        <h2 className="text-2xl font-bold mb-4">Error Loading Dashboard</h2>
+        <p>{error}</p>
       </div>
     );
 
@@ -73,62 +74,80 @@ const Dashboard = () => {
     quantity: demand.quantity,
   }));
 
-  console.log(contracts);
+  const activeDemands = demands.filter((demand) => demand.status === "open");
+  const activeContracts = contracts.filter(
+    (contract) => contract.status === "active"
+  );
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Your Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6 text-[#512601]">Your Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle>Total Demands</CardTitle>
+            <CardTitle>Active Demands</CardTitle>
           </CardHeader>
-          <CardContent className="text-4xl font-bold">
-            {demands.length}
+          <CardContent className="text-4xl font-bold text-[#a24c02]">
+            {activeDemands.length}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Active Contracts</CardTitle>
           </CardHeader>
-          <CardContent className="text-4xl font-bold">
-            {contracts.length}
+          <CardContent className="text-4xl font-bold text-[#a24c02]">
+            {activeContracts.length}
           </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="demands" className="mb-6">
-        <TabsList>
-          <TabsTrigger value="demands">Crop Demands</TabsTrigger>
-          <TabsTrigger value="contracts">Contracts</TabsTrigger>
+        <TabsList className="w-full">
+          <TabsTrigger value="demands" className="flex-1">
+            Crop Demands
+          </TabsTrigger>
+          <TabsTrigger value="contracts" className="flex-1">
+            Contracts
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="demands">
           <Card>
             <CardHeader>
-              <CardTitle>Crop Demands</CardTitle>
+              <CardTitle>Recent Crop Demands</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Demand Id</TableHead>
-                    <TableHead>Crop Name</TableHead>
+                    <TableHead>Crop Type</TableHead>
+                    <TableHead>Quantity (Kg)</TableHead>
                     <TableHead>Active Bids</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>More Details</TableHead>
+                    <TableHead>Details</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {demands.map((demand) => (
+                  {demands.slice(0, 5).map((demand) => (
                     <TableRow key={demand._id}>
-                      <TableCell>{demand._id}</TableCell>
                       <TableCell>{demand.cropType}</TableCell>
-                      <TableCell>{demand.bids.length}</TableCell>
-                      <TableCell>{demand.status}</TableCell>
+                      <TableCell>{demand.quantity}</TableCell>
+                      <TableCell>{demand.bids?.length || 0}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            demand.status === "open"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {demand.status}
+                        </span>
+                      </TableCell>
                       <TableCell>
                         <Link
                           to={`/company/crop-demands/${demand._id}`}
-                          className="text-blue-500"
+                          className="text-blue-600 hover:text-blue-800"
                         >
                           View
                         </Link>
@@ -143,32 +162,40 @@ const Dashboard = () => {
         <TabsContent value="contracts">
           <Card>
             <CardHeader>
-              <CardTitle>Contracts</CardTitle>
+              <CardTitle>Recent Contracts</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Contract ID</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead>Farmer</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Delivery Time Left</TableHead>
-                    <TableHead>More Details</TableHead>
+                    <TableHead>Details</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {contracts.map((contract) => (
+                  {contracts.slice(0, 5).map((contract) => (
                     <TableRow key={contract._id}>
-                      <TableCell>{contract._id}</TableCell>
-                      <TableCell>{contract.status}</TableCell>
                       <TableCell>{contract.farmerId.name}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            contract.status === "active"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {contract.status}
+                        </span>
+                      </TableCell>
                       <TableCell>
                         {timeLeft(new Date(contract.deliveryDate))}
                       </TableCell>
                       <TableCell>
                         <Link
                           to={`/company/contracts/${contract._id}`}
-                          className="text-blue-500"
+                          className="text-blue-600 hover:text-blue-800"
                         >
                           View
                         </Link>
@@ -193,7 +220,7 @@ const Dashboard = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="quantity" fill="#8884d8" />
+              <Bar dataKey="quantity" fill="#a24c02" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
@@ -202,4 +229,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CompanyDashboard;

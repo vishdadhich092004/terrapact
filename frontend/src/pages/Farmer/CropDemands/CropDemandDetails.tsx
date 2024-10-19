@@ -112,6 +112,11 @@ const SingleCropDemandForFarmer: React.FC = () => {
                           existingBid.status.slice(1)}
                       </span>
                     </p>
+                    {existingBid.status === "pending" && (
+                      <span className="text-sm">
+                        Details will be shared if bid is accepted.
+                      </span>
+                    )}
                   </CardContent>
                 </Card>
               )}

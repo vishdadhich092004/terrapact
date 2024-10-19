@@ -4,19 +4,19 @@ import { getCompanyDemands } from "../../../company-api-clients";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CropDemandType } from "../../../../../backend/src/shared/company/types";
 
 const AllCropDemandsForCompany: React.FC = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const {
-    data: cropDemands,
-    isLoading,
-    error,
-    isPreviousData,
-  } = useQuery(["cropDemands", page], () => getCompanyDemands(page, limit), {
-    keepPreviousData: true,
-  });
+  const { data, isLoading, error, isPreviousData } = useQuery(
+    ["cropDemands", page],
+    () => getCompanyDemands(page, limit),
+    {
+      keepPreviousData: true,
+    }
+  );
 
   if (isLoading)
     return (
@@ -32,6 +32,9 @@ const AllCropDemandsForCompany: React.FC = () => {
       </div>
     );
 
+  const cropDemands = data?.allCropDemands || [];
+  const totalPages = Math.ceil((data?.totalCropDemands || 0) / limit);
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
@@ -39,10 +42,10 @@ const AllCropDemandsForCompany: React.FC = () => {
           <h1 className="text-4xl font-extrabold text-[#512601] mb-8 text-center">
             Company Crop Demands
           </h1>
-          {cropDemands && cropDemands.length > 0 ? (
+          {cropDemands.length > 0 ? (
             <>
               <div className="grid grid-cols-1 gap-8 mb-8">
-                {cropDemands.map((demand) => {
+                {cropDemands.map((demand: CropDemandType) => {
                   const statusColor =
                     demand.status === "open"
                       ? "bg-green-600"
@@ -65,11 +68,16 @@ const AllCropDemandsForCompany: React.FC = () => {
                           <h5 className="text-2xl font-semibold text-[#a24c02]">
                             {demand.cropType}
                           </h5>
-                          <span
-                            className={`px-3 py-1 text-xs font-semibold text-white rounded-full ${statusColor}`}
-                          >
-                            {demand.status}
-                          </span>
+                          <div className="flex items-center space-x-4">
+                            <span className="text-sm text-gray-600">
+                              Bids: {demand.bids?.length || 0}
+                            </span>
+                            <span
+                              className={`px-3 py-1 text-xs font-semibold text-white rounded-full ${statusColor}`}
+                            >
+                              {demand.status}
+                            </span>
+                          </div>
                         </div>
                         <div className="space-y-2">
                           <p className="text-[#775d3f]">
@@ -86,7 +94,7 @@ const AllCropDemandsForCompany: React.FC = () => {
                           </p>
                         </div>
                         <Link
-                          to={`/crop-demands/${demand._id}`}
+                          to={`/company/crop-demands/${demand._id}`}
                           className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#a24c02] hover:bg-[#512601] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#fec89a] transition-colors"
                         >
                           View More
@@ -104,13 +112,16 @@ const AllCropDemandsForCompany: React.FC = () => {
                 >
                   Previous Page
                 </Button>
+                <span className="flex items-center px-4">
+                  Page {page} of {totalPages}
+                </span>
                 <Button
                   onClick={() => {
-                    if (!isPreviousData && cropDemands.length === limit) {
+                    if (!isPreviousData && page < totalPages) {
                       setPage((old) => old + 1);
                     }
                   }}
-                  disabled={isPreviousData || cropDemands.length < limit}
+                  disabled={isPreviousData || page >= totalPages}
                   className="bg-[#a24c02] hover:bg-[#512601] text-white"
                 >
                   Next Page

@@ -116,7 +116,7 @@ function App() {
           }
         />
         <Route
-          path="crop-demands/:demandId/bids"
+          path="/company/crop-demands/:demandId/bids"
           element={
             <CompanyLayout>
               <AllBidsForADemand />
@@ -124,7 +124,7 @@ function App() {
           }
         />
         <Route
-          path="crop-demands/:demandId/bids/:bidId"
+          path="/company/crop-demands/:demandId/bids/:bidId"
           element={
             <CompanyLayout>
               <ViewBid />

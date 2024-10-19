@@ -1,20 +1,10 @@
-import React from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import ContractStatusSelect from "../../../components/Company/UpdateContractStatus";
 import { useAppContext } from "../../../contexts/AppContext";
-import {
-  Loader2,
-  CheckCircle,
-  XCircle,
-  ArrowLeft,
-  User,
-  Calendar,
-  TrendingUp,
-  IndianRupeeIcon,
-} from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
 
 function ViewContractForCompany() {
   const queryClient = useQueryClient();
@@ -23,19 +13,15 @@ function ViewContractForCompany() {
 
   const {
     data: contract,
-    isLoading: isContractLoading,
-    error: contractError,
+    isLoading,
+    error,
   } = useQuery<ContractType>(
     ["contract", contractId],
-    () => {
-      if (contractId) {
-        return apiClient.getContractById(contractId);
-      }
-      return Promise.reject("No contract ID provided");
-    },
-    {
-      enabled: !!contractId,
-    }
+    () =>
+      contractId
+        ? apiClient.getContractById(contractId)
+        : Promise.reject("No contract ID provided"),
+    { enabled: !!contractId }
   );
 
   const mutation = useMutation(
@@ -52,153 +38,123 @@ function ViewContractForCompany() {
     }
   );
 
-  const handleStatusChange = (newStatus: string) => {
-    mutation.mutate(newStatus);
-  };
-
-  if (isContractLoading)
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-blue-50">
-        <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
       </div>
     );
+  }
 
-  if (contractError || !contract)
+  if (error || !contract) {
     return (
-      <div className="text-center text-red-500 p-8 bg-blue-50 min-h-screen flex items-center justify-center">
-        <p className="text-xl font-semibold">Error loading contract details</p>
-      </div>
-    );
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <ProgressBar status={contract.status} />
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          <div className="px-6 py-8 sm:p-10">
-            <h1 className="text-4xl font-extrabold text-blue-900 mb-8 text-center">
-              Contract Details
-            </h1>
-            <div className="space-y-8">
-              <div className="flex items-center justify-between p-6 bg-blue-50 rounded-2xl">
-                <h2 className="text-2xl font-bold text-blue-800">
-                  Contract ID:
-                </h2>
-                <span className="text-2xl text-blue-700">{contract._id}</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InfoItem
-                  icon={<TrendingUp />}
-                  label="Crop Type"
-                  value={contract.cropDemandId.cropType}
-                />
-                <InfoItem
-                  icon={<User />}
-                  label="Farmer"
-                  value={contract.farmerId.name}
-                />
-                <InfoItem
-                  icon={<TrendingUp />}
-                  label="Quantity"
-                  value={`${contract.quantity} Kg`}
-                />
-                <InfoItem
-                  icon={<IndianRupeeIcon />}
-                  label="Price"
-                  value={`${contract.agreedPrice}`}
-                />
-              </div>
-              <div className="mt-8">
-                <label className="block text-lg font-semibold text-blue-800 mb-3">
-                  Update Status:
-                </label>
-                <ContractStatusSelect
-                  status={contract.status}
-                  onChange={handleStatusChange}
-                />
-              </div>
-              {mutation.isLoading && (
-                <p className="text-blue-600 flex items-center justify-center text-lg">
-                  <Loader2 className="w-6 h-6 mr-3 animate-spin" />
-                  Updating status...
-                </p>
-              )}
-              {mutation.isError && (
-                <p className="text-red-600 flex items-center justify-center text-lg">
-                  <XCircle className="w-6 h-6 mr-3" />
-                  Error updating status.
-                </p>
-              )}
-              {mutation.isSuccess && (
-                <p className="text-green-600 flex items-center justify-center text-lg">
-                  <CheckCircle className="w-6 h-6 mr-3" />
-                  Status updated successfully.
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="px-6 py-8 sm:p-10 bg-blue-50">
-            <h3 className="text-3xl font-bold mb-6 text-blue-800">
-              Bid Details
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InfoItem
-                icon={<IndianRupeeIcon />}
-                label="Bid Amount"
-                value={`${contract.agreedPrice}`}
-              />
-              <InfoItem
-                icon={<User />}
-                label="Bid Placed By"
-                value={contract.farmerId.name}
-              />
-              <InfoItem
-                icon={<Calendar />}
-                label="Bid Date"
-                value={new Date(contract.createdAt).toLocaleDateString()}
-              />
-              <InfoItem
-                icon={<TrendingUp />}
-                label="Bid Status"
-                value={contract.status}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mt-10 text-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <div className="text-center space-y-4">
+          <p className="text-lg text-gray-700">
+            Error loading contract details
+          </p>
           <Link
             to="/company/contracts/my-contracts"
-            className="inline-flex items-center bg-blue-600 text-white font-bold px-8 py-4 rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl text-lg"
+            className="text-green-600 hover:underline"
           >
-            <ArrowLeft className="w-6 h-6 mr-3" />
+            Return to Contracts
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-8 px-4">
+      <div className="max-w-5xl mx-auto space-y-8">
+        {/* Header */}
+        <header className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            Contract Details
+          </h1>
+          <Link
+            to="/company/contracts/my-contracts"
+            className="inline-flex items-center text-sm text-gray-700 hover:text-gray-900"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Contracts
           </Link>
+        </header>
+
+        {/* Main Content */}
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          {/* Status Section */}
+          <div className="p-6 border-b">
+            <h2 className="text-lg font-medium text-gray-800 mb-4">
+              Contract Status
+            </h2>
+            <ProgressBar status={contract.status} />
+          </div>
+
+          {/* Contract Details */}
+          <div className="p-6 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <DetailCard
+                title="Contract Information"
+                items={[
+                  { label: "Contract ID", value: contract._id },
+                  { label: "Crop Type", value: contract.cropDemandId.cropType },
+                  { label: "Quantity", value: `${contract.quantity} Kg` },
+                  { label: "Price", value: `₹${contract.agreedPrice}` },
+                ]}
+              />
+
+              <DetailCard
+                title="Farmer Details"
+                items={[
+                  { label: "Name", value: contract.farmerId.name },
+                  {
+                    label: "Bid Date",
+                    value: new Date(contract.createdAt).toLocaleDateString(),
+                  },
+                  { label: "Current Status", value: contract.status },
+                ]}
+              />
+            </div>
+
+            {/* Status Update */}
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-medium text-gray-800 mb-4">
+                Update Status
+              </h3>
+              <ContractStatusSelect
+                status={contract.status}
+                onChange={(newStatus) => mutation.mutate(newStatus)}
+              />
+              {mutation.isLoading && (
+                <p className="mt-2 text-sm text-gray-600">Updating status...</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function InfoItem({
-  icon,
-  label,
-  value,
+function DetailCard({
+  title,
+  items,
 }: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
+  title: string;
+  items: { label: string; value: string }[];
 }) {
   return (
-    <div className="flex items-center space-x-4 bg-white p-4 rounded-xl shadow-md">
-      <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-        {React.cloneElement(icon as React.ReactElement, {
-          className: "w-6 h-6 text-blue-600",
-        })}
-      </div>
-      <div>
-        <p className="text-sm font-medium text-blue-600">{label}</p>
-        <p className="mt-1 text-lg font-semibold text-blue-900">{value}</p>
-      </div>
+    <div className="bg-gray-50 rounded-lg p-6">
+      <h3 className="text-lg font-medium text-gray-800 mb-4">{title}</h3>
+      <dl className="space-y-3">
+        {items.map(({ label, value }) => (
+          <div key={label}>
+            <dt className="text-sm text-gray-600">{label}</dt>
+            <dd className="text-sm font-medium text-gray-800 mt-1">{value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
@@ -208,42 +164,31 @@ function ProgressBar({ status }: { status: string }) {
   const currentStep = steps.indexOf(status) + 1;
 
   return (
-    <div className="mb-12">
-      <div className="flex justify-between">
+    <div className="relative">
+      <div className="flex justify-between mb-4">
         {steps.map((step, index) => (
-          <div key={step} className="relative">
+          <div key={step} className="flex flex-col items-center flex-1">
             <div
-              className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center border-4 ${
-                index < currentStep
-                  ? "bg-blue-600 border-blue-600"
-                  : "bg-white border-gray-300"
-              }`}
-            >
-              {index < currentStep ? (
-                <CheckCircle className="w-6 h-6 text-white" />
-              ) : (
-                <span className="text-gray-500">{index + 1}</span>
-              )}
-            </div>
-            <div className="text-center mt-2">
-              <span
-                className={`text-sm font-medium ${
-                  index < currentStep ? "text-blue-600" : "text-gray-500"
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                ${
+                  index < currentStep
+                    ? "bg-green-600 text-white"
+                    : "bg-gray-200 text-gray-500"
                 }`}
-              >
-                {step}
-              </span>
+            >
+              {index + 1}
             </div>
+            <div className="text-sm mt-2 text-gray-600">{step}</div>
           </div>
         ))}
       </div>
-      <div className="relative pt-1">
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200 mt-4">
-          <div
-            style={{ width: `${(currentStep / steps.length) * 100}%` }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500 ease-in-out"
-          />
-        </div>
+      <div className="absolute top-4 left-0 h-[2px] bg-gray-200 w-full -z-10">
+        <div
+          className="h-full bg-green-600 transition-all duration-500"
+          style={{
+            width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
+          }}
+        />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
-import { Link } from "react-router-dom";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 function MyContractsForCompany() {
   const {
@@ -11,109 +11,149 @@ function MyContractsForCompany() {
     error,
   } = useQuery("companyContracts", apiClient.getCompanyContracts);
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-blue-50">
-        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
+        <Loader2 className="w-8 h-8 text-[#a24c02] animate-spin" />
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
-      <div className="text-center text-red-500 p-8 bg-blue-50 min-h-screen flex items-center justify-center">
-        <p className="text-xl font-semibold">Error loading contracts</p>
+      <div className="min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20 flex items-center justify-center p-4">
+        <div className="text-center space-y-4">
+          <p className="text-lg text-red-600">Error loading contracts</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-[#a24c02] hover:underline"
+          >
+            Try again
+          </button>
+        </div>
       </div>
     );
+  }
 
   if (!contracts || contracts.length === 0) {
     return (
-      <div className="text-center p-8 bg-blue-50 min-h-screen flex items-center justify-center">
-        <p className="text-xl font-semibold text-blue-800">
-          No Contracts found for your company
-        </p>
+      <div className="min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20 flex items-center justify-center p-4">
+        <div className="text-center space-y-4">
+          <p className="text-lg text-gray-600">No contracts found</p>
+          <p className="text-sm text-gray-500">
+            Start by creating a new contract
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-8 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8 text-center text-blue-800">
-        Your Company's Contracts
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {contracts.map((contract: ContractType) => (
-          <div
-            key={contract._id}
-            className="relative p-6 rounded-xl shadow-lg bg-white hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1"
-          >
-            <h2 className="text-2xl font-semibold text-blue-900 mb-4">
-              Contract ID: {contract._id}
-            </h2>
-            <p className="text-blue-800 mb-2">
-              <span className="font-medium">Crop Type:</span>{" "}
-              {contract.cropDemandId.cropType}
-            </p>
-            <p className="text-blue-800 mb-2">
-              <span className="font-medium">Farmer:</span>{" "}
-              {contract.farmerId.name}
-            </p>
-            <p className="text-blue-800 mb-2">
-              <span className="font-medium">Quantity:</span> {contract.quantity}{" "}
-              Kg
-            </p>
-            <p className="text-blue-800 mb-2">
-              <span className="font-medium">Price:</span> {contract.agreedPrice}
-            </p>
-            <StatusProgressBar status={contract.status} />
-            <Link
-              to={`/company/contracts/${contract._id}`}
-              className="block w-full bg-blue-600 text-white py-2 px-4 rounded-md text-center hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg mt-4"
-            >
-              View More
-            </Link>
-          </div>
-        ))}
+    <div className="min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20 py-8 px-4">
+      <div className="max-w-7xl mx-auto">
+        <header className="mb-8 text-center">
+          <h1 className="text-3xl font-extrabold text-[#512601]">
+            Your Contracts
+          </h1>
+          <p className="mt-2 text-sm text-[#775d3f]">
+            Manage and track all your ongoing contracts
+          </p>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {contracts.map((contract: ContractType) => (
+            <ContractCard key={contract._id} contract={contract} />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-type StatusProgressBarProps = {
-  status: string;
-};
+function ContractCard({ contract }: { contract: ContractType }) {
+  return (
+    <div className="bg-white border border-[#fec89a] rounded-lg shadow-md hover:shadow-lg transition-transform duration-200 overflow-hidden">
+      <div className="p-6">
+        {/* Status Bar */}
+        <div className="mb-6">
+          <StatusIndicator status={contract.status} />
+        </div>
 
-function StatusProgressBar({ status }: StatusProgressBarProps) {
+        {/* Contract Details */}
+        <div className="space-y-4">
+          <div>
+            <p className="text-xs text-gray-500">Contract ID</p>
+            <p className="text-sm font-medium text-[#512601] truncate">
+              {contract._id}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs text-gray-500">Crop Type</p>
+              <p className="text-sm font-medium text-[#512601]">
+                {contract.cropDemandId.cropType}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Farmer</p>
+              <p className="text-sm font-medium text-[#512601]">
+                {contract.farmerId.name}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Quantity</p>
+              <p className="text-sm font-medium text-[#512601]">
+                {contract.quantity} Kg
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Price</p>
+              <p className="text-sm font-medium text-[#512601]">
+                ₹{contract.agreedPrice}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <Link
+          to={`/company/contracts/${contract._id}`}
+          className="mt-6 block w-full px-4 py-2 bg-[#a24c02] text-white text-sm font-medium text-center rounded-md hover:bg-[#512601] transition-colors duration-200"
+        >
+          View Details
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function StatusIndicator({ status }: { status: string }) {
   const steps = ["Initiated", "In Progress", "Completed"];
   const currentStep = steps.indexOf(status) + 1;
+  const progress = (currentStep / steps.length) * 100;
 
   return (
-    <div className="mt-4 mb-6">
-      <p className="text-blue-800 mb-2 font-medium">Status: {status}</p>
-      <div className="relative pt-1">
-        <div className="flex mb-2 items-center justify-between">
-          {steps.map((step, index) => (
-            <div
-              key={step}
-              className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600"
-            >
-              {index < currentStep ? (
-                <CheckCircle2 className="w-6 h-6 text-blue-500" />
-              ) : (
-                <div
-                  className={`w-6 h-6 rounded-full border-2 ${
-                    index < currentStep ? "border-blue-500" : "border-gray-300"
-                  }`}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+    <div className="space-y-2">
+      <div className="flex justify-between text-xs text-gray-500">
+        <span>{status}</span>
+        <span>{progress}% Complete</span>
+      </div>
+      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-[#a24c02] transition-all duration-500 rounded-full"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+      <div className="flex justify-between">
+        {steps.map((step, index) => (
           <div
-            style={{ width: `${(currentStep / steps.length) * 100}%` }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+            key={step}
+            className={`w-2 h-2 rounded-full ${
+              index < currentStep ? "bg-[#a24c02]" : "bg-gray-200"
+            }`}
           />
-        </div>
+        ))}
       </div>
     </div>
   );

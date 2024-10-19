@@ -53,7 +53,10 @@ const AllCropDemandsForFarmer: React.FC = () => {
                         <span
                           className={`px-3 py-1 text-xs font-semibold text-white rounded-full ${statusColor}`}
                         >
-                          {demand.status}
+                          {demand.status.toString().at(0)?.toUpperCase() +
+                            demand.status
+                              .toString()
+                              .slice(1, demand.status.toString().length)}
                         </span>
                       </div>
                       <div className="space-y-2">
