@@ -75,7 +75,8 @@ const AllCropDemandsForCompany: React.FC = () => {
                             <span
                               className={`px-3 py-1 text-xs font-semibold text-white rounded-full ${statusColor}`}
                             >
-                              {demand.status}
+                              {demand.status.at(0)?.toUpperCase() +
+                                demand.status.slice(1, demand.status.length)}
                             </span>
                           </div>
                         </div>

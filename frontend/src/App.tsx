@@ -22,6 +22,7 @@ import ViewContractForFarmer from "./pages/Farmer/Contracts/ViewContractForFarme
 import FarmerDashboard from "./pages/Dashboard/FarmerDashboard";
 import CompanyDashboard from "./pages/Dashboard/CompanyDashboard";
 import AllCropDemandsForCompany from "./pages/Company/CropDemand/AllCropDemandsForCompany";
+import ViewBidForFarmer from "./pages/Farmer/Bids/ViewBidForFarmer";
 function App() {
   return (
     <BrowserRouter>
@@ -193,6 +194,14 @@ function App() {
           element={
             <FarmerLayout>
               <MyBids />
+            </FarmerLayout>
+          }
+        />
+        <Route
+          path="/farmers/my-bids/:bidId"
+          element={
+            <FarmerLayout>
+              <ViewBidForFarmer />
             </FarmerLayout>
           }
         />

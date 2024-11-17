@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./Toast.css"; // Import the CSS file for custom animations
+import { XCircle, CheckCircle } from "lucide-react";
 
 type ToastProps = {
   message: string;
@@ -13,20 +13,28 @@ export default function Toast({ message, type, onClose }: ToastProps) {
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  const styles =
+  const Icon = type === "SUCCESS" ? CheckCircle : XCircle;
+  const baseStyles =
+    "fixed top-20 right-4 p-4 rounded-md shadow-sm max-w-sm w-full flex items-center gap-3 transition-all duration-300 ease-in-out z-[100]";
+
+  const typeStyles =
     type === "SUCCESS"
-      ? "toast-slide-in-success fixed top-4 left-1/2 transform -translate-z-50 p-4 rounded-md bg-green-500 text-white max-w-xs flex items-center space-x-4"
-      : "toast-slide-in-error fixed top-4 left-1/2 transform -translate-z-50 p-4 rounded-md bg-red-500 text-white max-w-xs flex items-center space-x-4";
+      ? "bg-[#fae1dd] border border-[#fec89a] text-[#512601]"
+      : "bg-red-50 border border-red-200 text-[#512601]";
+
+  const iconStyles = type === "SUCCESS" ? "text-[#a24c02]" : "text-red-500";
+
+  const buttonStyles =
+    type === "SUCCESS"
+      ? "text-[#512601] hover:bg-[#fec89a] rounded-full p-1 transition-colors duration-200"
+      : "text-[#512601] hover:bg-red-100 rounded-full p-1 transition-colors duration-200";
 
   return (
-    <div className={styles}>
-      <span className="text-lg font-semibold">{message}</span>
-      <button
-        onClick={onClose}
-        className="ml-auto text-white hover:text-gray-300 focus:outline-none"
-        aria-label="Close"
-      >
-        &times;
+    <div className={`toast-slide-in ${baseStyles} ${typeStyles}`}>
+      <Icon className={`w-5 h-5 flex-shrink-0 ${iconStyles}`} />
+      <span className="text-sm font-medium flex-grow">{message}</span>
+      <button onClick={onClose} className={buttonStyles} aria-label="Close">
+        <XCircle className="w-4 h-4" />
       </button>
     </div>
   );

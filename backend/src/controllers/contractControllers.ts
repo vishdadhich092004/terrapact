@@ -31,11 +31,15 @@ export const getMyContracts = async (req: Request, res: Response) => {
 export const getAContract = async (req: Request, res: Response) => {
   const { contractId } = req.params;
   try {
-    const contract = await Contract.findById(contractId);
+    const contract = await Contract.findById(contractId)
+      .populate("bidId")
+      .populate("companyId")
+      .populate("cropDemandId");
     if (!contract) {
       return res.status(404).json({ message: "No Contract Found" });
     }
     await contract.populate("farmerId", "name");
+
     return res.status(200).json(contract);
   } catch (e) {
     return res.status(500).json({ message: "Error retrieving contract", e });

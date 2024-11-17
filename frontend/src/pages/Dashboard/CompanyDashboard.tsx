@@ -141,7 +141,10 @@ const CompanyDashboard = () => {
                               : "bg-red-100 text-red-800"
                           }`}
                         >
-                          {demand.status}
+                          {demand.status.toString().at(0)?.toUpperCase() +
+                            demand.status
+                              .toString()
+                              .slice(1, demand.status.toString().length)}
                         </span>
                       </TableCell>
                       <TableCell>

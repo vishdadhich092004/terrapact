@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
 import { CropDemandType } from "../../../../../backend/src/shared/company/types";
@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 
 const SingleCropDemandForFarmer: React.FC = () => {
   const { user } = useAuthContext();
+  const navigate = useNavigate();
   const { demandId } = useParams<{ demandId: string }>();
   const {
     data: cropDemand,
@@ -43,6 +44,9 @@ const SingleCropDemandForFarmer: React.FC = () => {
       month: "long",
       day: "numeric",
     });
+  };
+  const handleViewBid = (bidId: string) => {
+    navigate(`/farmers/my-bids/${bidId}`);
   };
 
   return (
@@ -92,10 +96,16 @@ const SingleCropDemandForFarmer: React.FC = () => {
                   <Link to={`/farmers/${demandId}/bids/new`}>Create a Bid</Link>
                 </Button>
               ) : (
-                <Card className="bg-[#fec89a]/20 border-[#a24c02]/20">
+                <Card
+                  className="bg-[#fec89a]/20 border-[#a24c02]/20"
+                  onClick={() => handleViewBid(existingBid._id)}
+                >
                   <CardContent className="p-6">
                     <h2 className="text-lg font-semibold text-[#512601] mb-2">
-                      Your Bid Status
+                      Your Bid Status <br />
+                      <span className="text-xs text-gray-800 font-light">
+                        Click to view more
+                      </span>
                     </h2>
                     <p className="text-md flex items-center">
                       <span className="font-medium mr-2">Status:</span>
@@ -115,6 +125,11 @@ const SingleCropDemandForFarmer: React.FC = () => {
                     {existingBid.status === "pending" && (
                       <span className="text-sm">
                         Details will be shared if bid is accepted.
+                      </span>
+                    )}
+                    {existingBid.status === "accepted" && (
+                      <span className="text-sm">
+                        Click here to contact the the partner.
                       </span>
                     )}
                   </CardContent>

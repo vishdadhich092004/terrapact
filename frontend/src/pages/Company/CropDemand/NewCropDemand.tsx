@@ -52,31 +52,28 @@ function NewCropDemand() {
     formData.append("details", data.details);
     formData.append("lastDate", new Date(data.lastDate).toISOString());
 
-    // Attach the image file, if present
     if (imageFile) {
       formData.append("image", imageFile);
     }
 
-    // Pass FormData to the mutation
     mutation.mutate(formData);
-    // console.log(formData);
   });
 
   const buttonStyles = isSubmitSuccessful
     ? "w-full bg-gray-400 text-white py-3 rounded-md font-semibold"
-    : "w-full bg-blue-600 text-white py-3 rounded-md font-semibold shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105";
+    : "w-full bg-[#a24c02] text-white py-3 rounded-md font-semibold shadow-md hover:bg-[#512601] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#fec89a]";
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
+      <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full border border-[#fec89a] mt-8">
         <form className="space-y-6" onSubmit={onSubmit}>
-          <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">
+          <h2 className="text-3xl font-bold text-center text-[#512601] mb-6">
             New Crop Demand
           </h2>
           {["cropType", "quantity", "location", "details", "lastDate"].map(
             (field) => (
               <label key={field} className="block">
-                <span className="text-blue-700 font-medium capitalize">
+                <span className="text-[#775d3f] font-medium capitalize">
                   {field.replace(/([A-Z])/g, " $1").trim()}
                 </span>
                 <input
@@ -87,7 +84,7 @@ function NewCropDemand() {
                       ? "date"
                       : "text"
                   }
-                  className="mt-1 block w-full border-2 border-blue-200 rounded-md p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition-all duration-300"
+                  className="mt-1 block w-full border-2 border-[#fec89a] rounded-md p-2 focus:border-[#a24c02] focus:ring focus:ring-[#fec89a]/50 focus:ring-opacity-50 transition-all duration-300 text-[#512601]"
                   {...register(field as keyof CropDemandData, {
                     required: `${field
                       .replace(/([A-Z])/g, " $1")
@@ -103,7 +100,9 @@ function NewCropDemand() {
             )
           )}
 
-          <ImageUpload onImageUpload={setImageFile} />
+          <div className="border-2 border-[#fec89a] rounded-md p-4">
+            <ImageUpload onImageUpload={setImageFile} />
+          </div>
 
           <button type="submit" className={buttonStyles}>
             Create Crop Demand

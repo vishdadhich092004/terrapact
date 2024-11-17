@@ -20,12 +20,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
 
   return (
     <div className="mb-4">
-      <label className="block text-blue-700 font-medium">Upload Image</label>
+      <label className="block text-[#a24c02] font-medium">Upload Image</label>
       <input
         type="file"
         accept="image/*"
         onChange={handleFileChange}
-        className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+        className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#a24c02] hover:file:bg-blue-100"
       />
       {preview && (
         <div className="mt-4">

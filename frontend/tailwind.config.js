@@ -16,7 +16,19 @@ module.exports = {
 					"sm": "2rem"
 				}
 			},
+			animation: {
+				'toast-slide-in': 'toast-slide-in 0.3s ease-out forwards',
+				'toast-slide-out': 'toast-slide-out 0.3s ease-in forwards',
+			},
 			keyframes: {
+				'toast-slide-in': {
+					'0%': { transform: 'translate(-50%, -150%)', opacity: '0' },
+					'100%': { transform: 'translate(-50%, 0)', opacity: '1' },
+				},
+				'toast-slide-out': {
+					'0%': { transform: 'translate(-50%, 0)', opacity: '1' },
+					'100%': { transform: 'translate(-50%, -150%)', opacity: '0' },
+				},
 				fadeIn: {
 					'0%': {
 						opacity: '0'

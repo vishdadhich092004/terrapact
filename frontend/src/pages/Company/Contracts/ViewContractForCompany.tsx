@@ -41,7 +41,7 @@ function ViewContractForCompany() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-100">
-        <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#a24c02]-600 animate-spin" />
       </div>
     );
   }
@@ -65,7 +65,7 @@ function ViewContractForCompany() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20 py-8 px-4">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Header */}
         <header className="flex justify-between items-center">
@@ -172,7 +172,7 @@ function ProgressBar({ status }: { status: string }) {
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
                 ${
                   index < currentStep
-                    ? "bg-green-600 text-white"
+                    ? "bg-[#a24c02] text-white"
                     : "bg-gray-200 text-gray-500"
                 }`}
             >

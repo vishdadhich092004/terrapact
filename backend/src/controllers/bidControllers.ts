@@ -22,7 +22,6 @@ export const getABid = async (req: Request, res: Response) => {
   try {
     const { cropDemandId, bidId } = req.params;
 
-    // Find the demand by its ID
     const demand = await CropDemand.findById(cropDemandId);
     if (!demand) return res.status(404).json({ message: "No Demand Exists" });
 
@@ -69,7 +68,6 @@ export const acceptBid = async (req: Request, res: Response) => {
       bidId: bidId,
       companyId: companyId,
       farmerId: acceptedBid.farmerId, // Assuming Bid schema has a farmerId field
-      buyerId: req.user.userId, // Assuming req.user._id is the company's ID
       agreedPrice: acceptedBid.bidAmount,
       quantity: demand.quantity,
       deliveryDate: demand.lastDate,
@@ -160,5 +158,24 @@ export const getAllBidsForFarmer = async (req: Request, res: Response) => {
     return res
       .status(500)
       .json({ message: "Something went wrong at backend", error: e });
+  }
+};
+
+export const getABidForFarmer = async (req: Request, res: Response) => {
+  try {
+    const { bidId } = req.params;
+
+    const bid = await Bid.findById(bidId)
+      .populate("farmerId")
+      .populate({
+        path: "demandId",
+        populate: {
+          path: "companyId",
+          model: "Company",
+        },
+      });
+    res.status(200).json(bid);
+  } catch (e) {
+    res.status(500).json({ message: "Failed to fetch bid", e });
   }
 };

@@ -124,6 +124,14 @@ export const allBidsForAFarmer = async () => {
   return response.json();
 };
 
+export const getABidForFarmer = async (bidId: string) => {
+  const response = await fetch(`${API_BASE_URL}/api/farmers/my-bids/${bidId}`, {
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+};
+
 export const getFarmerContracts = async () => {
   const response = await fetch(`${API_BASE_URL}/api/contracts/my-contracts`, {
     credentials: "include",
