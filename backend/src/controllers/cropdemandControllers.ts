@@ -4,6 +4,8 @@ import crypto from "crypto";
 import { Request, Response } from "express";
 import { getSignedUrlForCropDemand, s3 } from "../config/awss3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
+import Company from "../models/company/company";
+import mongoose from "mongoose";
 
 const bucketName = process.env.AWS_BUCKET_NAME!;
 
@@ -50,7 +52,8 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
     if (req.user?.role !== "company") {
       return res.status(403).json({ message: "No Permission" });
     }
-
+    // find the user which is creating the crop demand
+    const company = await Company.findById(req.user.userId);
     // Create a new crop demand
     const newDemand = new CropDemand({
       companyId: req.user?.userId,
@@ -65,6 +68,8 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
 
     // Save the new demand to the database
     await newDemand.save();
+    company?.cropDemands.push(newDemand);
+    await company?.save();
     res.status(201).json(newDemand);
   } catch (e: any) {
     console.error(e);

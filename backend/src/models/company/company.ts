@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
+import { CompanyType } from "../../shared/company/types";
 
 const companySchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -9,6 +10,8 @@ const companySchema = new mongoose.Schema({
   contactNumber: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   role: { type: String, default: "company" },
+  contracts: [{ type: Schema.Types.ObjectId, ref: "Contract" }],
+  cropDemands: [{ type: Schema.Types.ObjectId, ref: "CropDemand" }],
 });
 
 // encoding the pass b4 pushing to db
@@ -18,6 +21,6 @@ companySchema.pre("save", async function (next) {
   }
 });
 
-const Company = mongoose.model("Company", companySchema);
+const Company = mongoose.model<CompanyType>("Company", companySchema);
 
 export default Company;

@@ -15,11 +15,10 @@ const contractSchema = new Schema({
   deliveryDate: { type: Date, required: true },
   status: {
     type: String,
-    enum: ["Pending", "In Progess", "Completed", "Cancelled"],
+    enum: ["Pending", "In Progress", "Completed", "Cancelled"],
     default: "Pending",
   },
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
 });
 
 const Contract = mongoose.model<ContractType>("Contract", contractSchema);

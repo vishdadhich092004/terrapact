@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import CropDemand from "../../models/company/cropDemand";
 import { verifyToken } from "../../middleware/auth";
 import { getSignedUrlForCropDemand } from "../../config/awss3";
+import Company from "../../models/company/company";
 
 const router = express.Router();
 // GET all Crop Demands created by a particular company
@@ -49,4 +50,11 @@ router.get("/my-demands", verifyToken, async (req: Request, res: Response) => {
   }
 });
 
+router.get("/profile", verifyToken, async (req: Request, res: Response) => {
+  const id = req.user?.userId;
+  if (!id) return res.status(404).json({ message: "User Id is missing" });
+  const company = await Company.findById(id);
+  if (!company) return res.status(404).json({ message: "No Company Found" });
+  return res.status(200).json(company);
+});
 export default router;

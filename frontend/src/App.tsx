@@ -23,6 +23,7 @@ import FarmerDashboard from "./pages/Dashboard/FarmerDashboard";
 import CompanyDashboard from "./pages/Dashboard/CompanyDashboard";
 import AllCropDemandsForCompany from "./pages/Company/CropDemand/AllCropDemandsForCompany";
 import ViewBidForFarmer from "./pages/Farmer/Bids/ViewBidForFarmer";
+import CompanyProfile from "./pages/Company/User/CompanyProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -203,6 +204,14 @@ function App() {
             <FarmerLayout>
               <ViewBidForFarmer />
             </FarmerLayout>
+          }
+        />
+        <Route
+          path="/company/profile"
+          element={
+            <CompanyLayout>
+              <CompanyProfile />
+            </CompanyLayout>
           }
         />
       </Routes>

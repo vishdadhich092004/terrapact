@@ -12,5 +12,4 @@ export type ContractType = {
   quantity: number;
   status: string;
   createdAt: Date;
-  updatedAt: Date;
 };

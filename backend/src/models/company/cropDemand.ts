@@ -25,7 +25,7 @@ const cropDemandSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   perUnitPrice: {
     type: Number,

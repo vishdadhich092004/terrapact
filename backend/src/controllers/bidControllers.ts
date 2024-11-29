@@ -3,6 +3,9 @@ import CropDemand from "../models/company/cropDemand";
 import Contract from "../models/contract";
 import Bid from "../models/farmer/bid";
 import { Request, Response } from "express";
+import Company from "../models/company/company";
+import mongoose from "mongoose";
+import Farmer from "../models/farmer/farmer";
 export const getAllBidsForACropDemand = async (req: Request, res: Response) => {
   if (req.user?.role !== "company")
     return res.status(500).json({ message: "Not Allowed" });
@@ -62,6 +65,7 @@ export const acceptBid = async (req: Request, res: Response) => {
     demand.status = "closed";
     await demand.save();
     const companyId = demand.companyId;
+    const farmerId = acceptedBid.farmerId;
     // Create a contract between the company and the farmer
     const newContract = new Contract({
       cropDemandId: cropDemandId,
@@ -74,7 +78,16 @@ export const acceptBid = async (req: Request, res: Response) => {
       status: "Pending",
     });
 
+    // find the company for which the contract has been created.
     const savedContract = await newContract.save();
+    const company = await Company.findById(companyId);
+
+    company?.contracts.push(savedContract);
+    await company?.save();
+    // find the company for which the contract has been created.
+    const farmer = await Farmer.findById(farmerId);
+    farmer?.contracts.push(savedContract);
+    await farmer?.save();
 
     res.status(200).json({
       message: "Bid accepted, others rejected, and contract created",
@@ -134,6 +147,10 @@ export const createNewBid = async (req: Request, res: Response) => {
     await newBid.save();
     cropDemand.bids.push(newBid);
     await cropDemand.save();
+    // find the farmer
+    const farmer = await Farmer.findById(farmerId);
+    farmer?.bids.push(newBid);
+    await farmer?.save();
     return res.status(201).json(newBid);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong at backend", e });

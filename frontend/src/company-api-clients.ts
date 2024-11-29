@@ -189,3 +189,11 @@ export const getContractById = async (contractId: string) => {
 
   return response.json();
 };
+
+export const fetchCompanyProfile = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/company/profile`, {
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+};

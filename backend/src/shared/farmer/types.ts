@@ -1,4 +1,5 @@
 import { CropDemandType } from "../company/types";
+import { ContractType } from "../types";
 
 export type FarmerType = {
   _id: string;
@@ -9,6 +10,8 @@ export type FarmerType = {
   password: string;
   createdAt: Date;
   role: string;
+  contracts: ContractType[];
+  bids: BidType[];
 };
 
 export type BidType = {
