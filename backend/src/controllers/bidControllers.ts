@@ -1,12 +1,16 @@
 import { validationResult } from "express-validator";
-import CropDemand from "../models/company/cropDemand";
+import CropDemand from "../models/cropDemand";
 import Contract from "../models/contract";
-import Bid from "../models/farmer/bid";
+import Bid from "../models/bid";
 import { Request, Response } from "express";
-import Company from "../models/company/company";
-import mongoose from "mongoose";
-import Farmer from "../models/farmer/farmer";
+import Company from "../models/company";
+import Farmer from "../models/farmer";
+
+// FOR COMPANIES:
+
+// view all the bids for a particular crop demand
 export const getAllBidsForACropDemand = async (req: Request, res: Response) => {
+  // another company cannot see the bids of some other company'S CROP DEMAND
   if (req.user?.role !== "company")
     return res.status(500).json({ message: "Not Allowed" });
   try {
@@ -21,6 +25,7 @@ export const getAllBidsForACropDemand = async (req: Request, res: Response) => {
   }
 };
 
+// view a particular bid for a particular crop demand
 export const getABid = async (req: Request, res: Response) => {
   try {
     const { cropDemandId, bidId } = req.params;
@@ -37,7 +42,9 @@ export const getABid = async (req: Request, res: Response) => {
   }
 };
 
+// accepting a bid
 export const acceptBid = async (req: Request, res: Response) => {
+  // farmers should not access the accept bid route
   if (req.user?.role !== "company")
     return res.status(403).json({ message: "Not Allowed" });
 
@@ -66,12 +73,13 @@ export const acceptBid = async (req: Request, res: Response) => {
     await demand.save();
     const companyId = demand.companyId;
     const farmerId = acceptedBid.farmerId;
+
     // Create a contract between the company and the farmer
     const newContract = new Contract({
       cropDemandId: cropDemandId,
       bidId: bidId,
       companyId: companyId,
-      farmerId: acceptedBid.farmerId, // Assuming Bid schema has a farmerId field
+      farmerId: acceptedBid.farmerId,
       agreedPrice: acceptedBid.bidAmount,
       quantity: demand.quantity,
       deliveryDate: demand.lastDate,
@@ -102,7 +110,9 @@ export const acceptBid = async (req: Request, res: Response) => {
   }
 };
 
+// rejecting a bid
 export const rejectBid = async (req: Request, res: Response) => {
+  // farmers should not access this route
   if (req.user?.role !== "company")
     return res.status(403).json({ message: "Not Allowed" });
 
@@ -121,6 +131,11 @@ export const rejectBid = async (req: Request, res: Response) => {
   }
 };
 
+// COMPANIES CONTROLLERS ENDS HERE!!
+
+// FOR FARMERS:
+
+// creatingf a new bid
 export const createNewBid = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty())
@@ -131,6 +146,7 @@ export const createNewBid = async (req: Request, res: Response) => {
 
     const farmerId = req.user?.userId;
 
+    // companies cant create a bid
     if (req.user?.role !== "farmer")
       return res.status(403).json({ message: "Not Allowed" });
 
@@ -157,8 +173,10 @@ export const createNewBid = async (req: Request, res: Response) => {
   }
 };
 
+// fetches all the bids for a particular farmer regardless of cropdemand
 export const getAllBidsForFarmer = async (req: Request, res: Response) => {
   try {
+    // companies should not access this route
     if (req.user?.role.toString() !== "farmer") {
       return res.status(403).json({ message: "Not Allowed" });
     }
@@ -178,10 +196,14 @@ export const getAllBidsForFarmer = async (req: Request, res: Response) => {
   }
 };
 
+// view a  particuar bid for the farmer
 export const getABidForFarmer = async (req: Request, res: Response) => {
   try {
     const { bidId } = req.params;
-
+    // companies should not access this route
+    if (req.user?.role.toString() !== "farmer") {
+      return res.status(403).json({ message: "Not Allowed" });
+    }
     const bid = await Bid.findById(bidId)
       .populate("farmerId")
       .populate({
@@ -196,3 +218,5 @@ export const getABidForFarmer = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to fetch bid", e });
   }
 };
+
+// FARMER CONTROLLERS END HERE!!

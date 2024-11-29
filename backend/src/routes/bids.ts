@@ -1,8 +1,8 @@
 import express from "express";
-import { verifyToken } from "../../middleware/auth"; // Assumes you have an auth middleware
+import { verifyToken } from "../middleware/auth"; // Assumes you have an auth middleware
 import { check } from "express-validator";
-import * as bidControllers from "../../controllers/bidControllers";
-import { checkOwnershipForBid } from "../../middleware/ownership";
+import * as bidControllers from "../controllers/bidControllers";
+import { checkOwnershipForBid } from "../middleware/ownership";
 const router = express.Router();
 
 router.post(

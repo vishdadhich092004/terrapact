@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { BidType } from "../../shared/farmer/types";
-
+import { BidType } from "../shared/types";
 const bidSchema: Schema = new Schema({
   demandId: {
     type: Schema.Types.ObjectId,

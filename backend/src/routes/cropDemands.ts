@@ -1,9 +1,9 @@
 import express from "express";
-import { verifyToken } from "../../middleware/auth";
+import { verifyToken } from "../middleware/auth";
 import { check } from "express-validator";
-import * as bidControllers from "../../controllers/bidControllers";
-import * as cropdemandControllers from "../../controllers/cropdemandControllers";
-import { checkOwnershipForCropDemand } from "../../middleware/ownership";
+import * as bidControllers from "../controllers/bidControllers";
+import * as cropdemandControllers from "../controllers/cropdemandControllers";
+import { checkOwnershipForCropDemand } from "../middleware/ownership";
 import multer from "multer";
 const router = express.Router();
 
@@ -29,20 +29,6 @@ router.post(
 router.get("/", cropdemandControllers.getAllCropDemands);
 
 router.get("/:cropDemandId", verifyToken, cropdemandControllers.getACropDemand);
-
-router.put(
-  "/:cropDemandId/edit",
-  verifyToken,
-  checkOwnershipForCropDemand,
-  cropdemandControllers.updateCropDemand
-);
-
-router.delete(
-  "/:cropDemandId/delete",
-  verifyToken,
-  checkOwnershipForCropDemand,
-  cropdemandControllers.deleteCropDemand
-);
 
 router.get(
   "/:cropDemandId/bids",

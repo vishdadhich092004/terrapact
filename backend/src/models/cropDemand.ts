@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { CropDemandType } from "../../shared/company/types";
+import { CropDemandType } from "../shared/types";
 
 const cropDemandSchema = new mongoose.Schema({
   companyId: {

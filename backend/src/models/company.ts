@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { CompanyType } from "../../shared/company/types";
+import { CompanyType } from "../shared/types";
 
 const companySchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },

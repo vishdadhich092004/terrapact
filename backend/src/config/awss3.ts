@@ -1,6 +1,6 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl as s3GetSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { CropDemandType } from "../shared/company/types";
+import { CropDemandType } from "../shared/types";
 
 const secretKey = process.env.AWS_SECRET_KEY!;
 const accessKey = process.env.AWS_ACCESS_KEY!;

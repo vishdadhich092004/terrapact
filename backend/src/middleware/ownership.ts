@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import CropDemand from "../models/company/cropDemand";
+import CropDemand from "../models/cropDemand";
 import Contract from "../models/contract";
-import Bid from "../models/farmer/bid";
+import Bid from "../models/bid";
 
 export const checkOwnershipForCropDemand = async (
   req: Request,

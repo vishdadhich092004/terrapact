@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-import { FarmerType } from "../../shared/farmer/types";
 import bcrypt from "bcrypt";
+import { FarmerType } from "../shared/types";
 
 const farmerSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Farmer's name

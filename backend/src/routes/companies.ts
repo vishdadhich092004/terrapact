@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import CropDemand from "../../models/company/cropDemand";
-import { verifyToken } from "../../middleware/auth";
-import { getSignedUrlForCropDemand } from "../../config/awss3";
-import Company from "../../models/company/company";
+import CropDemand from "../models/cropDemand";
+import { verifyToken } from "../middleware/auth";
+import { getSignedUrlForCropDemand } from "../config/awss3";
+import Company from "../models/company";
 
 const router = express.Router();
 // GET all Crop Demands created by a particular company

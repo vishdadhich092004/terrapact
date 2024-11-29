@@ -1,14 +1,14 @@
 import { validationResult } from "express-validator";
-import CropDemand from "../models/company/cropDemand";
+import CropDemand from "../models/cropDemand";
 import crypto from "crypto";
 import { Request, Response } from "express";
 import { getSignedUrlForCropDemand, s3 } from "../config/awss3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import Company from "../models/company/company";
-import mongoose from "mongoose";
+import Company from "../models/company";
 
 const bucketName = process.env.AWS_BUCKET_NAME!;
 
+// HELPER FUNCTION TO UPLOAD THE FILES TO AWS S3
 async function uploadFileToS3(
   file: Express.Multer.File,
   prefix: string
@@ -25,6 +25,9 @@ async function uploadFileToS3(
   return key;
 }
 
+// FOR COMAPNIES:
+
+// create a new crop demand
 export const createNewCropDemand = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -32,12 +35,17 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
   }
 
   try {
+    // FARMERS SHOULD NOT ACCCESS THIS ROUTE
+    if (req.user?.role !== "company") {
+      return res.status(403).json({ message: "No Permission" });
+    }
     const file = req.file as Express.Multer.File;
 
     // Check if the file was uploaded
     if (!file) {
       return res.status(400).json({ error: "Image is required" });
     }
+    const company = await Company.findById(req.user.userId);
 
     // Upload the file to S3
     const imageName = await uploadFileToS3(file, "image");
@@ -47,13 +55,6 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
 
     // Convert `lastDate` to a Date object
     const parsedLastDate = new Date(lastDate);
-
-    // Ensure the user has the "company" role
-    if (req.user?.role !== "company") {
-      return res.status(403).json({ message: "No Permission" });
-    }
-    // find the user which is creating the crop demand
-    const company = await Company.findById(req.user.userId);
     // Create a new crop demand
     const newDemand = new CropDemand({
       companyId: req.user?.userId,
@@ -77,6 +78,9 @@ export const createNewCropDemand = async (req: Request, res: Response) => {
   }
 };
 
+// FOR FARMERS:
+
+// get all crop demands for the farmers
 export const getAllCropDemands = async (req: Request, res: Response) => {
   try {
     const { page, limit } = req.query;
@@ -117,6 +121,7 @@ export const getAllCropDemands = async (req: Request, res: Response) => {
   }
 };
 
+// SINGLE CROP DEMAND
 export const getACropDemand = async (req: Request, res: Response) => {
   try {
     const { cropDemandId } = req.params;
@@ -133,47 +138,5 @@ export const getACropDemand = async (req: Request, res: Response) => {
     res.status(200).json({ ...cropDemand, image });
   } catch (e) {
     return res.status(500).json({ message: "Something went wrong" });
-  }
-};
-
-export const updateCropDemand = async (req: Request, res: Response) => {
-  try {
-    const { cropDemandId } = req.params;
-    const { cropType, quantity, location, requiredBy, details, lastDate } =
-      req.body;
-
-    const updatedDemand = await CropDemand.findByIdAndUpdate(
-      cropDemandId,
-      {
-        cropType,
-        quantity,
-        location,
-        requiredBy,
-        details,
-        lastDate,
-      },
-      { new: true, runValidators: true } // Return the updated document
-    );
-
-    if (!updatedDemand) {
-      return res.status(404).json({ message: "Crop Demand not found" });
-    }
-
-    res.status(200).json(updatedDemand);
-  } catch (e) {
-    res.status(500).json({ message: "Something went wrong while updating" });
-  }
-};
-
-export const deleteCropDemand = async (req: Request, res: Response) => {
-  try {
-    const { cropDemandId } = req.params;
-    const cropDemand = await CropDemand.findById(cropDemandId);
-    if (!cropDemand) return res.status(404).json({ message: "Not Found" });
-    await CropDemand.findByIdAndDelete(cropDemandId);
-
-    res.status(200).json({ message: "Crop Demand deleted successfully" });
-  } catch (e) {
-    res.status(500).json({ message: "Something went wrong while deleting" });
   }
 };

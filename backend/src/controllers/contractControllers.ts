@@ -1,19 +1,20 @@
 import { Request, Response } from "express";
 import Contract from "../models/contract";
 
+// BEING GENERALISED FOR THE BOTH THE TYPE OF USERS
 export const getMyContracts = async (req: Request, res: Response) => {
   try {
     let contracts;
 
     if (req.user?.role === "company") {
-      // Retrieve contracts where the company is the buyer
+      // Retrieve contracts forthe company
       contracts = await Contract.find({ companyId: req.user.userId })
         .populate("farmerId") // Populate with farmer details
         .populate("cropDemandId")
         .populate("bidId")
         .populate("companyId");
     } else if (req.user?.role === "farmer") {
-      // Retrieve contracts where the farmer is the seller
+      // Retrieve contracts for the farmer
       contracts = await Contract.find({ farmerId: req.user.userId })
         .populate("companyId") // Populate with company details
         .populate("cropDemandId", "cropType quantity");
@@ -28,6 +29,7 @@ export const getMyContracts = async (req: Request, res: Response) => {
   }
 };
 
+// again a generalised route for the farmers and companies
 export const getAContract = async (req: Request, res: Response) => {
   const { contractId } = req.params;
   try {
@@ -46,10 +48,15 @@ export const getAContract = async (req: Request, res: Response) => {
   }
 };
 
+// special route for the companies to update the status of the contract
 export const updateStatusOfContract = async (req: Request, res: Response) => {
   const { contractId } = req.params;
   const { status } = req.body;
 
+  // farmers should not access this route
+  if (req.user?.role.toString() !== "company") {
+    return res.status(403).json({ message: "Not Allowed" });
+  }
   if (!status) {
     return res.status(400).json({ message: "Status is required" });
   }

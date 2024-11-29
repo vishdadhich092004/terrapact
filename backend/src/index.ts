@@ -1,12 +1,12 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import path from "path";
 import authRoutes from "./routes/auth";
-import companyRoutes from "./routes/company/companies";
-import cropDemandRoutes from "./routes/company/cropDemands";
-import bidRoutes from "./routes/farmer/bids";
+import companyRoutes from "./routes/companies";
+import cropDemandRoutes from "./routes/cropDemands";
+import bidRoutes from "./routes/bids";
 import contractRoutes from "./routes/contracts";
 
 import cookieParser from "cookie-parser";
