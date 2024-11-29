@@ -23,8 +23,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { CropDemandType } from "../../../../backend/src/shared/company/types";
-import { ContractType } from "../../../../backend/src/shared/types";
+import {
+  ContractType,
+  CropDemandType,
+} from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 import { timeLeft } from "@/utils/timeCalc";
 import { Loader2 } from "lucide-react";

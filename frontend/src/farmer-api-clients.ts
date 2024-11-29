@@ -1,6 +1,6 @@
+import { CropDemandType } from "../../backend/src/shared/types";
 import { FarmerRegisterFormData } from "./pages/Farmer/Auth/Register";
 import { FarmerSignInFormData } from "./pages/Farmer/Auth/SignIn";
-import { CropDemandType } from "../../backend/src/shared/company/types";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const registerFarmer = async (formData: FarmerRegisterFormData) => {

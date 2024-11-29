@@ -2,11 +2,11 @@ import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
-import { CropDemandType } from "../../../../../backend/src/shared/company/types";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { CropDemandType } from "../../../../../backend/src/shared/types";
 
 const SingleCropDemandForFarmer: React.FC = () => {
   const { user } = useAuthContext();

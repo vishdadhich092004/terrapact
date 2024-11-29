@@ -24,9 +24,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { CropDemandType } from "../../../../backend/src/shared/company/types";
-import { BidType } from "../../../../backend/src/shared/farmer/types";
-import { ContractType } from "../../../../backend/src/shared/types";
+import {
+  BidType,
+  ContractType,
+  CropDemandType,
+} from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 import NotFound from "../NotFound";
 import { Loader2 } from "lucide-react";

@@ -1,7 +1,7 @@
+import { CropDemandType } from "../../backend/src/shared/types";
 import { CompanyRegisterFormData } from "./pages/Company/Auth/Register";
 import { CompanySignInFormData } from "./pages/Company/Auth/SignIn";
 import { EditCropDemandData } from "./pages/Company/CropDemand/EditCropDemand";
-import { CropDemandType } from "../../backend/src/shared/company/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
