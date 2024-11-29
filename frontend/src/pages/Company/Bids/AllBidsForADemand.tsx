@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { Link, useParams } from "react-router-dom";
-import { BidType } from "../../../../../backend/src/shared/farmer/types";
 import {
   Loader2,
   User,
@@ -10,6 +9,7 @@ import {
   Calendar,
   CheckCircle,
 } from "lucide-react";
+import { BidType } from "../../../../../backend/src/shared/types";
 
 function AllBidsForADemand() {
   const { demandId } = useParams<{ demandId: string }>();

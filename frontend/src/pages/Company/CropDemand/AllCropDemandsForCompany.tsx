@@ -4,7 +4,7 @@ import { getCompanyDemands } from "../../../company-api-clients";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CropDemandType } from "../../../../../backend/src/shared/company/types";
+import { CropDemandType } from "../../../../../backend/src/shared/types";
 
 const AllCropDemandsForCompany: React.FC = () => {
   const [page, setPage] = useState(1);
