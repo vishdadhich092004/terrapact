@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import hero from "../../images/hero.jpg";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +45,7 @@ const HeroSection = () => {
         </div>
         <div className="lg:w-1/2 overflow-hidden animate-grow mr-2">
           <img
-            src={hero}
+            src="https://images.unsplash.com/photo-1589922585618-dfd1fcd87c28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Farm landscape"
             className="rounded-lg shadow-2xl object-cover w-full h-[400px] "
           />
