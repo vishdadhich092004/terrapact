@@ -28,7 +28,7 @@ function FarmerRegister() {
 
   const mutation = useMutation(apiClient.registerFarmer, {
     onSuccess: async () => {
-      showToast({ message: "Farmer Registration Success", type: "SUCCESS" });
+      showToast({ message: "Registration Success", type: "SUCCESS" });
       await queryClient.invalidateQueries("validate-token");
       navigate("/farmer/user/dashboard");
     },

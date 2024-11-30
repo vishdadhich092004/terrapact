@@ -34,7 +34,7 @@ function CompanyRegister() {
 
   const mutation = useMutation(apiClient.registerCompany, {
     onSuccess: async () => {
-      showToast({ message: "Company Registration Success", type: "SUCCESS" });
+      showToast({ message: "Registration Success", type: "SUCCESS" });
       await queryClient.invalidateQueries("validate-token");
       navigate("/");
     },

@@ -28,7 +28,7 @@ function FarmerSignIn() {
   const mutation = useMutation(apiClient.signInFarmer, {
     onSuccess: async () => {
       showToast({
-        message: "User SignIn Successful",
+        message: "Sign In Successful",
         type: "SUCCESS",
       });
       await queryClient.invalidateQueries("validate-token");
