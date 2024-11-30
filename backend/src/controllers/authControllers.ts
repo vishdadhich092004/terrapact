@@ -36,7 +36,7 @@ export const registerFarmer = async (req: Request, res: Response) => {
     );
     res.cookie("auth_token", token, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -79,7 +79,7 @@ export const registerCompany = async (req: Request, res: Response) => {
     );
     res.cookie("auth_token", token, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -117,7 +117,7 @@ export const loginFarmer = async (req: Request, res: Response) => {
     );
     res.cookie("auth_token", token, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
@@ -155,7 +155,7 @@ export const loginCompany = async (req: Request, res: Response) => {
     );
     res.cookie("auth_token", token, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
