@@ -19,6 +19,8 @@ module.exports = {
 			animation: {
 				'toast-slide-in': 'toast-slide-in 0.3s ease-out forwards',
 				'toast-slide-out': 'toast-slide-out 0.3s ease-in forwards',
+				'spin-slow': 'spin 2s linear infinite',
+				'bounce-slow': 'bounce 2.5s infinite',
 			},
 			keyframes: {
 				'toast-slide-in': {

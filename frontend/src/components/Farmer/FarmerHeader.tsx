@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X, UserCircle, Leaf } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import SignOutButton from "../Buttons/SignOutButton";
@@ -21,7 +21,7 @@ const NavLink = ({
 
 const FarmerHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isFarmer, isAuthenticated } = useAuthContext();
+  const { isFarmer, isAuthenticated, user } = useAuthContext();
 
   return (
     <nav className="bg-white shadow-sm">
@@ -53,7 +53,9 @@ const FarmerHeader = () => {
           <div className="hidden md:flex items-center">
             {isAuthenticated && isFarmer ? (
               <div className="flex items-center space-x-4">
-                <UserCircle className="h-8 w-8 text-[#fec89a]" />
+                <span className="text-sm font-medium text-[#512601] truncate max-w-[150px]">
+                  {`Hello, ${user?.name}`}
+                </span>
                 <SignOutButton />
               </div>
             ) : (
@@ -91,7 +93,7 @@ const FarmerHeader = () => {
 
       {isMenuOpen && (
         <div className="md:hidden bg-white">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
             {isAuthenticated && isFarmer ? (
               <>
                 <NavLink to="/farmers/crop-demands">Marketplace</NavLink>
@@ -111,7 +113,6 @@ const FarmerHeader = () => {
           {isAuthenticated && isFarmer && (
             <div className="pt-4 pb-3 border-t border-[#fae1dd]">
               <div className="flex items-center px-5">
-                <UserCircle className="h-8 w-8 text-[#fec89a] mr-3" />
                 <SignOutButton />
               </div>
             </div>

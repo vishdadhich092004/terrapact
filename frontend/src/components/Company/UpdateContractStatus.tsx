@@ -18,7 +18,7 @@ const ContractStatusSelect = ({
             value={statusOption}
             checked={status === statusOption}
             onChange={() => onChange(statusOption)}
-            className="form-radio h-4 w-4 text-indigo-600"
+            className="form-radio h-4 w-4 text-[#fec89a]"
           />
           <span className="text-gray-700">{statusOption}</span>
         </label>

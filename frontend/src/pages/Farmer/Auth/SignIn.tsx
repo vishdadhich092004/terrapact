@@ -4,14 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../../farmer-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  Tractor,
-  Mails,
-  RectangleEllipsis,
-  Sparkle,
-} from "lucide-react";
+import { Eye, EyeOff, Mails, RectangleEllipsis, Sparkle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export type FarmerSignInFormData = {
@@ -48,111 +41,145 @@ function FarmerSignIn() {
       });
     },
   });
+
   const autofillForm = () => {
     setValue("email", "rakesh_sharma@gmail.com");
     setValue("password", "111111");
   };
+
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
 
   return (
-    <div className="container mx-auto  pl-4 pr-3 my-16">
-      <div className="flex flex-col lg:flex-row items-center justify-between">
-        <div className="lg:w-1/2 mb-8 lg:mb-0 animate-fadeIn">
-          <h2 className="text-4xl md:text-8xl font-bold text-[#512601] mb-6 leading-tight flex justify-stretch">
-            {/* Welcome Back to <br /> */}
-            <Tractor className="h-24 w-24 text-[#fec89a] mr-2" />
-            <span className="text-[#a24c02]">TerraPact</span>
-            <span className="text-sm">Farmer</span>
-          </h2>
-          {/* <p className="text-2xl text-[#775d3f] mb-8">At your ease</p> */}
-        </div>
-        <div className="lg:w-1/2 overflow-hidden animate-grow">
-          <div className=" rounded-lg shadow-2xl p-12 w-full border border-[#fec89a]">
-            <h2 className="text-3xl font-bold text-[#512601] mb-6 text-center">
-              Sign In
-            </h2>
+    <div className="min-h-screen bg-[#fec89a] bg-opacity-20 flex items-center justify-center p-6">
+      <div className="w-full max-w-4xl">
+        <div className="grid md:grid-cols-2 bg-white shadow-2xl rounded-2xl overflow-hidden">
+          {/* Left Side - Image Section */}
+          <div
+            className="hidden md:block bg-cover bg-center relative"
+            style={{
+              backgroundImage:
+                'url("https://images.unsplash.com/photo-1527847263472-aa5338d178b8?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+            }}
+          >
+            <div className="absolute inset-0 bg-[#512601] opacity-60"></div>
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-12 text-center">
+              <h1 className="text-4xl font-bold mb-4 text-white">TerraPact</h1>
+              <p className="text-lg opacity-80 text-white">
+                Empowering farmers with digital solutions
+              </p>
+            </div>
+          </div>
 
-            <form onSubmit={onSubmit} className="space-y-8">
+          {/* Right Side - Sign In Form */}
+          <div className="flex flex-col justify-center p-12 space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-[#512601] mb-2">
+                Farmer Sign In
+              </h2>
+              <p className="text-[#775d3f]">Access your TerraPact dashboard</p>
+            </div>
+
+            <form onSubmit={onSubmit} className="space-y-6">
               <button
                 type="button"
                 onClick={autofillForm}
-                className="w-full bg-[#fec89a] text-[#512601] hover:bg-[#a24c02] hover:text-white text-xl p-3 rounded-lg transition-colors mb-4 flex items-center justify-center"
+                className="w-full bg-[#fec89a] text-[#512601] hover:bg-[#a24c02] hover:text-white text-xl py-3 px-3 rounded-lg transition-colors mb-4 flex items-center justify-center"
               >
                 <Sparkle className="mr-2" size={20} />
                 Autofill For Viewing
               </button>
-              <div className="relative">
-                <Mails
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Email"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("email", {
-                    required: "Email is required",
-                  })}
-                />
-              </div>
-              {errors.email && (
-                <span className="text-[#a24c02] text-sm">
-                  {errors.email.message}
-                </span>
-              )}
-
-              <div className="relative">
-                <RectangleEllipsis
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters long",
-                    },
-                  })}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-[#512601] mb-2"
                 >
-                  {showPassword ? (
-                    <EyeOff className="text-[#512601]" size={20} />
-                  ) : (
-                    <Eye className="text-[#512601]" size={20} />
-                  )}
-                </button>
+                  Email Address
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mails className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Invalid email address",
+                      },
+                    })}
+                  />
+                </div>
+                {errors.email && (
+                  <span className="text-[#a24c02] text-sm mt-1">
+                    {errors.email.message}
+                  </span>
+                )}
               </div>
-              {errors.password && (
-                <span className="text-[#a24c02] text-sm">
-                  {errors.password.message}
-                </span>
-              )}
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <RectangleEllipsis className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    className="w-full pl-10 pr-12 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters long",
+                      },
+                    })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="text-[#512601]" size={20} />
+                    ) : (
+                      <Eye className="text-[#512601]" size={20} />
+                    )}
+                  </button>
+                </div>
+                {errors.password && (
+                  <span className="text-[#a24c02] text-sm mt-1">
+                    {errors.password.message}
+                  </span>
+                )}
+              </div>
 
               <Button
                 type="submit"
-                className="w-full bg-[#512601] text-white hover:bg-[#a24c02] text-xl p-6 rounded-lg"
+                className="w-full bg-[#512601] text-white hover:bg-[#a24c02] py-3 rounded-lg text-base font-semibold transition-colors"
               >
                 Sign In
               </Button>
             </form>
 
-            <div className="mt-4 text-center text-[#512601]">
-              <span>Not Registered? </span>
+            <div className="text-center">
+              <span className="text-[#512601]">Not registered? </span>
               <Link
                 to="/farmer/register"
-                className="underline hover:text-[#a24c02]"
+                className="text-[#a24c02] font-semibold hover:underline"
               >
-                Sign Up here
+                Create an account
               </Link>
             </div>
           </div>

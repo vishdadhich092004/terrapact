@@ -7,7 +7,6 @@ import CompanyRegister from "./pages/Company/Auth/Register";
 import NewCropDemand from "./pages/Company/CropDemand/NewCropDemand";
 import FarmerLayout from "./layouts/FarmerLayout";
 import CompanyLayout from "./layouts/CompanyLayout";
-import EditCropDemand from "./pages/Company/CropDemand/EditCropDemand";
 import SingleCropDemand from "./pages/Company/CropDemand/SingleCropDemandForCompany";
 import AllCropDemandsForFarmer from "./pages/Farmer/CropDemands/AllCropDemandsForFarmer";
 import CropDemandDetails from "./pages/Farmer/CropDemands/CropDemandDetails";
@@ -24,6 +23,7 @@ import CompanyDashboard from "./pages/Dashboard/CompanyDashboard";
 import AllCropDemandsForCompany from "./pages/Company/CropDemand/AllCropDemandsForCompany";
 import ViewBidForFarmer from "./pages/Farmer/Bids/ViewBidForFarmer";
 import CompanyProfile from "./pages/Company/User/CompanyProfile";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <BrowserRouter>
@@ -90,14 +90,6 @@ function App() {
           element={
             <CompanyLayout>
               <AllCropDemandsForCompany />
-            </CompanyLayout>
-          }
-        />
-        <Route
-          path="/crop-demands/:cropDemandId/edit"
-          element={
-            <CompanyLayout>
-              <EditCropDemand />
             </CompanyLayout>
           }
         />
@@ -214,6 +206,7 @@ function App() {
             </CompanyLayout>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

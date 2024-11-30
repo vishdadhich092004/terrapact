@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X, UserCircle, Leaf } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import SignOutButton from "../Buttons/SignOutButton";
@@ -56,7 +56,6 @@ const CompanyHeader = () => {
                 <span className="text-sm font-medium text-[#512601] truncate max-w-[150px]">
                   {`Hello, ${user?.companyName}`}
                 </span>
-                <UserCircle className="h-8 w-8 text-[#fec89a]" />
                 <SignOutButton />
               </div>
             ) : (
@@ -94,7 +93,7 @@ const CompanyHeader = () => {
 
       {isMenuOpen && (
         <div className="md:hidden bg-white">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
             {isAuthenticated && isCompany ? (
               <>
                 <NavLink to="/company/my-demands">My Demands</NavLink>
@@ -114,7 +113,6 @@ const CompanyHeader = () => {
           {isAuthenticated && isCompany && (
             <div className="pt-4 pb-3 border-t border-[#fae1dd]">
               <div className="flex items-center px-5">
-                <UserCircle className="h-8 w-8 text-[#fec89a] mr-3" />
                 <span className="text-sm font-medium text-[#512601] truncate max-w-[150px] mr-3">
                   {`Hello, ${user?.companyName}`}
                 </span>

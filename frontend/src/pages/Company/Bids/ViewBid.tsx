@@ -143,8 +143,10 @@ function ViewBid() {
         </div>
 
         <div className="mt-6 pt-6 border-t border-[#fec89a]">
-          <p className="text-sm text-[#775d3f] mb-2">Details</p>
-          <p className="text-[#512601]">{bid.demandId.details}</p>
+          <p className="text-sm text-[#775d3f] mb-2">
+            {bid.farmerId.name} messaged{" "}
+          </p>
+          <p className="text-[#512601]">{bid.message}</p>
         </div>
 
         {isPending && (

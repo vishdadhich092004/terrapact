@@ -2,15 +2,15 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { useAppContext } from "../../../contexts/AppContext";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
-  Building,
-  Factory,
   Mails,
   Phone,
   RectangleEllipsis,
+  Factory,
   UserPlus,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export type CompanyRegisterFormData = {
   companyName: string;
@@ -22,15 +22,15 @@ export type CompanyRegisterFormData = {
 };
 
 function CompanyRegister() {
-  const {
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<CompanyRegisterFormData>();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { showToast } = useAppContext();
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<CompanyRegisterFormData>();
 
   const mutation = useMutation(apiClient.registerCompany, {
     onSuccess: async () => {
@@ -40,7 +40,7 @@ function CompanyRegister() {
     },
     onError: (error: Error) => {
       showToast({
-        message: error.message || "Oops! Something went wrong.",
+        message: error.message || "Registration failed",
         type: "ERROR",
       });
     },
@@ -51,160 +51,233 @@ function CompanyRegister() {
   });
 
   return (
-    <div className="container mx-auto pl-4 pr-3 my-16">
-      <div className="flex flex-col lg:flex-row items-center justify-between">
-        <div className="lg:w-1/2 mb-8 lg:mb-0 animate-fadeIn">
-          <h2 className="text-4xl md:text-8xl font-bold text-[#512601] mb-6 leading-tight flex justify-stretch">
-            <Building className="h-24 w-24 text-[#fec89a] mr-2" />
-            <span className="text-[#a24c02]">TerraPact</span>
-            <span className="text-sm">Company</span>
-          </h2>
-        </div>
-        <div className="lg:w-1/2 overflow-hidden animate-grow">
-          <div className="rounded-lg shadow-2xl p-12 w-full border border-[#fec89a]">
-            <h2 className="text-3xl font-bold text-[#512601] mb-6 text-center">
-              Company Registration
-            </h2>
-            <form className="space-y-6" onSubmit={onSubmit}>
-              {/* Form fields */}
-              <div className="relative">
-                <UserPlus
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Company Name"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("companyName", {
-                    required: "Company Name is required",
-                  })}
-                />
+    <div className="min-h-screen bg-[#fec89a] bg-opacity-20 flex items-center justify-center p-6">
+      <div className="w-full max-w-4xl">
+        <div className="grid md:grid-cols-2 bg-white shadow-2xl rounded-2xl overflow-hidden">
+          {/* Left Side - Image Section */}
+          <div
+            className="hidden md:block bg-cover bg-center relative"
+            style={{
+              backgroundImage:
+                'url("https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+            }}
+          >
+            <div className="absolute inset-0 bg-[#512601] opacity-60"></div>
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-12 text-center">
+              <h1 className="text-4xl font-bold mb-4 text-white">TerraPact</h1>
+              <p className="text-lg opacity-80 text-white">
+                Connecting agricultural businesses
+              </p>
+            </div>
+          </div>
+
+          {/* Right Side - Registration Form */}
+          <div className="flex flex-col justify-center p-12 space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-[#512601] mb-2">
+                Company Registration
+              </h2>
+              <p className="text-[#775d3f]">Create your TerraPact account</p>
+            </div>
+
+            <form onSubmit={onSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="companyName"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Company Name
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <UserPlus className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="companyName"
+                    type="text"
+                    placeholder="Enter company name"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("companyName", {
+                      required: "Company name is required",
+                    })}
+                  />
+                </div>
                 {errors.companyName && (
-                  <span className="text-[#a24c02] text-sm">
+                  <span className="text-[#a24c02] text-sm mt-1">
                     {errors.companyName.message}
                   </span>
                 )}
               </div>
 
-              <div className="relative">
-                <Mails
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("email", {
-                    required: "Email is required",
-                  })}
-                />
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Email Address
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mails className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Invalid email address",
+                      },
+                    })}
+                  />
+                </div>
                 {errors.email && (
-                  <span className="text-[#a24c02] text-sm">
+                  <span className="text-[#a24c02] text-sm mt-1">
                     {errors.email.message}
                   </span>
                 )}
               </div>
-              <div className="relative">
-                <Factory
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Industry Type"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("industryType", {
-                    required: "Industry Type is required",
-                  })}
-                />
-                {errors.companyName && (
-                  <span className="text-[#a24c02] text-sm">
-                    {errors.companyName.message}
+
+              <div>
+                <label
+                  htmlFor="industryType"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Industry Type
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Factory className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="industryType"
+                    type="text"
+                    placeholder="Enter industry type"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("industryType", {
+                      required: "Industry type is required",
+                    })}
+                  />
+                </div>
+                {errors.industryType && (
+                  <span className="text-[#a24c02] text-sm mt-1">
+                    {errors.industryType.message}
                   </span>
                 )}
               </div>
-              <div className="relative">
-                <Phone
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Contact Number"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("contactNumber", {
-                    required: "Contact Number is required",
-                  })}
-                />
+
+              <div>
+                <label
+                  htmlFor="contactNumber"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Contact Number
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Phone className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="contactNumber"
+                    type="text"
+                    placeholder="Enter your contact number"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("contactNumber", {
+                      required: "Contact number is required",
+                      pattern: {
+                        value: /^[0-9]{10}$/,
+                        message: "Invalid phone number (10 digits required)",
+                      },
+                    })}
+                  />
+                </div>
                 {errors.contactNumber && (
-                  <span className="text-[#a24c02] text-sm">
+                  <span className="text-[#a24c02] text-sm mt-1">
                     {errors.contactNumber.message}
                   </span>
                 )}
               </div>
-              <div className="relative">
-                <RectangleEllipsis
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("password", {
-                    required: "This field is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters long",
-                    },
-                  })}
-                />
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <RectangleEllipsis className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="password"
+                    type="password"
+                    placeholder="Create your password"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters long",
+                      },
+                    })}
+                  />
+                </div>
                 {errors.password && (
-                  <span className="text-[#a24c02] text-sm">
+                  <span className="text-[#a24c02] text-sm mt-1">
                     {errors.password.message}
                   </span>
                 )}
               </div>
 
-              <div className="relative">
-                <RectangleEllipsis
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#512601]"
-                  size={20}
-                />
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-[#512601] bg-white focus:outline-none focus:ring-2 focus:ring-[#a24c02]"
-                  {...register("confirmPassword", {
-                    validate: (value) => {
-                      if (!value) return "This field is required";
-                      if (watch("password") !== value)
-                        return "Passwords do not match";
-                    },
-                  })}
-                />
+              <div>
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-[#512601] mb-2"
+                >
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <RectangleEllipsis className="text-[#512601]" size={20} />
+                  </div>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm your password"
+                    className="w-full pl-10 pr-4 py-3 border border-[#fec89a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#a24c02] focus:border-transparent text-[#512601]"
+                    {...register("confirmPassword", {
+                      validate: (value) => {
+                        if (!value) return "Confirm password is required";
+                        if (watch("password") !== value)
+                          return "Passwords do not match";
+                      },
+                    })}
+                  />
+                </div>
                 {errors.confirmPassword && (
-                  <span className="text-[#a24c02] text-sm">
+                  <span className="text-[#a24c02] text-sm mt-1">
                     {errors.confirmPassword.message}
                   </span>
                 )}
               </div>
 
-              <button
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#512601] text-white hover:bg-[#a24c02] text-xl p-3 rounded-lg transition-colors"
+                className="w-full bg-[#512601] text-white hover:bg-[#a24c02] py-3 rounded-lg text-base font-semibold transition-colors"
               >
-                {isSubmitting ? "Registering..." : "Register"}
-              </button>
+                Register
+              </Button>
             </form>
-            <div className="mt-4 text-center text-[#512601]">
-              <span>Already Registered? </span>
+
+            <div className="text-center">
+              <span className="text-[#512601]">Already registered? </span>
               <Link
-                to="/company/signin"
-                className="underline hover:text-[#a24c02]"
+                to="/company/login"
+                className="text-[#a24c02] font-semibold hover:underline"
               >
                 Sign In here
               </Link>

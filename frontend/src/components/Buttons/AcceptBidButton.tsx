@@ -18,7 +18,7 @@ const AcceptBidButton = ({ bidId, demandId }: AcceptBidButtonProps) => {
     try {
       await apiClient.acceptBid(bidId, demandId);
       showToast({ message: "Bid accepted successfully", type: "SUCCESS" });
-      navigate("/crop-demands");
+      navigate(`/company/contracts/my-contracts`);
     } catch (e) {
       showToast({
         message: "Error accepting bid. Please try again later.",

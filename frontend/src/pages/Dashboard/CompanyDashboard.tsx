@@ -77,9 +77,7 @@ const CompanyDashboard = () => {
   }));
 
   const activeDemands = demands.filter((demand) => demand.status === "open");
-  const activeContracts = contracts.filter(
-    (contract) => contract.status === "active"
-  );
+  const activeContracts = contracts;
 
   return (
     <div className="container mx-auto p-4">

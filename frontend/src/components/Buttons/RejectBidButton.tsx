@@ -18,7 +18,7 @@ const RejectBidButton = ({ bidId, demandId }: RejectBidButtonProps) => {
     try {
       await apiClient.rejectBid(bidId, demandId);
       showToast({ message: "Bid rejected successfully", type: "SUCCESS" });
-      navigate("/crop-demands");
+      navigate(`/company/crop-demands/${demandId}`);
     } catch (error) {
       showToast({
         message: "Error rejecting bid. Please try again later.",

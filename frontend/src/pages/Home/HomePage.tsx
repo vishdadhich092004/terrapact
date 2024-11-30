@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Leaf } from "lucide-react";
 import HeroSection from "./HeroSection";
 import FeaturesSection from "./FeaturesSection";
@@ -13,17 +12,6 @@ const HomePage = () => {
             <Leaf className="mr-2 text-[#fec89a]" />
             TerraPact
           </h1>
-          <nav className="space-x-2">
-            <Button
-              variant="ghost"
-              className="text-[#512601] hover:text-[#a24c02]"
-            >
-              Login
-            </Button>
-            <Button className="bg-[#fec89a] text-[#512601] hover:bg-[#ffd7ba]">
-              Sign Up
-            </Button>
-          </nav>
         </div>
       </header>
 
