@@ -4,7 +4,8 @@ import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import ContractStatusSelect from "../../../components/Company/UpdateContractStatus";
 import { useAppContext } from "../../../contexts/AppContext";
-import { Loader2, ArrowLeft } from "lucide-react";
+import Loader from "../../../components/Loader";
+import { ArrowLeft } from "lucide-react";
 
 function ViewContractForCompany() {
   const queryClient = useQueryClient();
@@ -39,11 +40,7 @@ function ViewContractForCompany() {
   );
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <Loader2 className="w-8 h-8 text-[#a24c02]-600 animate-spin" />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error || !contract) {

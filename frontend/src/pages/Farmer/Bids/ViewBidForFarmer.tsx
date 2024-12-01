@@ -1,10 +1,11 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getABidForFarmer } from "../../../farmer-api-clients";
-import { Loader2, Printer, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Printer, CheckCircle, Clock, XCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Loader from "../../../components/Loader";
 
 const ViewBidForFarmer = () => {
   const { bidId } = useParams();
@@ -30,11 +31,7 @@ const ViewBidForFarmer = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin" />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!bid) {

@@ -4,7 +4,8 @@ import * as apiClient from "../../../company-api-clients";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Edit, ListFilter, MapPin } from "lucide-react";
+import { Edit, ListFilter, MapPin } from "lucide-react";
+import Loader from "../../../components/Loader";
 
 function SingleCropDemandForCompany() {
   const { isAuthenticated, isCompany, user } = useAuthContext();
@@ -18,12 +19,7 @@ function SingleCropDemandForCompany() {
     apiClient.getCropDemandByIdForCompany(cropDemandId!)
   );
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#fec89a]/10">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error)
     return (

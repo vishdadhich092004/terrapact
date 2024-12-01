@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getCompanyDemands } from "../../../company-api-clients";
 import { Link } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CropDemandType } from "../../../../../backend/src/shared/types";
+import Loader from "../../../components/Loader";
 
 const AllCropDemandsForCompany: React.FC = () => {
   const [page, setPage] = useState(1);
@@ -18,12 +18,7 @@ const AllCropDemandsForCompany: React.FC = () => {
     }
   );
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error)
     return (

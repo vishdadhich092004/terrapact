@@ -31,7 +31,7 @@ import {
 } from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 import NotFound from "../NotFound";
-import { Loader2 } from "lucide-react";
+import Loader from "../../components/Loader";
 
 const FarmerDashboard = () => {
   const [cropDemands, setCropDemands] = useState<CropDemandType[]>([]);
@@ -61,12 +61,7 @@ const FarmerDashboard = () => {
     fetchData();
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (loading) return <Loader />;
   if (error)
     return (
       <div className="text-center mt-8 text-red-500">

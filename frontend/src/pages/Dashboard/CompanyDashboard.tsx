@@ -29,7 +29,7 @@ import {
 } from "../../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 import { timeLeft } from "@/utils/timeCalc";
-import { Loader2 } from "lucide-react";
+import Loader from "../../components/Loader";
 
 const CompanyDashboard = () => {
   const [demands, setDemands] = useState<CropDemandType[]>([]);
@@ -56,12 +56,7 @@ const CompanyDashboard = () => {
     fetchData();
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (loading) return <Loader />;
 
   if (error)
     return (

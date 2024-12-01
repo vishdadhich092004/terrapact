@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import * as apiClient from "../../../company-api-clients";
 import { Link, useParams } from "react-router-dom";
 import {
-  Loader2,
   User,
   Eye,
   IndianRupeeIcon,
@@ -10,6 +9,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { BidType } from "../../../../../backend/src/shared/types";
+import Loader from "../../../components/Loader";
 
 function AllBidsForADemand() {
   const { demandId } = useParams<{ demandId: string }>();
@@ -22,12 +22,7 @@ function AllBidsForADemand() {
     apiClient.getAllBidsForADemandForACompany(demandId!)
   );
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error)
     return (

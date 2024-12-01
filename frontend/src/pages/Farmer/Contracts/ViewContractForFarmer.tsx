@@ -10,9 +10,10 @@ import {
   Scale,
   Calendar,
   MapPin,
-  Loader2,
   Phone,
 } from "lucide-react";
+import Loader from "../../../components/Loader";
+
 import { getContractById } from "../../../farmer-api-clients";
 const ViewContractForFarmer = () => {
   const { contractId } = useParams<{ contractId: string }>();
@@ -37,12 +38,7 @@ const ViewContractForFarmer = () => {
     window.print();
   };
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#fec89a]/10">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error || !contract)
     return (

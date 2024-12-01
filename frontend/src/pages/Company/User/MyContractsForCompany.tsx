@@ -5,7 +5,6 @@ import * as apiClient from "../../../company-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Loader2,
   Calendar,
   ArrowRight,
   RefreshCcw,
@@ -13,6 +12,7 @@ import {
   User,
   IndianRupeeIcon,
 } from "lucide-react";
+import Loader from "../../../components/Loader";
 import { Button } from "@/components/ui/button";
 
 const MyContractsForCompany = () => {
@@ -23,11 +23,7 @@ const MyContractsForCompany = () => {
   } = useQuery("companyContracts", apiClient.getCompanyContracts);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#fec89a]/10">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {

@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import * as apiClient from "../../../farmer-api-clients";
 import { ContractType } from "../../../../../backend/src/shared/types";
 import {
-  Loader2,
   Building2,
   Package,
   IndianRupeeIcon,
@@ -11,6 +10,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Loader from "../../../components/Loader";
 
 function MyContractsForFarmer() {
   const {
@@ -20,16 +20,7 @@ function MyContractsForFarmer() {
   } = useQuery("farmerContracts", apiClient.getFarmerContracts);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="flex flex-col items-center space-y-4">
-          <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-          <p className="text-[#775d3f] animate-pulse">
-            Loading your contracts...
-          </p>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {

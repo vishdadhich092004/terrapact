@@ -5,8 +5,8 @@ import { getCropDemandByIdForFarmer } from "../../../farmer-api-clients";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
 import { CropDemandType } from "../../../../../backend/src/shared/types";
+import Loader from "../../../components/Loader";
 
 const SingleCropDemandForFarmer: React.FC = () => {
   const { user } = useAuthContext();
@@ -20,12 +20,7 @@ const SingleCropDemandForFarmer: React.FC = () => {
     getCropDemandByIdForFarmer(demandId!)
   );
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#fec89a]/10">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error || !cropDemand)
     return (

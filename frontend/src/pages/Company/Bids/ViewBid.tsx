@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import * as apiClient from "../../../company-api-clients";
 import {
-  Loader2,
   User,
   IndianRupeeIcon,
   MapPin,
@@ -15,6 +14,7 @@ import {
 } from "lucide-react";
 import AcceptBidButton from "../../../components/Buttons/AcceptBidButton";
 import RejectBidButton from "../../../components/Buttons/RejectBidButton";
+import Loader from "../../../components/Loader";
 
 function ViewBid() {
   const { demandId, bidId } = useParams<{ demandId: string; bidId: string }>();
@@ -27,12 +27,7 @@ function ViewBid() {
     apiClient.viewBid(demandId!, bidId!)
   );
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-[#fec89a]/10 to-[#ffd7ba]/20">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error)
     return (

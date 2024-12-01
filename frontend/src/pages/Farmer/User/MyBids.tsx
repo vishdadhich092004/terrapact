@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import * as apiClient from "../../../farmer-api-clients";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../../components/Loader";
 
 type Bid = {
   _id: string;
@@ -26,11 +26,7 @@ const MyBids = () => {
   }, [refetch]);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#fec89a]/10">
-        <Loader2 className="w-12 h-12 text-[#a24c02] animate-spin" />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {
