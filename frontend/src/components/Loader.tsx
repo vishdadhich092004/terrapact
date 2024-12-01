@@ -1,6 +1,6 @@
 const Loader = () => {
   return (
-    <div className="flex justify-center items-center h-screen w-full bg-gradient-to-br from-[#ffd7ba] to-[#fec89a] overflow-hidden">
+    <div className="flex justify-center items-center h-screen w-full bg-transparent overflow-hidden">
       <div className="relative w-48 h-48">
         {/* Main Circular Loader */}
         <div className="absolute inset-0 animate-spin">

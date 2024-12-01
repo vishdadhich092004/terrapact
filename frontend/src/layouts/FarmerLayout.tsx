@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import GlobalFooter from "@/pages/Home/Footer";
+import GlobalFooter from "@/pages/Home/GlobalFooter";
 import FarmerHeader from "../components/Farmer/FarmerHeader";
 
 type LayoutProps = {

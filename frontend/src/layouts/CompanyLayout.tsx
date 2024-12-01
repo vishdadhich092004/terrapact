@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import GlobalFooter from "@/pages/Home/Footer";
+import GlobalFooter from "@/pages/Home/GlobalFooter";
 import CompanyHeader from "../components/Company/CompanyHeader";
 
 type LayoutProps = {

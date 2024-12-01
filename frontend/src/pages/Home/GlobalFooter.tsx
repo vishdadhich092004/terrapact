@@ -59,7 +59,7 @@ const GlobalFooter = () => {
             ))}
           </div>
         </div>
-        <div className="mt-12 border-t border-[#fae1dd] pt-8">
+        <div className="mt-12 border-t border-[#fae1dd] pt-8 ">
           <p className="text-base text-[#512601] xl:text-center">
             &copy; 2024 TerraPact, Inc. All rights reserved.
           </p>
