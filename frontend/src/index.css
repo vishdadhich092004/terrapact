@@ -104,7 +104,7 @@
   font-family: "Roboto", sans-serif;
 }
 
-@keyframes spin {
+@keyframes customSpin {
   0% {
     transform: rotate(0deg);
   }
@@ -112,26 +112,6 @@
     transform: rotate(360deg);
   }
 }
-.loader div {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 4px solid transparent;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
-}
-.loader div:nth-child(1) {
-  border-top-color: #fec89a;
-  animation-delay: -0.45s;
-}
-.loader div:nth-child(2) {
-  border-top-color: #ffd7ba;
-  animation-delay: -0.3s;
-}
-.loader div:nth-child(3) {
-  border-top-color: #a24c02;
-  animation-delay: -0.15s;
-}
-.loader div:nth-child(4) {
-  border-top-color: #512601;
+.animate-spin {
+  animation: customSpin 1.5s linear infinite;
 }
