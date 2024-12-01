@@ -95,7 +95,7 @@ const SingleCropDemandForFarmer: React.FC = () => {
                   className="bg-[#fec89a]/20 border-[#a24c02]/20"
                   onClick={() => handleViewBid(existingBid._id)}
                 >
-                  <CardContent className="p-6">
+                  <CardContent className="p-6 cursor-pointer">
                     <h2 className="text-lg font-semibold text-[#512601] mb-2">
                       Your Bid Status <br />
                       <span className="text-xs text-gray-800 font-light">
